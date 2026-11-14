@@ -1,30 +1,23 @@
-import Image from "next/image";
+import Link from "next/link";
+import { NAV } from "@/lib/nav";
+import { headline } from "@/lib/data";
 
 export default function Home() {
+  const h = headline();
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center gap-6 px-6 py-16">
-      <Image
-        className="gsop-logo gsop-logo--dark"
-        src="/brand/logos/gsop-logo-horizontal-dark.svg"
-        alt="GSOP: Geospatial Similarity Observation Platform"
-        width={400}
-        height={77}
-        priority
-        unoptimized
-      />
-      <Image
-        className="gsop-logo gsop-logo--light"
-        src="/brand/logos/gsop-logo-horizontal-light.svg"
-        alt=""
-        aria-hidden
-        width={400}
-        height={77}
-        priority
-        unoptimized
-      />
-      <p className="text-secondary-foreground">
-        Placeholder page. Nav, theme toggle, footer and routes land in issue C1; the headline is locked in A6.
-      </p>
-    </main>
+    <div className="space-y-8">
+      <h1 className="text-3xl md:text-4xl">{h.headline}</h1>
+      <p className="max-w-2xl text-lg text-secondary-foreground">{h.support}</p>
+      <ul className="grid gap-4 md:grid-cols-2">
+        {NAV.map((n) => (
+          <li key={n.href} className="border border-border p-4">
+            <Link href={n.href} className="font-display text-lg underline underline-offset-4">
+              {n.label}
+            </Link>
+            <p className="text-sm text-secondary-foreground">{n.description}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
