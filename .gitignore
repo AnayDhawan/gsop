@@ -1,0 +1,32 @@
+# dependencies
+node_modules/
+
+# next
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# vercel
+.vercel/
+
+# env
+.env
+.env.*
+!.env.example
+
+# raw v1 results and archives stay out of the repo
+*.zip
+*.parquet
+data/raw/
+
+# python (data build scripts)
+.venv/
+__pycache__/
+*.pyc
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

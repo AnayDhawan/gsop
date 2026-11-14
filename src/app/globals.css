@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Placeholder tokens on the UCIP structure. A6 (docs/DECISIONS_SITE.md) locks
+   the real palette; change values here, not names. */
+:root {
+  --background: oklch(98.3% 0.006 250);
+  --foreground: oklch(23% 0.014 250);
+  --surface: oklch(99.3% 0.004 250);
+  --surface-hover: oklch(96% 0.008 250);
+  --border: oklch(89% 0.009 250);
+  --muted: oklch(94.5% 0.007 250);
+  --muted-foreground: oklch(45% 0.012 250);
+  --primary: oklch(55% 0.13 250);
+  --primary-foreground: oklch(99% 0.004 250);
+  --ring: oklch(55% 0.13 250);
+  /* Controls on the Honest Map render in this colour (issue C2). */
+  --control: oklch(58% 0.22 27);
+  --radius: 0.625rem;
+}
+
+.dark {
+  --background: oklch(16% 0.014 250);
+  --foreground: oklch(93% 0.007 250);
+  --surface: oklch(20% 0.014 250);
+  --surface-hover: oklch(25% 0.014 250);
+  --border: oklch(31% 0.014 250);
+  --muted: oklch(23% 0.012 250);
+  --muted-foreground: oklch(64% 0.011 250);
+  --primary: oklch(72% 0.12 250);
+  --primary-foreground: oklch(16% 0.014 250);
+  --ring: oklch(72% 0.12 250);
+  --control: oklch(70% 0.19 27);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-ring: var(--ring);
+  --color-control: var(--control);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --radius-lg: var(--radius);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
