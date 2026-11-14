@@ -3,6 +3,7 @@ const TARGET: Record<string, string> = {
   connecting_ridge_c1: "Connecting Ridge C1",
   shackleton_rim: "Shackleton rim",
   jezero: "Jezero",
+  arcadia: "Arcadia",
 };
 const PROFILE: Record<string, string> = {
   base: "Base",

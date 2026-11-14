@@ -15,7 +15,9 @@ DATA = "public/data"
 SITES_CSV = "data/reference/sites.csv"
 
 # Keys whose string values are identifiers, paths, hashes or citations, not statements with numbers.
-SKIP_KEYS = {"id", "claim", "source_file", "sha256", "file", "image", "legend", "hex", "nearest_reference_site", "unit", "source", "group", "crs", "colour_scale", "limits_source", "slug", "site_id"}
+SKIP_KEYS = {"id", "claim", "source_file", "sha256", "file", "image", "legend", "hex", "nearest_reference_site", "unit", "source", "group", "crs", "colour_scale", "limits_source", "slug", "site_id",
+             "version", "product", "source_url", "doi_or_url", "date_range", "product_id", "units", "path", "url", "doi", "deviations_file",
+             "recorded_sha256", "actual_sha256", "source_sha256", "preregistration_hashes"}
 SKIP_META = {"sources", "facts"}
 NUM_RE = re.compile(r"(?<![\w.])-?\d[\d,]*(?:\.\d+)?")
 YEAR_RE = re.compile(r"^(19|20)\d\d$")  # citation years are not statistics
@@ -135,6 +137,27 @@ def build_claims(root):
             pl = r["place"]
             nesrc = next(x for x in rg["meta"]["sources"] if x["source_file"].endswith("ne_10m_populated_places_simple.geojson" if pl["feature_class"] == "Populated place" else "ne_10m_geography_regions_polys.geojson"))
             add(f"regions.{r['id'].replace(' ', '_')}.place_distance_km", d(pl["distance_km"], 0), nesrc["source_file"], nesrc["sha256"])
+    # v2 inputs (optional): thermal reference layers and site measurements
+    v2 = docs.get("v2.json")
+    if v2 and v2.get("thermal_refs"):
+        th = v2["thermal_refs"]
+        for r in th["rows"]:
+            if r["display"] is not None:
+                add(f"v2.thermal.{r['site']}.{r['layer']}.{r['stat']}", r["display"], th["path"], th["sha256"])
+    sm = docs.get("site_measurements.json")
+    if sm:
+        src = sm["meta"]["sources"][0]
+        for r in sorted({m["radius_km"] for mrows in sm["by_site"].values() for m in mrows}):
+            add(f"v2.evidence.radius.{r}", r, src["source_file"], src["sha256"])
+        for sid, mrows in sm["by_site"].items():
+            seen = {}
+            for m in mrows:
+                if m["display"] is None:
+                    continue
+                k = f"v2.evidence.{sid}.r{m['radius_km']}.{m['dataset']}.{m['variable']}.{m['stat']}"
+                n = seen.get(k, 0)
+                seen[k] = n + 1
+                add(k if n == 0 else f"{k}#{n}", m["display"], src["source_file"], src["sha256"])
     # controls
     ct = docs.get("controls.json")
     if ct:

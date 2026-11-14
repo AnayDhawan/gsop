@@ -132,6 +132,12 @@ Built by `scripts/gsop_data/overlays.py`. One PNG per target, base profile, from
 - Artifacts that come from v1 data, not from this build: a thin line at 60 N (terrain source changes from SRTM to GLO30) and a block edge over Siberia (same cause, see E32 item 10). Large transparent areas (Amazon, Congo, much of Europe and India) are tiles the vegetation gate removed.
 - PNG writing uses fixed compression and no metadata chunks, so output is byte-identical between runs.
 
+## Optional v2 inputs (B16)
+
+- Source repo `AnayDhawan/sim`, branches `data/thermal-refs` and `data/site-evidence` (and `main` for `runs/v2/` results when they exist). Copied by `scripts/sync_v2.py` into `data/v2/`.
+- Present on 15 Nov 2026: thermal reference layers (`thermal_refs.csv`, 258 rows, with `thermal_refs_files.csv` and `refs_limits.md`), pre-registrations B and C with their hash files and the B deviations file. Both pre-registration hashes match the documents.
+- Not present: `runs/v2/metrics.json`, `ledger.json`, `claims_v2.csv`, `claims_c.csv`; `site_measurements.csv`, `ledger_c.json`, image chips; `evidence_limits.md`, `data_resources.md`. The site says "v2 run not completed" and shows nothing for these.
+
 ## Appendix: file inventory
 
 Every file in the zip (path, bytes, sha256). Matches `gsop_v1/FILES.sha256`.

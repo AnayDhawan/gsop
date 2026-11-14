@@ -35,7 +35,7 @@ class Ctx:
 
 
 def write_manifest(ctx):
-    """data/MANIFEST.csv: path, bytes, sha256 for public/data/**, data/reference/sites.csv and data/reference/raw/* (the site CSV and the Natural Earth files)."""
+    """data/MANIFEST.csv: path, bytes, sha256 for public/data/**, data/reference/sites.csv, data/reference/raw/*, data/v2/** and public/img/sites/**."""
     rels = []
     base = ctx.path("public/data")
     for dp, _, fs in os.walk(base):
@@ -43,6 +43,11 @@ def write_manifest(ctx):
             rels.append(os.path.relpath(os.path.join(dp, f), ctx.root).replace(os.sep, "/"))
     if os.path.exists(ctx.path("data/reference/sites.csv")):
         rels.append("data/reference/sites.csv")
+    for extra in ("data/v2", "public/img/sites"):
+        d = ctx.path(extra)
+        for dp, _, fs in os.walk(d):
+            for f in fs:
+                rels.append(os.path.relpath(os.path.join(dp, f), ctx.root).replace(os.sep, "/"))
     raw = ctx.path("data/reference/raw")
     if os.path.isdir(raw):
         rels += [f"data/reference/raw/{f}" for f in sorted(os.listdir(raw))]
@@ -63,6 +68,8 @@ SIZE_LIMITS = {
     "public/data/metrics.json": 100 * KB,
     "public/data/ledger.json": 60 * KB,
     "public/data/controls.json": 20 * KB,
+    "public/data/v2.json": 250 * KB,
+    "public/data/site_measurements.json": 2 * MB,
     "public/data/claims.csv": 3 * MB,
 }
 PNG_LIMIT = 2 * MB
@@ -98,9 +105,9 @@ def write_claims(ctx):
 
 
 def steps():
-    from gsop_data import controls, ledger, lookup, overlays, regions, sites, tiles
+    from gsop_data import controls, ledger, lookup, overlays, regions, sites, tiles, v2
 
-    return [("sites", sites.build), ("overlays", overlays.build), ("tiles", tiles.build), ("lookup", lookup.build), ("ledger", ledger.build), ("regions", regions.build), ("controls", controls.build)]
+    return [("sites", sites.build), ("overlays", overlays.build), ("tiles", tiles.build), ("lookup", lookup.build), ("ledger", ledger.build), ("regions", regions.build), ("controls", controls.build), ("v2", v2.build)]
 
 
 def main(argv=None):

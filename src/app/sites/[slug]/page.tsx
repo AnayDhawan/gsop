@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { claim, lookupFile, sitesFile } from "@/lib/data";
+import { chipFor, claim, lookupFile, measurementsFile, sitesFile } from "@/lib/data";
+import { claimIds, evidenceFor } from "@/lib/evidence";
+import MeasuredEvidence from "./MeasuredEvidence";
 import { statusLabel } from "@/lib/format";
 import { viewName } from "@/lib/names";
 import type { Site } from "@/lib/types";
@@ -45,6 +47,11 @@ function SitePage({ s, withBody }: { s: Site; withBody: boolean }) {
   const elev = s.elevation_m !== null ? claim(`sites.${s.id}.elevation_m`) : null;
   const year = s.year_first_used_as_analog !== null ? claim(`sites.${s.id}.year_first_used_as_analog`) : null;
   const sources = [s.source_url_1, s.source_url_2, s.source_url_3].filter(Boolean) as string[];
+  // Optional section (C8): only when the v2 evidence file exists. Without it the page is unchanged.
+  const meas = measurementsFile();
+  const siteRows = meas?.by_site[s.id] ?? [];
+  const ids = claimIds(s.id, siteRows);
+  const evidence = meas ? evidenceFor(siteRows, (m) => claim(ids.get(m) as string)) : null;
   return (
     <section className="space-y-8" aria-label={withBody ? `${s.name}, ${s.body}` : undefined}>
       {withBody && <h2 className="text-2xl">{s.body}</h2>}
@@ -104,6 +111,8 @@ function SitePage({ s, withBody }: { s: Site; withBody: boolean }) {
           </ul>
         )}
       </section>
+
+      <MeasuredEvidence evidence={evidence} chip={chipFor(s.slug)} radiusClaim={(r) => claim(`v2.evidence.radius.${r}`)} />
 
       <section className="space-y-3">
         <h3 className="text-lg">v1 score, percentile and overlap flag</h3>

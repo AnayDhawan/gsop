@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { e32Sentence, ledgerFile, metricsFile } from "@/lib/data";
+import { e32Sentence, ledgerFile, metricsFile, v2File } from "@/lib/data";
 import { shortHash, sourceName, statusLabel } from "@/lib/format";
-import { viewName } from "@/lib/names";
+import { targetName, viewName } from "@/lib/names";
 import type { LedgerEntry, Metric } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Failure-First Ledger" };
@@ -67,6 +67,14 @@ export default function Page() {
   const unscored = of("unscored_property");
   const physical = of("physical_difference");
   const hashes = ledger.meta.preregistration_hashes as Record<string, string>;
+  const v2 = v2File();
+  const layers = new Map<string, { site: string; layer: string; product: string; status: string }>();
+  for (const r of v2.thermal_refs?.rows ?? []) {
+    const k = `${r.site}|${r.layer}`;
+    const have = layers.get(k);
+    const status = r.status === "value" || r.status === "label" ? "Values stored" : "Not covered";
+    if (!have || (have.status === "Not covered" && status === "Values stored")) layers.set(k, { site: r.site, layer: r.layer, product: r.product === "none" ? "none" : r.product, status });
+  }
 
   return (
     <div className="max-w-4xl space-y-12">
@@ -248,6 +256,65 @@ export default function Page() {
             <Entry key={e.id} e={e} />
           ))}
         </ul>
+      </section>
+
+      <section className="space-y-4" aria-labelledby="v2">
+        <h2 id="v2" className="text-2xl">
+          The v2 run
+        </h2>
+        <p className={v2.run_completed ? "" : "text-control"}>{v2.status_text}</p>
+        <p className="text-secondary-foreground">
+          {v2.run_completed
+            ? "The v2 result files are present. Their hashes are in the data manifest. Gate results are not shown on this page yet."
+            : "Gate results for v2 are not shown because the run has no result files here. Nothing is filled in."}
+        </p>
+        {v2.preregistrations.length > 0 && (
+          <ul className="space-y-2 text-sm">
+            {v2.preregistrations.map((p) => (
+              <li key={p.id} className="border border-border p-3">
+                <p className="font-medium">{p.title}</p>
+                <p className="gsop-mono break-all text-xs">{p.actual_sha256}</p>
+                <p className={p.matches === false ? "text-control" : "text-secondary-foreground"}>
+                  {p.matches === true ? "The recorded hash matches the document." : p.matches === false ? "The recorded hash does not match the document." : "No recorded hash was found for this document."}
+                  {p.deviations_file ? " A deviations file is recorded for it." : ""}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {layers.size > 0 && (
+          <div className="space-y-2">
+            <h3 className="text-lg">Thermal reference layers for the targets</h3>
+            <p className="text-secondary-foreground">Context for the Moon and Mars targets, compared only by rank inside each body. Earth cannot reach polar lunar temperatures. A layer marked not covered has no value in this run.</p>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse text-left text-sm">
+                <caption className="sr-only">Thermal reference layers and their coverage</caption>
+                <thead>
+                  <tr className="border-b border-border">
+                    <th scope="col" className="py-2 pr-4 font-medium">Target</th>
+                    <th scope="col" className="py-2 pr-4 font-medium">Layer</th>
+                    <th scope="col" className="py-2 pr-4 font-medium">Product</th>
+                    <th scope="col" className="py-2 pr-4 font-medium">Coverage</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...layers.values()]
+                    .sort((a, b) => a.site.localeCompare(b.site) || a.layer.localeCompare(b.layer))
+                    .map((l) => (
+                      <tr key={`${l.site}-${l.layer}`} className="border-b border-border align-top">
+                        <th scope="row" className="py-2 pr-4 font-medium">
+                          {targetName(l.site)}
+                        </th>
+                        <td className="py-2 pr-4">{l.layer.replace(/_/g, " ")}</td>
+                        <td className="py-2 pr-4">{l.product}</td>
+                        <td className={`py-2 pr-4 ${l.status === "Not covered" ? "text-control" : ""}`}>{l.status}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
       </section>
 
       <section className="space-y-3" aria-labelledby="prereg">
