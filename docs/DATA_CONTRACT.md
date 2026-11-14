@@ -42,11 +42,11 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 
 ### `sites.json`
 - Serves (a), (b), (c). Read by site list and detail pages. 100 sites, 53 KB, limit 100 KB.
-- Source: teammate CSV `GSOP_analog_sites_moon_mars.csv`, only the rows labelled as known sites (50 Moon, 50 Mars). The 20 candidate rows are not reference sites and are left out; see `data/reference/sites_check.md`.
+- Source: `data/reference/raw/GSOP_analog_sites_moon_mars.csv`, only the rows labelled as known sites (50 Moon, 50 Mars). The 20 candidate rows are not reference sites and are left out here; see `data/reference/sites_check.md`. Column mapping decisions are in `docs/sites_mapping.md`.
 - Fields: `id`, `name`, `body`, `lat`, `lon`, `kind`, `analog_of`, `source_url_1`, `source_url_2`, `coordinates_approximate`, `v1_used`, `v1_match` (`{site_id, km}`), `limits`, `limits_source`.
 - The two-source rule was relaxed by instruction. The CSV has no URLs, so both source fields read `"not provided in site CSV"`.
-- `kind` is the CSV `Process_type` text. `analog_of` is the body, because the CSV has no finer field.
-- `limits` is the CSV `Where_analogy_breaks` text. It is teammate-written and unreviewed. Hand-typed numbers inside it get claims rows that cite the CSV.
+- `kind` and `analog_of` are `null`, as in `docs/sites_mapping.md`: `Process_type` is ambiguous and a person decides; the CSV has no analog target column.
+- `limits` is the CSV `Where_analogy_breaks` text. It is LLM-written and unreviewed. Numbers inside it and inside site names get claims rows that cite the CSV.
 - `v1_used`: `true` within v1's match radius of a v1 site run for that body; `unknown` near a v1 site but not matching; `false` beyond v1's exclusion distance of every v1 site.
 - The CSV's similarity numbers, Monte Carlo bands and gate labels are not v1 outputs and are not published.
 
@@ -93,8 +93,8 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - Header carries the E32 sentence verbatim in `meta.uncertainty_sentence` (compared with `docs/E32.txt` at build and in CI) and both pre-registration hashes in `meta.preregistration_hashes`.
 
 ### `claims.csv`
-- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 11,197 rows, 2.1 MB, limit 3 MB.
-- Rows come from: every `meta.facts` entry; numeric metrics; per-tile values in `tiles_top.json`; scored entries and summaries in `site_lookup.json`; region fields; overlay summaries; site coordinates and numbers inside site text; numbers inside quoted v1 ledger text.
+- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 11,185 rows, 2.1 MB, limit 3 MB.
+- Rows come from: every `meta.facts` entry; numeric metrics; per-tile values in `tiles_top.json`; scored entries and summaries in `site_lookup.json`; region fields; overlay summaries; site coordinates and numbers inside site names and text; numbers inside quoted v1 ledger text.
 - Pages read their numbers from the data files and print the `number` string from this file.
 - Citation years (1900 to 2099) in source strings are not treated as numbers.
 

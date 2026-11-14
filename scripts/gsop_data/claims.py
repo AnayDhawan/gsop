@@ -141,14 +141,14 @@ def build_claims(root):
                 add(f"overlay.{doc['target']}.{k}", d(doc[k], 1), base["source_file"], base["sha256"])
             data_src = next(s for s in doc["meta"]["sources"] if s["source_file"].endswith("base_scores.parquet"))
             add(f"overlay.{doc['target']}.n_scored_tiles", d(doc["n_scored_tiles"], 0), data_src["source_file"], data_src["sha256"])
-    # sites: coordinates and numbers inside teammate text
+    # sites: coordinates and numbers inside names and CSV text
     st = docs.get("sites.json")
     if st and os.path.exists(os.path.join(root, SITES_CSV)):
         ssha = local_sha(SITES_CSV)
         for s in st["sites"]:
             add(f"sites.{s['id']}.lat", d(s["lat"], 2), SITES_CSV, ssha)
             add(f"sites.{s['id']}.lon", d(s["lon"], 2), SITES_CSV, ssha)
-            for field in ("kind", "limits"):
+            for field in ("name", "limits"):
                 for i, n in enumerate(text_numbers(s[field])):
                     add(f"sites.{s['id']}.{field}.text{i}", n, SITES_CSV, ssha)
     # ledger: numbers inside quoted v1 text

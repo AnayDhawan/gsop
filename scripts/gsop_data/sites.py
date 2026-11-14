@@ -1,4 +1,4 @@
-"""B2 and B5: clean the teammate's site CSV and build sites.csv, sites_check.md and sites.json.
+"""B2 and B5: clean the site CSV and build sites.csv, sites_check.md and sites.json.
 
 Lookup and transformation only. Nothing here scores anything.
 The two-source rule from the brief was relaxed by instruction: the CSV has no source URLs, so rows are kept without them.
@@ -12,23 +12,23 @@ from .fmt import NOT_IN_V1, make_meta, num, sha256_file, write_json, write_text
 
 SCHEMA = ["name", "body", "lat", "lon", "kind", "analog_of", "source_url_1", "source_url_2"]
 OUT_COLUMNS = SCHEMA + ["v1_used"]
-CSV_REF = "GSOP_analog_sites_moon_mars.csv"
+CSV_REF = "data/reference/raw/GSOP_analog_sites_moon_mars.csv"
 NO_SOURCE = "not provided in site CSV"
 
-# Brief field -> column in the teammate CSV. None means no such column exists.
+# Brief field -> column in the site CSV. None means no such column exists.
 COLUMN_MAP = {
     "name": "Site_name",
     "body": "Body",
     "lat": "Latitude",
     "lon": "Longitude",
-    "kind": "Process_type",
-    "analog_of": "Body",
+    "kind": None,
+    "analog_of": None,
     "source_url_1": None,
     "source_url_2": None,
 }
 MAP_NOTE = {
-    "kind": "closest column; free text about the geology, not a controlled list",
-    "analog_of": "set to the body of the row; the CSV has no finer field",
+    "kind": "left empty: Process_type is ambiguous (see docs/sites_mapping.md), a person decides",
+    "analog_of": "left empty: no CSV column (see docs/sites_mapping.md)",
     "source_url_1": "no column in the CSV; rule relaxed by instruction",
     "source_url_2": "no column in the CSV; rule relaxed by instruction",
 }
@@ -131,7 +131,7 @@ def check(csv_path, v1):
         if n_src < 2:
             info.append(f"source URLs: {n_src} (rule relaxed)")
         approx = "approx" in (r.get("Coordinate_note") or "").lower()
-        for col in ("Site_name", "Process_type", "Where_analogy_breaks"):
+        for col in ("Site_name", "Where_analogy_breaks"):
             if BANNED.search(r.get(col) or ""):
                 fails.append(f"banned term in {col}")
         flag = ("unknown", "", None)
@@ -147,7 +147,6 @@ def check(csv_path, v1):
                 "fails": fails,
                 "info": info,
                 "approx": approx,
-                "kind": (r.get("Process_type") or "").strip(),
                 "limits": (r.get("Where_analogy_breaks") or "").strip(),
                 "v1_used": flag[0],
                 "v1_site": flag[1],
@@ -186,8 +185,8 @@ def write_sites_csv(path, rows):
                 "body": r["body"],
                 "lat": f"{r['lat']:.4f}",
                 "lon": f"{r['lon']:.4f}",
-                "kind": r["kind"],
-                "analog_of": r["body"],
+                "kind": "",
+                "analog_of": "",
                 "source_url_1": "",
                 "source_url_2": "",
                 "v1_used": r["v1_used"],
@@ -232,7 +231,8 @@ def write_report(path, rep, csv_sha, n_kept):
     L.append("- Numeric columns (similarity, Monte Carlo band, per-parameter scores) are not v1 outputs; the `Scored_against` column says they used v2 weights. They are not carried into any data file.")
     L.append("- The gate-check labels and the novelty-rule columns are also not v1 outputs and are not carried over.")
     L.append("- The candidate rows are hand-picked with their own scores. v1 candidates come only from `regions.json` (B10).")
-    L.append("- Carried free-text columns (`Process_type`, `Where_analogy_breaks`) are teammate-written and unreviewed. A few contain hand-typed numbers; those get claims rows pointing at `data/reference/sites.csv`.")
+    L.append("- The carried free-text column (`Where_analogy_breaks`) is LLM-written and unreviewed. A few entries contain hand-typed numbers; those get claims rows pointing at `data/reference/sites.csv`.")
+    L.append("- Column mapping decisions are in `docs/sites_mapping.md` and the row-level checks in `docs/sites_check.md` (both from the site-data PR). This report covers only what the build keeps, plus the v1 used flag.")
     approx = sum(1 for r in rows if not r["fails"] and r["approx"])
     L.append(f"- {approx} kept rows mark their coordinates as approximate.")
     L.append("")
@@ -269,10 +269,10 @@ def write_report(path, rep, csv_sha, n_kept):
 
 
 SITES_LIMITS = [
-    "Sites are places named in the literature or by a teammate as analogs. They are not scored results.",
-    "Coordinates come from a teammate CSV; many are approximate.",
+    "Sites are places named as analogs in an LLM-written list. They are not scored results.",
+    "Coordinates come from an LLM-written CSV; many are approximate.",
     "The CSV gave no source links, so none are shown.",
-    "Text about where the analogy breaks is teammate-written and has not been reviewed.",
+    "Text about where the analogy breaks is LLM-written and has not been reviewed.",
     "The v1 used flag is a coordinate match against the v1 site list, not a name match.",
     "Earth sites differ from the Moon and Mars in gravity, air, radiation and dust; see the ledger.",
 ]
@@ -300,21 +300,21 @@ def build(ctx):
                 "body": r["body"],
                 "lat": num(r["lat"], 4),
                 "lon": num(r["lon"], 4),
-                "kind": r["kind"],
-                "analog_of": r["body"],
+                "kind": None,
+                "analog_of": None,
                 "source_url_1": NO_SOURCE,
                 "source_url_2": NO_SOURCE,
                 "coordinates_approximate": r["approx"],
                 "v1_used": r["v1_used"],
                 "v1_match": {"site_id": r["v1_site"], "km": num(r["v1_km"], 1)},
                 "limits": r["limits"] if r["limits"] else NOT_IN_V1,
-                "limits_source": "teammate CSV column Where_analogy_breaks, unreviewed",
+                "limits_source": "CSV column Where_analogy_breaks, LLM-written, unreviewed",
             }
         )
     sites.sort(key=lambda s: s["id"])
     meta = make_meta(
         "public/data/sites.json",
-        "Reference sites from a teammate CSV. Descriptive list, not scored results.",
+        "Reference sites from an LLM-written CSV. Descriptive list, not scored results.",
         SITES_LIMITS,
         [{"source_file": CSV_REF, "sha256": csv_sha}, ctx.v1.src("config/known_sites.yaml")],
         v1_used_rule=(

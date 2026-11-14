@@ -102,7 +102,7 @@ def steps():
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--zip", default=os.path.join(REPO, "gsop_v1_results_2026-11-14.zip"))
-    ap.add_argument("--csv", default=os.path.join(REPO, "GSOP_analog_sites_moon_mars.csv"))
+    ap.add_argument("--csv", default=os.path.join(REPO, "data", "reference", "raw", "GSOP_analog_sites_moon_mars.csv"))
     ap.add_argument("--root", default=REPO)
     ap.add_argument("--skip-verify", action="store_true")
     a = ap.parse_args(argv)

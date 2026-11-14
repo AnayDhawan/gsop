@@ -7,7 +7,7 @@ Internal notes on what the v1 results zip holds. Nothing here is site text. Ever
 | Input | Where | sha256 |
 |---|---|---|
 | v1 results zip | `gsop_v1_results_2026-11-14.zip` (repo root, git-ignored via `*.zip`) | `0c634823629cb3e1719feafd053f99cc3eea1aabc974316fa1a7fefcf7a4076a` |
-| 50-site CSV from teammate | `GSOP_analog_sites_moon_mars.csv` (repo root, untracked) | `86439f8537079b7f2e9f9b0325ba9b7ac4bb2ecb4a4522dc92a53694ca21b3e7` |
+| Site CSV (LLM-written) | `data/reference/raw/GSOP_analog_sites_moon_mars.csv` | `9052ef80275bef814feee0c4830ad81492d0f48aa2dff2bee8902065c116f80f` (same content as the copy first received, `86439f85…`; only line endings differ) |
 
 - Zip size: 287,366,854 bytes compressed; 366 entries (365 data files plus `FILES.sha256`); 545,140,228 bytes of data when unpacked.
 - Unpacked to a scratch directory outside tracked paths. The raw zip and CSV were not modified.
