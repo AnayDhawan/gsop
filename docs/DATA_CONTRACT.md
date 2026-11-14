@@ -84,6 +84,12 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - `place` (decided for B12): `{name, feature_class, relation, distance_km, source}`. The name is the Natural Earth desert, plateau or range the centroid lies in (`relation: inside`, distance 0), else the nearest such region within a near distance (`near`, 200 km, a build choice), else the nearest populated place (`nearest populated place`). Distance is approximate. Source layers and hashes are in `data/reference/naturalearth/README.md`.
 - `n_tiles_in_india` uses a point-in-polygon test against v1's outline; the test agrees with v1's own flags on its top-500 file.
 
+### `controls.json`
+- Serves (c). Read by the Honest Map. 4 controls, under 20 KB.
+- The negative controls v1 used, with coordinates and the stored result per run (`moon`, `mars`): `status`, `rank_pct` when scored, `reason` when gated out, `coordinates_confirmed`.
+- Source: `results/<run>/validation.json`. Claims rows exist for latitude, longitude and each stored percentile.
+- Two controls scored far above the pre-registered maximum on the Moon run. The map shows controls in red.
+
 ### `metrics.json`
 - Serves (c), (d). Read by results, failures and home pages. 146 entries, 74 KB, limit 100 KB.
 - Entry: `id`, `group`, `label`, `unit`, `value`, `display`, `source_file`, `sha256`, `what_this_means_for_the_analogy`.
@@ -96,7 +102,7 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - Header carries the E32 sentence verbatim in `meta.uncertainty_sentence` (compared with `docs/E32.txt` at build and in CI) and both pre-registration hashes in `meta.preregistration_hashes`.
 
 ### `claims.csv`
-- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 12,939 rows, 2.4 MB, limit 3 MB.
+- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 12,949 rows, 2.4 MB, limit 3 MB.
 - Rows come from: every `meta.facts` entry; numeric metrics; per-tile values in `tiles_top.json`; scored entries and summaries in `site_lookup.json`; region fields; overlay summaries; site coordinates and numbers inside site names and text; numbers inside quoted v1 ledger text.
 - Pages read their numbers from the data files and print the `number` string from this file.
 - Citation years (1900 to 2099) in source strings are not treated as numbers.
@@ -109,8 +115,9 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 
 `scripts/check_claims.py` fails, listing every violation, when:
 - `claims.csv` differs from what the data files produce, or a claim's hash for a repo file is stale.
-- A banned word appears in data text or in page source under `src/app`, `content/` or static `public` text.
-- A number appears in data text or page text with no row in `claims.csv`.
+- A banned word appears in data text or in page source under `src/app`, `content/` or static `public` text. The E32 sentence is allow-listed, because it must stay verbatim.
+- A number appears in data text with no row in `claims.csv`.
+- Page source holds a typed number in prose. Pages must print numbers from `claims.csv`; class names and code are not scanned.
 - The E32 sentence differs from `docs/E32.txt` anywhere.
 - `data/MANIFEST.csv` disagrees with a file, or a file is missing from it.
 
