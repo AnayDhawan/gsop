@@ -1,0 +1,2007 @@
+{
+  "name": "GSOP brand assets",
+  "description": "Geospatial Similarity Observation Platform — production brand library",
+  "version": "1.0.0",
+  "generated": "2026-11-13",
+  "basePath": "/brand",
+  "files": 169,
+  "families": [
+    {
+      "id": "01",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Horizontal logo — dark",
+      "description": "Primary lockup for dark surfaces: three planets, GSOP wordmark, full descriptor.",
+      "files": [
+        {
+          "path": "logos/gsop-logo-horizontal-dark.svg",
+          "url": "/brand/logos/gsop-logo-horizontal-dark.svg",
+          "format": "svg",
+          "dimensions": "2078×400 (viewBox 519.5×100.0)",
+          "theme": "dark",
+          "usage": "Primary horizontal logo for dark backgrounds (site header, dark hero)"
+        },
+        {
+          "path": "logos/gsop-logo-horizontal-dark.png",
+          "url": "/brand/logos/gsop-logo-horizontal-dark.png",
+          "format": "png",
+          "dimensions": "1600×308",
+          "theme": "dark",
+          "usage": "Primary horizontal logo for dark backgrounds (site header, dark hero) (transparent PNG fallback)"
+        },
+        {
+          "path": "logos/gsop-logo-horizontal-dark.text-source.svg",
+          "url": "/brand/logos/gsop-logo-horizontal-dark.text-source.svg",
+          "format": "svg",
+          "dimensions": "live text source",
+          "theme": "dark",
+          "usage": "Editable source with live <text> (needs Space Grotesk and JetBrains Mono installed). Not for production use."
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Horizontal logo — light",
+      "description": "Primary lockup for light surfaces.",
+      "files": [
+        {
+          "path": "logos/gsop-logo-horizontal-light.svg",
+          "url": "/brand/logos/gsop-logo-horizontal-light.svg",
+          "format": "svg",
+          "dimensions": "2078×400 (viewBox 519.5×100.0)",
+          "theme": "light",
+          "usage": "Primary horizontal logo for light backgrounds"
+        },
+        {
+          "path": "logos/gsop-logo-horizontal-light.png",
+          "url": "/brand/logos/gsop-logo-horizontal-light.png",
+          "format": "png",
+          "dimensions": "1600×308",
+          "theme": "light",
+          "usage": "Primary horizontal logo for light backgrounds (transparent PNG fallback)"
+        },
+        {
+          "path": "logos/gsop-logo-horizontal-light.text-source.svg",
+          "url": "/brand/logos/gsop-logo-horizontal-light.text-source.svg",
+          "format": "svg",
+          "dimensions": "live text source",
+          "theme": "light",
+          "usage": "Editable source with live <text> (needs Space Grotesk and JetBrains Mono installed). Not for production use."
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Stacked logo — dark",
+      "description": "Symbol above wordmark and descriptor, for square and narrow spaces on dark.",
+      "files": [
+        {
+          "path": "logos/gsop-logo-stacked-dark.svg",
+          "url": "/brand/logos/gsop-logo-stacked-dark.svg",
+          "format": "svg",
+          "dimensions": "1104×871 (viewBox 276.0×217.8)",
+          "theme": "dark",
+          "usage": "Stacked logo for dark backgrounds (square and portrait placements)"
+        },
+        {
+          "path": "logos/gsop-logo-stacked-dark.png",
+          "url": "/brand/logos/gsop-logo-stacked-dark.png",
+          "format": "png",
+          "dimensions": "1000×789",
+          "theme": "dark",
+          "usage": "Stacked logo for dark backgrounds (square and portrait placements) (transparent PNG fallback)"
+        },
+        {
+          "path": "logos/gsop-logo-stacked-dark.text-source.svg",
+          "url": "/brand/logos/gsop-logo-stacked-dark.text-source.svg",
+          "format": "svg",
+          "dimensions": "live text source",
+          "theme": "dark",
+          "usage": "Editable source with live <text> (needs Space Grotesk and JetBrains Mono installed). Not for production use."
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Stacked logo — light",
+      "description": "Stacked lockup for light surfaces.",
+      "files": [
+        {
+          "path": "logos/gsop-logo-stacked-light.svg",
+          "url": "/brand/logos/gsop-logo-stacked-light.svg",
+          "format": "svg",
+          "dimensions": "1104×871 (viewBox 276.0×217.8)",
+          "theme": "light",
+          "usage": "Stacked logo for light backgrounds"
+        },
+        {
+          "path": "logos/gsop-logo-stacked-light.png",
+          "url": "/brand/logos/gsop-logo-stacked-light.png",
+          "format": "png",
+          "dimensions": "1000×789",
+          "theme": "light",
+          "usage": "Stacked logo for light backgrounds (transparent PNG fallback)"
+        },
+        {
+          "path": "logos/gsop-logo-stacked-light.text-source.svg",
+          "url": "/brand/logos/gsop-logo-stacked-light.text-source.svg",
+          "format": "svg",
+          "dimensions": "live text source",
+          "theme": "light",
+          "usage": "Editable source with live <text> (needs Space Grotesk and JetBrains Mono installed). Not for production use."
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Symbol — dark",
+      "description": "Moon · Earth · Mars symbol alone, dark surfaces.",
+      "files": [
+        {
+          "path": "logos/gsop-symbol-dark.svg",
+          "url": "/brand/logos/gsop-symbol-dark.svg",
+          "format": "svg",
+          "dimensions": "1104×400 (viewBox 276.0×100.0)",
+          "theme": "dark",
+          "usage": "Planetary symbol (Moon, Earth, Mars) for dark surfaces"
+        },
+        {
+          "path": "logos/gsop-symbol-dark.png",
+          "url": "/brand/logos/gsop-symbol-dark.png",
+          "format": "png",
+          "dimensions": "1200×435",
+          "theme": "dark",
+          "usage": "Planetary symbol (Moon, Earth, Mars) for dark surfaces (transparent PNG fallback)"
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Symbol — light",
+      "description": "Symbol alone, light surfaces.",
+      "files": [
+        {
+          "path": "logos/gsop-symbol-light.svg",
+          "url": "/brand/logos/gsop-symbol-light.svg",
+          "format": "svg",
+          "dimensions": "1104×400 (viewBox 276.0×100.0)",
+          "theme": "light",
+          "usage": "Planetary symbol for light surfaces"
+        },
+        {
+          "path": "logos/gsop-symbol-light.png",
+          "url": "/brand/logos/gsop-symbol-light.png",
+          "format": "png",
+          "dimensions": "1200×435",
+          "theme": "light",
+          "usage": "Planetary symbol for light surfaces (transparent PNG fallback)"
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Monochrome logo — white",
+      "description": "Single-colour white version for photography, print and embossing.",
+      "files": [
+        {
+          "path": "logos/gsop-logo-mono-white.svg",
+          "url": "/brand/logos/gsop-logo-mono-white.svg",
+          "format": "svg",
+          "dimensions": "2078×400 (viewBox 519.5×100.0)",
+          "theme": "dark",
+          "usage": "Single-colour white logo for dark or photographic backgrounds"
+        },
+        {
+          "path": "logos/gsop-logo-mono-white.png",
+          "url": "/brand/logos/gsop-logo-mono-white.png",
+          "format": "png",
+          "dimensions": "1600×308",
+          "theme": "dark",
+          "usage": "Single-colour white logo for dark or photographic backgrounds (transparent PNG fallback)"
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Monochrome logo — dark",
+      "description": "Single-colour near-black version for light surfaces and one-colour print.",
+      "files": [
+        {
+          "path": "logos/gsop-logo-mono-dark.svg",
+          "url": "/brand/logos/gsop-logo-mono-dark.svg",
+          "format": "svg",
+          "dimensions": "2078×400 (viewBox 519.5×100.0)",
+          "theme": "light",
+          "usage": "Single-colour dark logo for light backgrounds and print"
+        },
+        {
+          "path": "logos/gsop-logo-mono-dark.png",
+          "url": "/brand/logos/gsop-logo-mono-dark.png",
+          "format": "png",
+          "dimensions": "1600×308",
+          "theme": "light",
+          "usage": "Single-colour dark logo for light backgrounds and print (transparent PNG fallback)"
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Logo construction & clear-space guide",
+      "description": "Geometry, clear space, minimum sizes and correct usage.",
+      "files": [
+        {
+          "path": "logos/gsop-logo-construction-guide.svg",
+          "url": "/brand/logos/gsop-logo-construction-guide.svg",
+          "format": "svg",
+          "dimensions": "1920×1560",
+          "theme": "dark",
+          "usage": "Construction, spacing, clear space, minimum sizes, correct/incorrect"
+        },
+        {
+          "path": "logos/gsop-logo-construction-guide.png",
+          "url": "/brand/logos/gsop-logo-construction-guide.png",
+          "format": "png",
+          "dimensions": "1920×1560",
+          "theme": "dark",
+          "usage": "Raster preview of the construction guide"
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "group": "A",
+      "groupName": "Logo system",
+      "name": "Logo misuse reference",
+      "description": "Six incorrect constructions: Earth behind, transparent, blurred; order changed; unequal discs; distorted wordmark.",
+      "files": [
+        {
+          "path": "logos/gsop-logo-misuse-reference.svg",
+          "url": "/brand/logos/gsop-logo-misuse-reference.svg",
+          "format": "svg",
+          "dimensions": "1920×960",
+          "theme": "dark",
+          "usage": "Six logo misuse examples"
+        },
+        {
+          "path": "logos/gsop-logo-misuse-reference.png",
+          "url": "/brand/logos/gsop-logo-misuse-reference.png",
+          "format": "png",
+          "dimensions": "1920×960",
+          "theme": "dark",
+          "usage": "Raster preview of the misuse reference"
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "group": "B",
+      "groupName": "Favicons & app icons",
+      "name": "Favicon 16 — dark",
+      "description": "Dark-mode favicon, 16 px (plus the vector favicon).",
+      "files": [
+        {
+          "path": "favicons/favicon-dark.svg",
+          "url": "/brand/favicons/favicon-dark.svg",
+          "format": "svg",
+          "dimensions": "scalable (64-unit grid)",
+          "theme": "dark",
+          "usage": "Scalable dark-mode favicon (modern browsers: <link rel=\"icon\" type=\"image/svg+xml\">)"
+        },
+        {
+          "path": "favicons/favicon-dark-16x16.png",
+          "url": "/brand/favicons/favicon-dark-16x16.png",
+          "format": "png",
+          "dimensions": "16×16",
+          "theme": "dark",
+          "usage": "dark-mode favicon 16px (simplified planetary symbol)"
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "group": "B",
+      "groupName": "Favicons & app icons",
+      "name": "Favicon 32 — dark",
+      "description": "Dark-mode favicon, 32 px.",
+      "files": [
+        {
+          "path": "favicons/favicon-dark-32x32.png",
+          "url": "/brand/favicons/favicon-dark-32x32.png",
+          "format": "png",
+          "dimensions": "32×32",
+          "theme": "dark",
+          "usage": "dark-mode favicon 32px (simplified planetary symbol)"
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "group": "B",
+      "groupName": "Favicons & app icons",
+      "name": "Favicon 64 — dark, ICO & manifest",
+      "description": "Dark-mode favicon 64 px, multi-resolution favicon.ico (16/32/64), Apple/Android/Windows icons, site.webmanifest, browserconfig.xml and Safari pinned-tab mask.",
+      "files": [
+        {
+          "path": "favicons/favicon-dark-64x64.png",
+          "url": "/brand/favicons/favicon-dark-64x64.png",
+          "format": "png",
+          "dimensions": "64×64",
+          "theme": "dark",
+          "usage": "dark-mode favicon 64px (simplified planetary symbol)"
+        },
+        {
+          "path": "favicons/favicon.ico",
+          "url": "/brand/favicons/favicon.ico",
+          "format": "ico",
+          "dimensions": "16+32+64 multi-resolution",
+          "theme": "dark",
+          "usage": "dark-mode multi-resolution favicon"
+        },
+        {
+          "path": "favicons/safari-pinned-tab.svg",
+          "url": "/brand/favicons/safari-pinned-tab.svg",
+          "format": "svg",
+          "dimensions": "monochrome",
+          "theme": "light",
+          "usage": "Safari pinned-tab mask icon (single colour)"
+        },
+        {
+          "path": "favicons/site.webmanifest",
+          "url": "/brand/favicons/site.webmanifest",
+          "format": "webmanifest",
+          "dimensions": "n/a",
+          "theme": "both",
+          "usage": "PWA manifest with theme and background colour (#06080A)"
+        },
+        {
+          "path": "favicons/browserconfig.xml",
+          "url": "/brand/favicons/browserconfig.xml",
+          "format": "xml",
+          "dimensions": "n/a",
+          "theme": "both",
+          "usage": "Windows tile configuration"
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "group": "B",
+      "groupName": "Favicons & app icons",
+      "name": "Light-mode favicon family",
+      "description": "Light-mode favicons 16/32/64 px, vector favicon and light-mode ICO.",
+      "files": [
+        {
+          "path": "favicons/favicon-light.svg",
+          "url": "/brand/favicons/favicon-light.svg",
+          "format": "svg",
+          "dimensions": "scalable (64-unit grid)",
+          "theme": "light",
+          "usage": "Scalable light-mode favicon (modern browsers: <link rel=\"icon\" type=\"image/svg+xml\">)"
+        },
+        {
+          "path": "favicons/favicon-light-16x16.png",
+          "url": "/brand/favicons/favicon-light-16x16.png",
+          "format": "png",
+          "dimensions": "16×16",
+          "theme": "light",
+          "usage": "light-mode favicon 16px (simplified planetary symbol)"
+        },
+        {
+          "path": "favicons/favicon-light-32x32.png",
+          "url": "/brand/favicons/favicon-light-32x32.png",
+          "format": "png",
+          "dimensions": "32×32",
+          "theme": "light",
+          "usage": "light-mode favicon 32px (simplified planetary symbol)"
+        },
+        {
+          "path": "favicons/favicon-light-64x64.png",
+          "url": "/brand/favicons/favicon-light-64x64.png",
+          "format": "png",
+          "dimensions": "64×64",
+          "theme": "light",
+          "usage": "light-mode favicon 64px (simplified planetary symbol)"
+        },
+        {
+          "path": "favicons/favicon-light.ico",
+          "url": "/brand/favicons/favicon-light.ico",
+          "format": "ico",
+          "dimensions": "16+32+64 multi-resolution",
+          "theme": "light",
+          "usage": "light-mode multi-resolution favicon"
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "group": "B",
+      "groupName": "Favicons & app icons",
+      "name": "App icon 1024 — dark",
+      "description": "Full-bleed 1024 px dark app icon, with derived touch / PWA sizes.",
+      "files": [
+        {
+          "path": "app-icons/app-icon-dark-1024.png",
+          "url": "/brand/app-icons/app-icon-dark-1024.png",
+          "format": "png",
+          "dimensions": "1024×1024",
+          "theme": "dark",
+          "usage": "dark-mode app icon master (full-bleed square; OS applies its own mask)"
+        },
+        {
+          "path": "app-icons/app-icon-dark-1024.svg",
+          "url": "/brand/app-icons/app-icon-dark-1024.svg",
+          "format": "svg",
+          "dimensions": "1024×1024",
+          "theme": "dark",
+          "usage": "Vector source of the dark-mode app icon"
+        },
+        {
+          "path": "favicons/apple-touch-icon.png",
+          "url": "/brand/favicons/apple-touch-icon.png",
+          "format": "png",
+          "dimensions": "180×180",
+          "theme": "dark",
+          "usage": "apple-touch-icon derived from the dark app icon"
+        },
+        {
+          "path": "favicons/android-chrome-192x192.png",
+          "url": "/brand/favicons/android-chrome-192x192.png",
+          "format": "png",
+          "dimensions": "192×192",
+          "theme": "dark",
+          "usage": "android-chrome-192x192 derived from the dark app icon"
+        },
+        {
+          "path": "favicons/android-chrome-512x512.png",
+          "url": "/brand/favicons/android-chrome-512x512.png",
+          "format": "png",
+          "dimensions": "512×512",
+          "theme": "dark",
+          "usage": "android-chrome-512x512 derived from the dark app icon"
+        },
+        {
+          "path": "favicons/mstile-150x150.png",
+          "url": "/brand/favicons/mstile-150x150.png",
+          "format": "png",
+          "dimensions": "150×150",
+          "theme": "dark",
+          "usage": "mstile-150x150 derived from the dark app icon"
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "group": "B",
+      "groupName": "Favicons & app icons",
+      "name": "App icon 1024 — light",
+      "description": "Full-bleed 1024 px light app icon.",
+      "files": [
+        {
+          "path": "app-icons/app-icon-light-1024.png",
+          "url": "/brand/app-icons/app-icon-light-1024.png",
+          "format": "png",
+          "dimensions": "1024×1024",
+          "theme": "light",
+          "usage": "light-mode app icon master (full-bleed square; OS applies its own mask)"
+        },
+        {
+          "path": "app-icons/app-icon-light-1024.svg",
+          "url": "/brand/app-icons/app-icon-light-1024.svg",
+          "format": "svg",
+          "dimensions": "1024×1024",
+          "theme": "light",
+          "usage": "Vector source of the light-mode app icon"
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "group": "C",
+      "groupName": "Website & social imagery",
+      "name": "Open Graph image",
+      "description": "Moon, Earth and Mars on a sparse starfield — nothing else. 1200 × 630 and 2400 × 1260 master.",
+      "files": [
+        {
+          "path": "og/gsop-og-image-1200x630.png",
+          "url": "/brand/og/gsop-og-image-1200x630.png",
+          "format": "png",
+          "dimensions": "1200×630",
+          "theme": "dark",
+          "usage": "Open Graph / Twitter card image. Exactly Moon, Earth, Mars on a sparse black starfield — no text, logo, ribbons or UI."
+        },
+        {
+          "path": "og/gsop-og-image-2400x1260.png",
+          "url": "/brand/og/gsop-og-image-2400x1260.png",
+          "format": "png",
+          "dimensions": "2400×1260",
+          "theme": "dark",
+          "usage": "2× master of the Open Graph image (source for retina crops)."
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "group": "C",
+      "groupName": "Website & social imagery",
+      "name": "Website hero — dark",
+      "description": "Hero with three equal planets on the right, ribbons below, copy space on the left.",
+      "files": [
+        {
+          "path": "motifs/gsop-hero-dark-2560x1440.webp",
+          "url": "/brand/motifs/gsop-hero-dark-2560x1440.webp",
+          "format": "webp",
+          "dimensions": "2560×1440",
+          "theme": "dark",
+          "usage": "Website hero (dark). Three equal planets right, ribbons below; left ~45% intentionally empty for headline and CTA. Optimised WebP (primary)."
+        },
+        {
+          "path": "motifs/gsop-hero-dark-2560x1440.png",
+          "url": "/brand/motifs/gsop-hero-dark-2560x1440.png",
+          "format": "png",
+          "dimensions": "2560×1440",
+          "theme": "dark",
+          "usage": "PNG fallback of the dark hero."
+        }
+      ]
+    },
+    {
+      "id": "19",
+      "group": "C",
+      "groupName": "Website & social imagery",
+      "name": "Website hero — light",
+      "description": "Light-mode hero with contour pattern, graticule and darker ribbons.",
+      "files": [
+        {
+          "path": "motifs/gsop-hero-light-2560x1440.webp",
+          "url": "/brand/motifs/gsop-hero-light-2560x1440.webp",
+          "format": "webp",
+          "dimensions": "2560×1440",
+          "theme": "light",
+          "usage": "Website hero (light). Three equal planets right, ribbons below; left ~45% intentionally empty for headline and CTA. Optimised WebP (primary)."
+        },
+        {
+          "path": "motifs/gsop-hero-light-2560x1440.png",
+          "url": "/brand/motifs/gsop-hero-light-2560x1440.png",
+          "format": "png",
+          "dimensions": "2560×1440",
+          "theme": "light",
+          "usage": "PNG fallback of the light hero."
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "group": "C",
+      "groupName": "Website & social imagery",
+      "name": "Website footer",
+      "description": "Panoramic footer band: planetary limbs and ribbons.",
+      "files": [
+        {
+          "path": "motifs/gsop-footer-dark-2560x640.webp",
+          "url": "/brand/motifs/gsop-footer-dark-2560x640.webp",
+          "format": "webp",
+          "dimensions": "2560×640",
+          "theme": "dark",
+          "usage": "Website footer band: three planetary limbs rising from the lower edge, ribbons in the sky above. Optimised WebP (primary)."
+        },
+        {
+          "path": "motifs/gsop-footer-dark-2560x640.png",
+          "url": "/brand/motifs/gsop-footer-dark-2560x640.png",
+          "format": "png",
+          "dimensions": "2560×640",
+          "theme": "dark",
+          "usage": "PNG fallback of the footer band."
+        }
+      ]
+    },
+    {
+      "id": "21",
+      "group": "C",
+      "groupName": "Website & social imagery",
+      "name": "Social image — square",
+      "description": "1200 × 1200 stacked-logo social image.",
+      "files": [
+        {
+          "path": "social/gsop-social-square-1200x1200.png",
+          "url": "/brand/social/gsop-social-square-1200x1200.png",
+          "format": "png",
+          "dimensions": "1200×1200",
+          "theme": "dark",
+          "usage": "Square social image (profile/feeds): stacked logo, one-line description, ribbons."
+        }
+      ]
+    },
+    {
+      "id": "22",
+      "group": "C",
+      "groupName": "Website & social imagery",
+      "name": "Social image — landscape",
+      "description": "1200 × 675 landscape social image.",
+      "files": [
+        {
+          "path": "social/gsop-social-landscape-1200x675.png",
+          "url": "/brand/social/gsop-social-landscape-1200x675.png",
+          "format": "png",
+          "dimensions": "1200×675",
+          "theme": "dark",
+          "usage": "Landscape social image (16:9) for link posts and video thumbnails."
+        }
+      ]
+    },
+    {
+      "id": "23",
+      "group": "C",
+      "groupName": "Website & social imagery",
+      "name": "GitHub banner",
+      "description": "1280 × 640 repository banner / social preview.",
+      "files": [
+        {
+          "path": "social/gsop-github-banner-1280x640.png",
+          "url": "/brand/social/gsop-github-banner-1280x640.png",
+          "format": "png",
+          "dimensions": "1280×640",
+          "theme": "dark",
+          "usage": "GitHub repository social preview / README banner (1280×640)."
+        }
+      ]
+    },
+    {
+      "id": "24",
+      "group": "C",
+      "groupName": "Website & social imagery",
+      "name": "Loading visual",
+      "description": "Animated SVG loader with reduced-motion handling and a static fallback.",
+      "files": [
+        {
+          "path": "motifs/gsop-loading-visual.svg",
+          "url": "/brand/motifs/gsop-loading-visual.svg",
+          "format": "svg",
+          "dimensions": "360×240 (viewBox)",
+          "theme": "dark",
+          "usage": "Animated loading visual (CSS animation in SVG, honours prefers-reduced-motion). Use via <img> or inline on dark surfaces."
+        },
+        {
+          "path": "motifs/gsop-loading-visual-static.svg",
+          "url": "/brand/motifs/gsop-loading-visual-static.svg",
+          "format": "svg",
+          "dimensions": "360×240 (viewBox)",
+          "theme": "dark",
+          "usage": "Static fallback for the loading visual (no animation) — for reduced-motion, email and print."
+        },
+        {
+          "path": "motifs/gsop-loading-visual-static.png",
+          "url": "/brand/motifs/gsop-loading-visual-static.png",
+          "format": "png",
+          "dimensions": "720×480 transparent",
+          "theme": "dark",
+          "usage": "Raster static fallback of the loading visual."
+        }
+      ]
+    },
+    {
+      "id": "25",
+      "group": "D",
+      "groupName": "Graphic system",
+      "name": "Signature ribbon",
+      "description": "Three luminous dot-grid ribbons (Moon · Earth · Mars) as SVG and transparent PNG, dark and light.",
+      "files": [
+        {
+          "path": "motifs/gsop-ribbon-signature-dark.svg",
+          "url": "/brand/motifs/gsop-ribbon-signature-dark.svg",
+          "format": "svg",
+          "dimensions": "2400×800 (viewBox)",
+          "theme": "dark",
+          "usage": "Signature three-ribbon dot-grid motif, transparent background, for dark surfaces. Place behind/below content; never in every asset."
+        },
+        {
+          "path": "motifs/gsop-ribbon-signature-dark.png",
+          "url": "/brand/motifs/gsop-ribbon-signature-dark.png",
+          "format": "png",
+          "dimensions": "2400×800 transparent",
+          "theme": "dark",
+          "usage": "Raster fallback of the signature ribbon with transparent background."
+        },
+        {
+          "path": "motifs/gsop-ribbon-signature-light.svg",
+          "url": "/brand/motifs/gsop-ribbon-signature-light.svg",
+          "format": "svg",
+          "dimensions": "2400×800 (viewBox)",
+          "theme": "light",
+          "usage": "Signature three-ribbon dot-grid motif, transparent background, for light surfaces. Place behind/below content; never in every asset."
+        },
+        {
+          "path": "motifs/gsop-ribbon-signature-light.png",
+          "url": "/brand/motifs/gsop-ribbon-signature-light.png",
+          "format": "png",
+          "dimensions": "2400×800 transparent",
+          "theme": "light",
+          "usage": "Raster fallback of the signature ribbon with transparent background."
+        }
+      ]
+    },
+    {
+      "id": "26",
+      "group": "D",
+      "groupName": "Graphic system",
+      "name": "Topographic contour pattern",
+      "description": "Seamless contour tile, dark and light, SVG and PNG.",
+      "files": [
+        {
+          "path": "patterns/gsop-pattern-topographic-dark.svg",
+          "url": "/brand/patterns/gsop-pattern-topographic-dark.svg",
+          "format": "svg",
+          "dimensions": "512×512 seamless tile",
+          "theme": "dark",
+          "usage": "Seamless topographic contour tile (repeat in x and y) — CSS: background-image + background-size 512px."
+        },
+        {
+          "path": "patterns/gsop-pattern-topographic-dark.png",
+          "url": "/brand/patterns/gsop-pattern-topographic-dark.png",
+          "format": "png",
+          "dimensions": "1024×1024 seamless tile",
+          "theme": "dark",
+          "usage": "Raster seamless tile (2× density) of the topographic contour pattern."
+        },
+        {
+          "path": "patterns/gsop-pattern-topographic-light.svg",
+          "url": "/brand/patterns/gsop-pattern-topographic-light.svg",
+          "format": "svg",
+          "dimensions": "512×512 seamless tile",
+          "theme": "light",
+          "usage": "Seamless topographic contour tile (repeat in x and y) — CSS: background-image + background-size 512px."
+        },
+        {
+          "path": "patterns/gsop-pattern-topographic-light.png",
+          "url": "/brand/patterns/gsop-pattern-topographic-light.png",
+          "format": "png",
+          "dimensions": "1024×1024 seamless tile",
+          "theme": "light",
+          "usage": "Raster seamless tile (2× density) of the topographic contour pattern."
+        }
+      ]
+    },
+    {
+      "id": "27",
+      "group": "D",
+      "groupName": "Graphic system",
+      "name": "Point-cloud texture",
+      "description": "Scanned-terrain point cloud overlay (transparent).",
+      "files": [
+        {
+          "path": "patterns/gsop-texture-point-cloud.svg",
+          "url": "/brand/patterns/gsop-texture-point-cloud.svg",
+          "format": "svg",
+          "dimensions": "1600×900 (viewBox)",
+          "theme": "dark",
+          "usage": "Point-cloud terrain texture, transparent background; designed for dark surfaces (overlay at 30–60% opacity)."
+        },
+        {
+          "path": "patterns/gsop-texture-point-cloud.png",
+          "url": "/brand/patterns/gsop-texture-point-cloud.png",
+          "format": "png",
+          "dimensions": "1600×900 transparent",
+          "theme": "dark",
+          "usage": "Raster point-cloud terrain texture with transparent background."
+        }
+      ]
+    },
+    {
+      "id": "28",
+      "group": "D",
+      "groupName": "Graphic system",
+      "name": "Geospatial graticule",
+      "description": "Orthographic globe graticule and flat coordinate grid.",
+      "files": [
+        {
+          "path": "motifs/gsop-graticule-globe-dark.svg",
+          "url": "/brand/motifs/gsop-graticule-globe-dark.svg",
+          "format": "svg",
+          "dimensions": "1200×1200 (viewBox)",
+          "theme": "dark",
+          "usage": "Orthographic globe graticule with scale ring, transparent background."
+        },
+        {
+          "path": "motifs/gsop-graticule-globe-dark.png",
+          "url": "/brand/motifs/gsop-graticule-globe-dark.png",
+          "format": "png",
+          "dimensions": "1200×1200 transparent",
+          "theme": "dark",
+          "usage": "Raster graticule globe."
+        },
+        {
+          "path": "motifs/gsop-graticule-flat-dark.svg",
+          "url": "/brand/motifs/gsop-graticule-flat-dark.svg",
+          "format": "svg",
+          "dimensions": "1920×1080 (viewBox)",
+          "theme": "dark",
+          "usage": "Equirectangular 15° graticule with coordinate labels, transparent background."
+        },
+        {
+          "path": "motifs/gsop-graticule-globe-light.svg",
+          "url": "/brand/motifs/gsop-graticule-globe-light.svg",
+          "format": "svg",
+          "dimensions": "1200×1200 (viewBox)",
+          "theme": "light",
+          "usage": "Orthographic globe graticule with scale ring, transparent background."
+        },
+        {
+          "path": "motifs/gsop-graticule-globe-light.png",
+          "url": "/brand/motifs/gsop-graticule-globe-light.png",
+          "format": "png",
+          "dimensions": "1200×1200 transparent",
+          "theme": "light",
+          "usage": "Raster graticule globe."
+        },
+        {
+          "path": "motifs/gsop-graticule-flat-light.svg",
+          "url": "/brand/motifs/gsop-graticule-flat-light.svg",
+          "format": "svg",
+          "dimensions": "1920×1080 (viewBox)",
+          "theme": "light",
+          "usage": "Equirectangular 15° graticule with coordinate labels, transparent background."
+        }
+      ]
+    },
+    {
+      "id": "29",
+      "group": "D",
+      "groupName": "Graphic system",
+      "name": "Planetary comparison illustration",
+      "description": "Moon, Earth and Mars at true relative scale with diameter and gravity.",
+      "files": [
+        {
+          "path": "motifs/gsop-planetary-comparison-dark.webp",
+          "url": "/brand/motifs/gsop-planetary-comparison-dark.webp",
+          "format": "webp",
+          "dimensions": "1920×900",
+          "theme": "dark",
+          "usage": "Moon, Earth and Mars at true relative scale with mean diameter and surface gravity (photoreal planets). Optimised WebP (primary)."
+        },
+        {
+          "path": "motifs/gsop-planetary-comparison-dark.png",
+          "url": "/brand/motifs/gsop-planetary-comparison-dark.png",
+          "format": "png",
+          "dimensions": "1920×900",
+          "theme": "dark",
+          "usage": "PNG fallback of the planetary comparison illustration."
+        },
+        {
+          "path": "motifs/gsop-planetary-comparison-light.webp",
+          "url": "/brand/motifs/gsop-planetary-comparison-light.webp",
+          "format": "webp",
+          "dimensions": "1920×900",
+          "theme": "light",
+          "usage": "Moon, Earth and Mars at true relative scale with mean diameter and surface gravity (photoreal planets). Optimised WebP (primary)."
+        },
+        {
+          "path": "motifs/gsop-planetary-comparison-light.png",
+          "url": "/brand/motifs/gsop-planetary-comparison-light.png",
+          "format": "png",
+          "dimensions": "1920×900",
+          "theme": "light",
+          "usage": "PNG fallback of the planetary comparison illustration."
+        }
+      ]
+    },
+    {
+      "id": "30",
+      "group": "D",
+      "groupName": "Graphic system",
+      "name": "Seven-bar similarity fingerprint",
+      "description": "Seven channels; solid fill = match, diagonal hatching = mismatch. Normal, compact and high-contrast variants.",
+      "files": [
+        {
+          "path": "motifs/gsop-fingerprint-normal-dark.svg",
+          "url": "/brand/motifs/gsop-fingerprint-normal-dark.svg",
+          "format": "svg",
+          "dimensions": "920×470 (viewBox)",
+          "theme": "dark",
+          "usage": "Seven-bar similarity fingerprint, normal variant. Matched = solid fill; mismatch = diagonal hatching (not colour alone)."
+        },
+        {
+          "path": "motifs/gsop-fingerprint-normal-dark.png",
+          "url": "/brand/motifs/gsop-fingerprint-normal-dark.png",
+          "format": "png",
+          "dimensions": "1840×940",
+          "theme": "dark",
+          "usage": "Raster preview of the normal fingerprint."
+        },
+        {
+          "path": "motifs/gsop-fingerprint-normal-light.svg",
+          "url": "/brand/motifs/gsop-fingerprint-normal-light.svg",
+          "format": "svg",
+          "dimensions": "920×470 (viewBox)",
+          "theme": "light",
+          "usage": "Seven-bar similarity fingerprint, normal variant. Matched = solid fill; mismatch = diagonal hatching (not colour alone)."
+        },
+        {
+          "path": "motifs/gsop-fingerprint-normal-light.png",
+          "url": "/brand/motifs/gsop-fingerprint-normal-light.png",
+          "format": "png",
+          "dimensions": "1840×940",
+          "theme": "light",
+          "usage": "Raster preview of the normal fingerprint."
+        },
+        {
+          "path": "motifs/gsop-fingerprint-compact-dark.svg",
+          "url": "/brand/motifs/gsop-fingerprint-compact-dark.svg",
+          "format": "svg",
+          "dimensions": "360×120 (viewBox)",
+          "theme": "dark",
+          "usage": "Seven-bar similarity fingerprint, compact variant. Matched = solid fill; mismatch = diagonal hatching (not colour alone)."
+        },
+        {
+          "path": "motifs/gsop-fingerprint-compact-light.svg",
+          "url": "/brand/motifs/gsop-fingerprint-compact-light.svg",
+          "format": "svg",
+          "dimensions": "360×120 (viewBox)",
+          "theme": "light",
+          "usage": "Seven-bar similarity fingerprint, compact variant. Matched = solid fill; mismatch = diagonal hatching (not colour alone)."
+        },
+        {
+          "path": "motifs/gsop-fingerprint-high-contrast-dark.svg",
+          "url": "/brand/motifs/gsop-fingerprint-high-contrast-dark.svg",
+          "format": "svg",
+          "dimensions": "920×470 (viewBox)",
+          "theme": "dark",
+          "usage": "Seven-bar similarity fingerprint, high-contrast variant. Matched = solid fill; mismatch = diagonal hatching (not colour alone)."
+        },
+        {
+          "path": "motifs/gsop-fingerprint-high-contrast-light.svg",
+          "url": "/brand/motifs/gsop-fingerprint-high-contrast-light.svg",
+          "format": "svg",
+          "dimensions": "920×470 (viewBox)",
+          "theme": "light",
+          "usage": "Seven-bar similarity fingerprint, high-contrast variant. Matched = solid fill; mismatch = diagonal hatching (not colour alone)."
+        }
+      ]
+    },
+    {
+      "id": "31",
+      "group": "D",
+      "groupName": "Graphic system",
+      "name": "Confidence ring",
+      "description": "Static SVG/PNG plus an inline, CSS-driven version and stylesheet.",
+      "files": [
+        {
+          "path": "motifs/gsop-confidence-ring-dark.svg",
+          "url": "/brand/motifs/gsop-confidence-ring-dark.svg",
+          "format": "svg",
+          "dimensions": "320×320 (viewBox)",
+          "theme": "dark",
+          "usage": "Confidence ring with centre value (static, 87%), transparent background."
+        },
+        {
+          "path": "motifs/gsop-confidence-ring-dark.png",
+          "url": "/brand/motifs/gsop-confidence-ring-dark.png",
+          "format": "png",
+          "dimensions": "640×640 transparent",
+          "theme": "dark",
+          "usage": "Raster confidence ring."
+        },
+        {
+          "path": "motifs/gsop-confidence-ring-light.svg",
+          "url": "/brand/motifs/gsop-confidence-ring-light.svg",
+          "format": "svg",
+          "dimensions": "320×320 (viewBox)",
+          "theme": "light",
+          "usage": "Confidence ring with centre value (static, 87%), transparent background."
+        },
+        {
+          "path": "motifs/gsop-confidence-ring-light.png",
+          "url": "/brand/motifs/gsop-confidence-ring-light.png",
+          "format": "png",
+          "dimensions": "640×640 transparent",
+          "theme": "light",
+          "usage": "Raster confidence ring."
+        },
+        {
+          "path": "motifs/gsop-confidence-ring-inline.svg",
+          "url": "/brand/motifs/gsop-confidence-ring-inline.svg",
+          "format": "svg",
+          "dimensions": "120×120 (viewBox)",
+          "theme": "both",
+          "usage": "CSS-driven confidence ring for INLINE use (style with gsop-confidence-ring.css; set --gsop-confidence 0–100)."
+        },
+        {
+          "path": "motifs/gsop-confidence-ring.css",
+          "url": "/brand/motifs/gsop-confidence-ring.css",
+          "format": "css",
+          "dimensions": "—",
+          "theme": "both",
+          "usage": "Companion CSS for the inline confidence ring (variable-driven arc length)."
+        }
+      ]
+    },
+    {
+      "id": "32",
+      "group": "D",
+      "groupName": "Graphic system",
+      "name": "Scientific data badge",
+      "description": "Badge marking observation-derived outputs.",
+      "files": [
+        {
+          "path": "components/gsop-badge-scientific-data-dark.svg",
+          "url": "/brand/components/gsop-badge-scientific-data-dark.svg",
+          "format": "svg",
+          "dimensions": "640×160 (viewBox)",
+          "theme": "dark",
+          "usage": "Scientific data badge; marks observation-derived outputs."
+        },
+        {
+          "path": "components/gsop-badge-scientific-data-dark.png",
+          "url": "/brand/components/gsop-badge-scientific-data-dark.png",
+          "format": "png",
+          "dimensions": "1280×320 transparent",
+          "theme": "dark",
+          "usage": "Raster scientific data badge."
+        },
+        {
+          "path": "components/gsop-badge-scientific-data-light.svg",
+          "url": "/brand/components/gsop-badge-scientific-data-light.svg",
+          "format": "svg",
+          "dimensions": "640×160 (viewBox)",
+          "theme": "light",
+          "usage": "Scientific data badge; marks observation-derived outputs."
+        },
+        {
+          "path": "components/gsop-badge-scientific-data-light.png",
+          "url": "/brand/components/gsop-badge-scientific-data-light.png",
+          "format": "png",
+          "dimensions": "1280×320 transparent",
+          "theme": "light",
+          "usage": "Raster scientific data badge."
+        }
+      ]
+    },
+    {
+      "id": "33",
+      "group": "E",
+      "groupName": "Icon system",
+      "name": "Scientific icons",
+      "description": "Terrain, thermal, minerals, water ice, dust & wind, habitability, subsurface — plus the construction sheet with the visible keyline grid.",
+      "files": [
+        {
+          "path": "icons/scientific/gsop-icon-terrain.svg",
+          "url": "/brand/icons/scientific/gsop-icon-terrain.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Scientific channel icon (24×24, 1.5px stroke, currentColor): Terrain"
+        },
+        {
+          "path": "icons/scientific/gsop-icon-thermal.svg",
+          "url": "/brand/icons/scientific/gsop-icon-thermal.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Scientific channel icon (24×24, 1.5px stroke, currentColor): Thermal"
+        },
+        {
+          "path": "icons/scientific/gsop-icon-minerals.svg",
+          "url": "/brand/icons/scientific/gsop-icon-minerals.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Scientific channel icon (24×24, 1.5px stroke, currentColor): Minerals"
+        },
+        {
+          "path": "icons/scientific/gsop-icon-water-ice.svg",
+          "url": "/brand/icons/scientific/gsop-icon-water-ice.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Scientific channel icon (24×24, 1.5px stroke, currentColor): Water ice"
+        },
+        {
+          "path": "icons/scientific/gsop-icon-dust-wind.svg",
+          "url": "/brand/icons/scientific/gsop-icon-dust-wind.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Scientific channel icon (24×24, 1.5px stroke, currentColor): Dust & wind"
+        },
+        {
+          "path": "icons/scientific/gsop-icon-habitability.svg",
+          "url": "/brand/icons/scientific/gsop-icon-habitability.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Scientific channel icon (24×24, 1.5px stroke, currentColor): Habitability"
+        },
+        {
+          "path": "icons/scientific/gsop-icon-subsurface.svg",
+          "url": "/brand/icons/scientific/gsop-icon-subsurface.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Scientific channel icon (24×24, 1.5px stroke, currentColor): Subsurface"
+        },
+        {
+          "path": "icons/scientific/gsop-icons-scientific-sheet-dark.svg",
+          "url": "/brand/icons/scientific/gsop-icons-scientific-sheet-dark.svg",
+          "format": "svg",
+          "dimensions": "1752×476",
+          "theme": "dark",
+          "usage": "Scientific icon sheet (dark)"
+        },
+        {
+          "path": "icons/scientific/gsop-icons-scientific-sheet-dark.png",
+          "url": "/brand/icons/scientific/gsop-icons-scientific-sheet-dark.png",
+          "format": "png",
+          "dimensions": "1752×476",
+          "theme": "dark",
+          "usage": "Scientific icon sheet (dark) raster"
+        },
+        {
+          "path": "icons/scientific/gsop-icons-scientific-sheet-light.svg",
+          "url": "/brand/icons/scientific/gsop-icons-scientific-sheet-light.svg",
+          "format": "svg",
+          "dimensions": "1752×476",
+          "theme": "light",
+          "usage": "Scientific icon sheet (light)"
+        },
+        {
+          "path": "icons/scientific/gsop-icons-scientific-sheet-light.png",
+          "url": "/brand/icons/scientific/gsop-icons-scientific-sheet-light.png",
+          "format": "png",
+          "dimensions": "1752×476",
+          "theme": "light",
+          "usage": "Scientific icon sheet (light) raster"
+        },
+        {
+          "path": "icons/gsop-icon-construction-sheet-dark.svg",
+          "url": "/brand/icons/gsop-icon-construction-sheet-dark.svg",
+          "format": "svg",
+          "dimensions": "1920×1020",
+          "theme": "dark",
+          "usage": "Icon construction sheet with visible keyline grid (dark) — applies to all three icon sets"
+        },
+        {
+          "path": "icons/gsop-icon-construction-sheet-dark.png",
+          "url": "/brand/icons/gsop-icon-construction-sheet-dark.png",
+          "format": "png",
+          "dimensions": "1920×1020",
+          "theme": "dark",
+          "usage": "Icon construction sheet (dark) raster"
+        },
+        {
+          "path": "icons/gsop-icon-construction-sheet-light.svg",
+          "url": "/brand/icons/gsop-icon-construction-sheet-light.svg",
+          "format": "svg",
+          "dimensions": "1920×1020",
+          "theme": "light",
+          "usage": "Icon construction sheet with visible keyline grid (light) — applies to all three icon sets"
+        },
+        {
+          "path": "icons/gsop-icon-construction-sheet-light.png",
+          "url": "/brand/icons/gsop-icon-construction-sheet-light.png",
+          "format": "png",
+          "dimensions": "1920×1020",
+          "theme": "light",
+          "usage": "Icon construction sheet (light) raster"
+        }
+      ]
+    },
+    {
+      "id": "34",
+      "group": "E",
+      "groupName": "Icon system",
+      "name": "Planetary & map icons",
+      "description": "Moon target, Mars target, Earth site marker (blue + green), hex grid cell, hatched mismatch square, confidence ring, compare.",
+      "files": [
+        {
+          "path": "icons/planetary/gsop-icon-moon-target.svg",
+          "url": "/brand/icons/planetary/gsop-icon-moon-target.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Planetary/map marker icon (24×24, 1.5px stroke, currentColor): Moon target"
+        },
+        {
+          "path": "icons/planetary/gsop-icon-mars-target.svg",
+          "url": "/brand/icons/planetary/gsop-icon-mars-target.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Planetary/map marker icon (24×24, 1.5px stroke, currentColor): Mars target"
+        },
+        {
+          "path": "icons/planetary/gsop-icon-earth-site-marker.svg",
+          "url": "/brand/icons/planetary/gsop-icon-earth-site-marker.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Planetary/map marker icon (24×24, 1.5px stroke, currentColor): Earth site marker (two-colour: blue + green)"
+        },
+        {
+          "path": "icons/planetary/gsop-icon-hex-grid-cell.svg",
+          "url": "/brand/icons/planetary/gsop-icon-hex-grid-cell.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Planetary/map marker icon (24×24, 1.5px stroke, currentColor): Hex grid cell"
+        },
+        {
+          "path": "icons/planetary/gsop-icon-mismatch-square.svg",
+          "url": "/brand/icons/planetary/gsop-icon-mismatch-square.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Planetary/map marker icon (24×24, 1.5px stroke, currentColor): Mismatch (hatched)"
+        },
+        {
+          "path": "icons/planetary/gsop-icon-confidence-ring.svg",
+          "url": "/brand/icons/planetary/gsop-icon-confidence-ring.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Planetary/map marker icon (24×24, 1.5px stroke, currentColor): Confidence ring"
+        },
+        {
+          "path": "icons/planetary/gsop-icon-compare.svg",
+          "url": "/brand/icons/planetary/gsop-icon-compare.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Planetary/map marker icon (24×24, 1.5px stroke, currentColor): Compare"
+        },
+        {
+          "path": "icons/planetary/gsop-icons-planetary-sheet-dark.svg",
+          "url": "/brand/icons/planetary/gsop-icons-planetary-sheet-dark.svg",
+          "format": "svg",
+          "dimensions": "1752×476",
+          "theme": "dark",
+          "usage": "Planetary & map icon sheet (dark)"
+        },
+        {
+          "path": "icons/planetary/gsop-icons-planetary-sheet-dark.png",
+          "url": "/brand/icons/planetary/gsop-icons-planetary-sheet-dark.png",
+          "format": "png",
+          "dimensions": "1752×476",
+          "theme": "dark",
+          "usage": "Planetary & map icon sheet (dark) raster"
+        },
+        {
+          "path": "icons/planetary/gsop-icons-planetary-sheet-light.svg",
+          "url": "/brand/icons/planetary/gsop-icons-planetary-sheet-light.svg",
+          "format": "svg",
+          "dimensions": "1752×476",
+          "theme": "light",
+          "usage": "Planetary & map icon sheet (light)"
+        },
+        {
+          "path": "icons/planetary/gsop-icons-planetary-sheet-light.png",
+          "url": "/brand/icons/planetary/gsop-icons-planetary-sheet-light.png",
+          "format": "png",
+          "dimensions": "1752×476",
+          "theme": "light",
+          "usage": "Planetary & map icon sheet (light) raster"
+        }
+      ]
+    },
+    {
+      "id": "35",
+      "group": "E",
+      "groupName": "Icon system",
+      "name": "Navigation & utility icons",
+      "description": "Fourteen UI icons, plus an SVG sprite of all 28 icons.",
+      "files": [
+        {
+          "path": "icons/navigation/gsop-icon-home.svg",
+          "url": "/brand/icons/navigation/gsop-icon-home.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Home"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-search.svg",
+          "url": "/brand/icons/navigation/gsop-icon-search.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Search"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-layers.svg",
+          "url": "/brand/icons/navigation/gsop-icon-layers.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Layers"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-map.svg",
+          "url": "/brand/icons/navigation/gsop-icon-map.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Map"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-settings.svg",
+          "url": "/brand/icons/navigation/gsop-icon-settings.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Settings"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-information.svg",
+          "url": "/brand/icons/navigation/gsop-icon-information.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Information"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-external-link.svg",
+          "url": "/brand/icons/navigation/gsop-icon-external-link.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): External link"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-download.svg",
+          "url": "/brand/icons/navigation/gsop-icon-download.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Download"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-expand.svg",
+          "url": "/brand/icons/navigation/gsop-icon-expand.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Expand"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-collapse.svg",
+          "url": "/brand/icons/navigation/gsop-icon-collapse.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Collapse"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-menu.svg",
+          "url": "/brand/icons/navigation/gsop-icon-menu.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Menu"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-close.svg",
+          "url": "/brand/icons/navigation/gsop-icon-close.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Close"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-light-mode.svg",
+          "url": "/brand/icons/navigation/gsop-icon-light-mode.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Light mode"
+        },
+        {
+          "path": "icons/navigation/gsop-icon-dark-mode.svg",
+          "url": "/brand/icons/navigation/gsop-icon-dark-mode.svg",
+          "format": "svg",
+          "dimensions": "24×24 (viewBox)",
+          "theme": "both",
+          "usage": "Navigation/utility icon (24×24, 1.5px stroke, currentColor): Dark mode"
+        },
+        {
+          "path": "icons/navigation/gsop-icons-navigation-sheet-dark.svg",
+          "url": "/brand/icons/navigation/gsop-icons-navigation-sheet-dark.svg",
+          "format": "svg",
+          "dimensions": "1752×712",
+          "theme": "dark",
+          "usage": "Navigation & utility icon sheet (dark)"
+        },
+        {
+          "path": "icons/navigation/gsop-icons-navigation-sheet-dark.png",
+          "url": "/brand/icons/navigation/gsop-icons-navigation-sheet-dark.png",
+          "format": "png",
+          "dimensions": "1752×712",
+          "theme": "dark",
+          "usage": "Navigation & utility icon sheet (dark) raster"
+        },
+        {
+          "path": "icons/navigation/gsop-icons-navigation-sheet-light.svg",
+          "url": "/brand/icons/navigation/gsop-icons-navigation-sheet-light.svg",
+          "format": "svg",
+          "dimensions": "1752×712",
+          "theme": "light",
+          "usage": "Navigation & utility icon sheet (light)"
+        },
+        {
+          "path": "icons/navigation/gsop-icons-navigation-sheet-light.png",
+          "url": "/brand/icons/navigation/gsop-icons-navigation-sheet-light.png",
+          "format": "png",
+          "dimensions": "1752×712",
+          "theme": "light",
+          "usage": "Navigation & utility icon sheet (light) raster"
+        },
+        {
+          "path": "icons/gsop-icons-sprite.svg",
+          "url": "/brand/icons/gsop-icons-sprite.svg",
+          "format": "svg",
+          "dimensions": "28 symbols, 24×24",
+          "theme": "both",
+          "usage": "SVG sprite of all 28 icons — <svg><use href=\"/brand/icons/gsop-icons-sprite.svg#gsop-icon-search\"/></svg>"
+        }
+      ]
+    },
+    {
+      "id": "36",
+      "group": "F",
+      "groupName": "Components & guidelines",
+      "name": "Planetary information header",
+      "description": "Header component for the Moon, Earth and Mars.",
+      "files": [
+        {
+          "path": "components/gsop-planet-header-moon-dark.svg",
+          "url": "/brand/components/gsop-planet-header-moon-dark.svg",
+          "format": "svg",
+          "dimensions": "1200×220 (viewBox)",
+          "theme": "dark",
+          "usage": "Planetary information header — moon (dark); fields: role, name, diameter, gravity, day length."
+        },
+        {
+          "path": "components/gsop-planet-header-moon-light.svg",
+          "url": "/brand/components/gsop-planet-header-moon-light.svg",
+          "format": "svg",
+          "dimensions": "1200×220 (viewBox)",
+          "theme": "light",
+          "usage": "Planetary information header — moon (light); fields: role, name, diameter, gravity, day length."
+        },
+        {
+          "path": "components/gsop-planet-header-earth-dark.svg",
+          "url": "/brand/components/gsop-planet-header-earth-dark.svg",
+          "format": "svg",
+          "dimensions": "1200×220 (viewBox)",
+          "theme": "dark",
+          "usage": "Planetary information header — earth (dark); fields: role, name, diameter, gravity, day length."
+        },
+        {
+          "path": "components/gsop-planet-header-earth-dark.png",
+          "url": "/brand/components/gsop-planet-header-earth-dark.png",
+          "format": "png",
+          "dimensions": "2400×440 transparent",
+          "theme": "dark",
+          "usage": "Planetary information header — earth (dark); fields: role, name, diameter, gravity, day length. (raster)"
+        },
+        {
+          "path": "components/gsop-planet-header-earth-light.svg",
+          "url": "/brand/components/gsop-planet-header-earth-light.svg",
+          "format": "svg",
+          "dimensions": "1200×220 (viewBox)",
+          "theme": "light",
+          "usage": "Planetary information header — earth (light); fields: role, name, diameter, gravity, day length."
+        },
+        {
+          "path": "components/gsop-planet-header-earth-light.png",
+          "url": "/brand/components/gsop-planet-header-earth-light.png",
+          "format": "png",
+          "dimensions": "2400×440 transparent",
+          "theme": "light",
+          "usage": "Planetary information header — earth (light); fields: role, name, diameter, gravity, day length. (raster)"
+        },
+        {
+          "path": "components/gsop-planet-header-mars-dark.svg",
+          "url": "/brand/components/gsop-planet-header-mars-dark.svg",
+          "format": "svg",
+          "dimensions": "1200×220 (viewBox)",
+          "theme": "dark",
+          "usage": "Planetary information header — mars (dark); fields: role, name, diameter, gravity, day length."
+        },
+        {
+          "path": "components/gsop-planet-header-mars-light.svg",
+          "url": "/brand/components/gsop-planet-header-mars-light.svg",
+          "format": "svg",
+          "dimensions": "1200×220 (viewBox)",
+          "theme": "light",
+          "usage": "Planetary information header — mars (light); fields: role, name, diameter, gravity, day length."
+        }
+      ]
+    },
+    {
+      "id": "37",
+      "group": "F",
+      "groupName": "Components & guidelines",
+      "name": "Dataset attribution component",
+      "description": "Dataset / provider / version / licence panel.",
+      "files": [
+        {
+          "path": "components/gsop-dataset-attribution-dark.svg",
+          "url": "/brand/components/gsop-dataset-attribution-dark.svg",
+          "format": "svg",
+          "dimensions": "1000×340 (viewBox)",
+          "theme": "dark",
+          "usage": "Dataset attribution component template (dark): dataset, provider, version/date, licence."
+        },
+        {
+          "path": "components/gsop-dataset-attribution-dark.png",
+          "url": "/brand/components/gsop-dataset-attribution-dark.png",
+          "format": "png",
+          "dimensions": "2000×680 transparent",
+          "theme": "dark",
+          "usage": "Dataset attribution component template (dark): dataset, provider, version/date, licence. (raster)"
+        },
+        {
+          "path": "components/gsop-dataset-attribution-light.svg",
+          "url": "/brand/components/gsop-dataset-attribution-light.svg",
+          "format": "svg",
+          "dimensions": "1000×340 (viewBox)",
+          "theme": "light",
+          "usage": "Dataset attribution component template (light): dataset, provider, version/date, licence."
+        },
+        {
+          "path": "components/gsop-dataset-attribution-light.png",
+          "url": "/brand/components/gsop-dataset-attribution-light.png",
+          "format": "png",
+          "dimensions": "2000×680 transparent",
+          "theme": "light",
+          "usage": "Dataset attribution component template (light): dataset, provider, version/date, licence. (raster)"
+        }
+      ]
+    },
+    {
+      "id": "38",
+      "group": "F",
+      "groupName": "Components & guidelines",
+      "name": "Independent-project disclaimer lockup",
+      "description": "GSOP IS AN INDEPENDENT PROJECT AND IS NOT AFFILIATED WITH OR ENDORSED BY NASA — no NASA insignia.",
+      "files": [
+        {
+          "path": "components/gsop-disclaimer-lockup-dark.svg",
+          "url": "/brand/components/gsop-disclaimer-lockup-dark.svg",
+          "format": "svg",
+          "dimensions": "1200×120 (viewBox)",
+          "theme": "dark",
+          "usage": "Independent-project disclaimer lockup, single line (dark). No NASA insignia."
+        },
+        {
+          "path": "components/gsop-disclaimer-lockup-dark.png",
+          "url": "/brand/components/gsop-disclaimer-lockup-dark.png",
+          "format": "png",
+          "dimensions": "2400×240 transparent",
+          "theme": "dark",
+          "usage": "Independent-project disclaimer lockup, single line (dark). No NASA insignia. (raster)"
+        },
+        {
+          "path": "components/gsop-disclaimer-lockup-stacked-dark.svg",
+          "url": "/brand/components/gsop-disclaimer-lockup-stacked-dark.svg",
+          "format": "svg",
+          "dimensions": "640×190 (viewBox)",
+          "theme": "dark",
+          "usage": "Independent-project disclaimer lockup, two-line stacked (dark) for narrow footers. No NASA insignia."
+        },
+        {
+          "path": "components/gsop-disclaimer-lockup-stacked-dark.png",
+          "url": "/brand/components/gsop-disclaimer-lockup-stacked-dark.png",
+          "format": "png",
+          "dimensions": "1280×380 transparent",
+          "theme": "dark",
+          "usage": "Independent-project disclaimer lockup, two-line stacked (dark) for narrow footers. No NASA insignia. (raster)"
+        },
+        {
+          "path": "components/gsop-disclaimer-lockup-light.svg",
+          "url": "/brand/components/gsop-disclaimer-lockup-light.svg",
+          "format": "svg",
+          "dimensions": "1200×120 (viewBox)",
+          "theme": "light",
+          "usage": "Independent-project disclaimer lockup, single line (light). No NASA insignia."
+        },
+        {
+          "path": "components/gsop-disclaimer-lockup-light.png",
+          "url": "/brand/components/gsop-disclaimer-lockup-light.png",
+          "format": "png",
+          "dimensions": "2400×240 transparent",
+          "theme": "light",
+          "usage": "Independent-project disclaimer lockup, single line (light). No NASA insignia. (raster)"
+        },
+        {
+          "path": "components/gsop-disclaimer-lockup-stacked-light.svg",
+          "url": "/brand/components/gsop-disclaimer-lockup-stacked-light.svg",
+          "format": "svg",
+          "dimensions": "640×190 (viewBox)",
+          "theme": "light",
+          "usage": "Independent-project disclaimer lockup, two-line stacked (light) for narrow footers. No NASA insignia."
+        },
+        {
+          "path": "components/gsop-disclaimer-lockup-stacked-light.png",
+          "url": "/brand/components/gsop-disclaimer-lockup-stacked-light.png",
+          "format": "png",
+          "dimensions": "1280×380 transparent",
+          "theme": "light",
+          "usage": "Independent-project disclaimer lockup, two-line stacked (light) for narrow footers. No NASA insignia. (raster)"
+        }
+      ]
+    },
+    {
+      "id": "39",
+      "group": "F",
+      "groupName": "Components & guidelines",
+      "name": "Section divider",
+      "description": "Ruler divider with a micro planetary cluster.",
+      "files": [
+        {
+          "path": "components/gsop-section-divider-dark.svg",
+          "url": "/brand/components/gsop-section-divider-dark.svg",
+          "format": "svg",
+          "dimensions": "1920×96 (viewBox)",
+          "theme": "dark",
+          "usage": "Section divider (dark): ruler line, micro planetary cluster, dot-matrix fragments."
+        },
+        {
+          "path": "components/gsop-section-divider-dark.png",
+          "url": "/brand/components/gsop-section-divider-dark.png",
+          "format": "png",
+          "dimensions": "1920×96 transparent",
+          "theme": "dark",
+          "usage": "Section divider (dark): ruler line, micro planetary cluster, dot-matrix fragments. (raster)"
+        },
+        {
+          "path": "components/gsop-section-divider-light.svg",
+          "url": "/brand/components/gsop-section-divider-light.svg",
+          "format": "svg",
+          "dimensions": "1920×96 (viewBox)",
+          "theme": "light",
+          "usage": "Section divider (light): ruler line, micro planetary cluster, dot-matrix fragments."
+        },
+        {
+          "path": "components/gsop-section-divider-light.png",
+          "url": "/brand/components/gsop-section-divider-light.png",
+          "format": "png",
+          "dimensions": "1920×96 transparent",
+          "theme": "light",
+          "usage": "Section divider (light): ruler line, micro planetary cluster, dot-matrix fragments. (raster)"
+        }
+      ]
+    },
+    {
+      "id": "40",
+      "group": "F",
+      "groupName": "Components & guidelines",
+      "name": "Brand guidelines overview sheet",
+      "description": "One-page guidelines: logos, palette, typography, motif, icons, favicons, OG, spacing, incorrect usage (HTML, PNG, PDF).",
+      "files": [
+        {
+          "path": "guidelines/gsop-brand-guidelines-overview.html",
+          "url": "/brand/guidelines/gsop-brand-guidelines-overview.html",
+          "format": "html",
+          "dimensions": "1600 px wide, scrolling",
+          "theme": "both",
+          "usage": "Brand guidelines overview sheet (live HTML; uses relative paths into /brand and brand-tokens.css)."
+        },
+        {
+          "path": "guidelines/gsop-brand-guidelines-overview.png",
+          "url": "/brand/guidelines/gsop-brand-guidelines-overview.png",
+          "format": "png",
+          "dimensions": "2400×10646",
+          "theme": "dark",
+          "usage": "Brand guidelines overview sheet — full-page raster."
+        },
+        {
+          "path": "guidelines/gsop-brand-guidelines-overview.pdf",
+          "url": "/brand/guidelines/gsop-brand-guidelines-overview.pdf",
+          "format": "pdf",
+          "dimensions": "1600×7097 px single page",
+          "theme": "dark",
+          "usage": "Brand guidelines overview sheet — single-page PDF."
+        }
+      ]
+    }
+  ],
+  "colors": {
+    "planetary": {
+      "lunar-grey": "#A9ADB1",
+      "earth-blue": "#287DB5",
+      "earth-green": "#24865F",
+      "martian-red": "#B84B3A"
+    },
+    "neutrals": {
+      "void-black": "#06080A",
+      "deep-graphite": "#0D1114",
+      "basalt": "#1B2024",
+      "technical-grey": "#737C83",
+      "hairline-grey": "#30383D",
+      "off-white": "#ECEDE8"
+    },
+    "themes": {
+      "dark": {
+        "bg": "#06080A",
+        "surface": "#0D1114",
+        "text": "#ECEDE8",
+        "secondary": "#A9ADB1",
+        "border": "#30383D"
+      },
+      "light": {
+        "bg": "#F4F5F3",
+        "surface": "#FFFFFF",
+        "text": "#171C20",
+        "secondary": "#626B72",
+        "border": "#D8DDE0"
+      }
+    }
+  },
+  "typography": {
+    "Space Grotesk": {
+      "role": "logo, headings",
+      "weights": [
+        500,
+        600,
+        700
+      ],
+      "selfHosted": true
+    },
+    "Inter": {
+      "role": "body",
+      "weights": [
+        400,
+        500,
+        600
+      ],
+      "selfHosted": true
+    },
+    "JetBrains Mono": {
+      "role": "technical labels, descriptor",
+      "weights": [
+        400,
+        500
+      ],
+      "selfHosted": true
+    },
+    "fontLicence": "SIL Open Font License 1.1 (see fonts/ofl-*.txt)"
+  },
+  "groups": [
+    {
+      "id": "A",
+      "name": "Logo system",
+      "families": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10"
+      ]
+    },
+    {
+      "id": "B",
+      "name": "Favicons & app icons",
+      "families": [
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16"
+      ]
+    },
+    {
+      "id": "C",
+      "name": "Website & social imagery",
+      "families": [
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24"
+      ]
+    },
+    {
+      "id": "D",
+      "name": "Graphic system",
+      "families": [
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32"
+      ]
+    },
+    {
+      "id": "E",
+      "name": "Icon system",
+      "families": [
+        "33",
+        "34",
+        "35"
+      ]
+    },
+    {
+      "id": "F",
+      "name": "Components & guidelines",
+      "families": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40"
+      ]
+    }
+  ],
+  "supporting": [
+    {
+      "path": "fonts/space-grotesk-latin-500-normal.woff2",
+      "url": "/brand/fonts/space-grotesk-latin-500-normal.woff2",
+      "format": "woff2",
+      "dimensions": "Space Grotesk 500, Latin subset",
+      "theme": "both",
+      "usage": "Self-hosted Space Grotesk 500 (SIL OFL 1.1)"
+    },
+    {
+      "path": "fonts/space-grotesk-latin-600-normal.woff2",
+      "url": "/brand/fonts/space-grotesk-latin-600-normal.woff2",
+      "format": "woff2",
+      "dimensions": "Space Grotesk 600, Latin subset",
+      "theme": "both",
+      "usage": "Self-hosted Space Grotesk 600 (SIL OFL 1.1)"
+    },
+    {
+      "path": "fonts/space-grotesk-latin-700-normal.woff2",
+      "url": "/brand/fonts/space-grotesk-latin-700-normal.woff2",
+      "format": "woff2",
+      "dimensions": "Space Grotesk 700, Latin subset",
+      "theme": "both",
+      "usage": "Self-hosted Space Grotesk 700 (SIL OFL 1.1)"
+    },
+    {
+      "path": "fonts/ofl-space-grotesk.txt",
+      "url": "/brand/fonts/ofl-space-grotesk.txt",
+      "format": "txt",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "Space Grotesk licence (SIL Open Font License 1.1)"
+    },
+    {
+      "path": "fonts/inter-latin-400-normal.woff2",
+      "url": "/brand/fonts/inter-latin-400-normal.woff2",
+      "format": "woff2",
+      "dimensions": "Inter 400, Latin subset",
+      "theme": "both",
+      "usage": "Self-hosted Inter 400 (SIL OFL 1.1)"
+    },
+    {
+      "path": "fonts/inter-latin-500-normal.woff2",
+      "url": "/brand/fonts/inter-latin-500-normal.woff2",
+      "format": "woff2",
+      "dimensions": "Inter 500, Latin subset",
+      "theme": "both",
+      "usage": "Self-hosted Inter 500 (SIL OFL 1.1)"
+    },
+    {
+      "path": "fonts/inter-latin-600-normal.woff2",
+      "url": "/brand/fonts/inter-latin-600-normal.woff2",
+      "format": "woff2",
+      "dimensions": "Inter 600, Latin subset",
+      "theme": "both",
+      "usage": "Self-hosted Inter 600 (SIL OFL 1.1)"
+    },
+    {
+      "path": "fonts/ofl-inter.txt",
+      "url": "/brand/fonts/ofl-inter.txt",
+      "format": "txt",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "Inter licence (SIL Open Font License 1.1)"
+    },
+    {
+      "path": "fonts/jetbrains-mono-latin-400-normal.woff2",
+      "url": "/brand/fonts/jetbrains-mono-latin-400-normal.woff2",
+      "format": "woff2",
+      "dimensions": "JetBrains Mono 400, Latin subset",
+      "theme": "both",
+      "usage": "Self-hosted JetBrains Mono 400 (SIL OFL 1.1)"
+    },
+    {
+      "path": "fonts/jetbrains-mono-latin-500-normal.woff2",
+      "url": "/brand/fonts/jetbrains-mono-latin-500-normal.woff2",
+      "format": "woff2",
+      "dimensions": "JetBrains Mono 500, Latin subset",
+      "theme": "both",
+      "usage": "Self-hosted JetBrains Mono 500 (SIL OFL 1.1)"
+    },
+    {
+      "path": "fonts/ofl-jetbrains-mono.txt",
+      "url": "/brand/fonts/ofl-jetbrains-mono.txt",
+      "format": "txt",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "JetBrains Mono licence (SIL Open Font License 1.1)"
+    },
+    {
+      "path": "fonts/readme.txt",
+      "url": "/brand/fonts/readme.txt",
+      "format": "txt",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "Notes on the self-hosted font files and licences"
+    },
+    {
+      "path": "brand-tokens.css",
+      "url": "/brand/brand-tokens.css",
+      "format": "css",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "Design tokens: planetary + neutral colours, light/dark theme roles (data-theme), type families/scale, spacing, borders, radii, icon sizes, logo sizing"
+    },
+    {
+      "path": "README.md",
+      "url": "/brand/README.md",
+      "format": "md",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "Brand summary, usage, tokens, integration snippets, asset index"
+    },
+    {
+      "path": "brand-preview.html",
+      "url": "/brand/brand-preview.html",
+      "format": "html",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "Master preview of all 40 asset families (theme toggle, filter)"
+    },
+    {
+      "path": "brand-assets.json",
+      "url": "/brand/brand-assets.json",
+      "format": "json",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "Machine-readable manifest of every asset"
+    },
+    {
+      "path": "examples/head-metadata.html",
+      "url": "/brand/examples/head-metadata.html",
+      "format": "html",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "Implementation example: favicons, theme colour, manifest, OG and Twitter card metadata"
+    },
+    {
+      "path": "examples/nextjs-layout.tsx",
+      "url": "/brand/examples/nextjs-layout.tsx",
+      "format": "tsx",
+      "dimensions": "—",
+      "theme": "both",
+      "usage": "Small Next.js App Router example using the brand metadata"
+    }
+  ]
+}

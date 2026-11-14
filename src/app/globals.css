@@ -1,60 +1,206 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-/* Placeholder tokens on the UCIP structure. A6 (docs/DECISIONS_SITE.md) locks
-   the real palette; change values here, not names. */
+/* Brand tokens from the GSOP brand pack (public/brand). Names are kept as
+   shipped (--gsop-*), so the pack and this file stay in sync. Dark is the
+   default theme; next-themes sets data-theme="dark" | "light" on <html>. Fonts
+   are self-hosted in public/brand/fonts. */
+
+@font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 500; font-display: swap; src: url('/brand/fonts/space-grotesk-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 600; font-display: swap; src: url('/brand/fonts/space-grotesk-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; font-display: swap; src: url('/brand/fonts/space-grotesk-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('/brand/fonts/inter-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url('/brand/fonts/inter-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('/brand/fonts/inter-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url('/brand/fonts/jetbrains-mono-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url('/brand/fonts/jetbrains-mono-latin-500-normal.woff2') format('woff2'); }
+
 :root {
-  --background: oklch(98.3% 0.006 250);
-  --foreground: oklch(23% 0.014 250);
-  --surface: oklch(99.3% 0.004 250);
-  --surface-hover: oklch(96% 0.008 250);
-  --border: oklch(89% 0.009 250);
-  --muted: oklch(94.5% 0.007 250);
-  --muted-foreground: oklch(45% 0.012 250);
-  --primary: oklch(55% 0.13 250);
-  --primary-foreground: oklch(99% 0.004 250);
-  --ring: oklch(55% 0.13 250);
-  /* Controls on the Honest Map render in this colour (issue C2). */
-  --control: oklch(58% 0.22 27);
-  --radius: 0.625rem;
+  /* Planetary colours: identical in both themes, never inverted */
+  --gsop-lunar-grey: #A9ADB1;
+  --gsop-earth-blue: #287DB5;
+  --gsop-earth-green: #24865F;
+  --gsop-martian-red: #B84B3A;
+
+  /* Neutrals */
+  --gsop-void-black: #06080A;
+  --gsop-deep-graphite: #0D1114;
+  --gsop-basalt: #1B2024;
+  --gsop-technical-grey: #737C83;
+  --gsop-hairline-grey: #30383D;
+  --gsop-off-white: #ECEDE8;
+
+  /* Light-mode neutrals (mapped to roles below) */
+  --gsop-light-bg: #F4F5F3;
+  --gsop-light-surface: #FFFFFF;
+  --gsop-light-text: #171C20;
+  --gsop-light-text-secondary: #626B72;
+  --gsop-light-border: #D8DDE0;
+
+  /* Type families */
+  --gsop-font-display: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --gsop-font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --gsop-font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Type scale */
+  --gsop-text-2xs: 0.6875rem;
+  --gsop-text-xs: 0.75rem;
+  --gsop-text-sm: 0.875rem;
+  --gsop-text-base: 1rem;
+  --gsop-text-lg: 1.125rem;
+  --gsop-text-xl: 1.5rem;
+  --gsop-text-2xl: 2rem;
+  --gsop-text-3xl: 3rem;
+  --gsop-text-4xl: 4rem;
+  --gsop-leading-tight: 1.1;
+  --gsop-leading-snug: 1.3;
+  --gsop-leading-body: 1.55;
+  --gsop-tracking-display: -0.01em;
+  --gsop-tracking-wordmark: 0.09em;
+  --gsop-tracking-mono: 0.08em;
+
+  /* Spacing (4px base) */
+  --gsop-space-1: 4px;
+  --gsop-space-2: 8px;
+  --gsop-space-3: 12px;
+  --gsop-space-4: 16px;
+  --gsop-space-5: 24px;
+  --gsop-space-6: 32px;
+  --gsop-space-7: 48px;
+  --gsop-space-8: 64px;
+  --gsop-space-9: 96px;
+  --gsop-space-10: 128px;
+
+  /* Borders and radii (machined look: square by default) */
+  --gsop-border-width: 1px;
+  --gsop-border-width-strong: 1.5px;
+  --gsop-radius-sm: 2px;
+  --gsop-radius-md: 4px;
+  --gsop-radius-pill: 999px;
+  --gsop-chamfer: 14px;
+
+  /* Icons */
+  --gsop-icon-xs: 16px;
+  --gsop-icon-sm: 20px;
+  --gsop-icon-md: 24px;
+  --gsop-icon-lg: 32px;
+  --gsop-icon-xl: 48px;
+
+  /* Motion */
+  --gsop-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --gsop-duration-fast: 120ms;
+  --gsop-duration: 240ms;
 }
 
-.dark {
-  --background: oklch(16% 0.014 250);
-  --foreground: oklch(93% 0.007 250);
-  --surface: oklch(20% 0.014 250);
-  --surface-hover: oklch(25% 0.014 250);
-  --border: oklch(31% 0.014 250);
-  --muted: oklch(23% 0.012 250);
-  --muted-foreground: oklch(64% 0.011 250);
-  --primary: oklch(72% 0.12 250);
-  --primary-foreground: oklch(16% 0.014 250);
-  --ring: oklch(72% 0.12 250);
-  --control: oklch(70% 0.19 27);
+/* Dark theme (default) */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --gsop-bg: var(--gsop-void-black);
+  --gsop-surface: var(--gsop-deep-graphite);
+  --gsop-surface-raised: var(--gsop-basalt);
+  --gsop-text: var(--gsop-off-white);
+  --gsop-text-secondary: var(--gsop-lunar-grey);
+  --gsop-text-muted: var(--gsop-technical-grey);
+  --gsop-border: var(--gsop-hairline-grey);
+  --gsop-focus-ring: var(--gsop-earth-blue);
+  --gsop-pattern-topographic: url('/brand/patterns/gsop-pattern-topographic-dark.svg');
+  --gsop-ribbon: url('/brand/motifs/gsop-ribbon-signature-dark.svg');
 }
 
+/* Light theme */
+[data-theme="light"] {
+  color-scheme: light;
+  --gsop-bg: var(--gsop-light-bg);
+  --gsop-surface: var(--gsop-light-surface);
+  --gsop-surface-raised: var(--gsop-light-surface);
+  --gsop-text: var(--gsop-light-text);
+  --gsop-text-secondary: var(--gsop-light-text-secondary);
+  --gsop-text-muted: var(--gsop-light-text-secondary);
+  --gsop-border: var(--gsop-light-border);
+  --gsop-focus-ring: var(--gsop-earth-blue);
+  --gsop-pattern-topographic: url('/brand/patterns/gsop-pattern-topographic-light.svg');
+  --gsop-ribbon: url('/brand/motifs/gsop-ribbon-signature-light.svg');
+}
+
+/* Tailwind utilities (bg-background, text-foreground, border-border, font-display ...) */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-surface: var(--surface);
-  --color-surface-hover: var(--surface-hover);
-  --color-border: var(--border);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-ring: var(--ring);
-  --color-control: var(--control);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
-  --radius-lg: var(--radius);
+  --color-background: var(--gsop-bg);
+  --color-foreground: var(--gsop-text);
+  --color-surface: var(--gsop-surface);
+  --color-surface-raised: var(--gsop-surface-raised);
+  --color-border: var(--gsop-border);
+  --color-muted-foreground: var(--gsop-text-muted);
+  --color-secondary-foreground: var(--gsop-text-secondary);
+  --color-ring: var(--gsop-focus-ring);
+  --color-primary: var(--gsop-earth-blue);
+  --color-positive: var(--gsop-earth-green);
+  --color-moon: var(--gsop-lunar-grey);
+  --color-earth: var(--gsop-earth-blue);
+  --color-mars: var(--gsop-martian-red);
+  /* Honest Map controls render in red (issue C2) */
+  --color-control: var(--gsop-martian-red);
+  --font-sans: var(--gsop-font-body);
+  --font-display: var(--gsop-font-display);
+  --font-mono: var(--gsop-font-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  background: var(--gsop-bg);
+  color: var(--gsop-text);
+  font-family: var(--gsop-font-body);
+  font-size: var(--gsop-text-base);
+  line-height: var(--gsop-leading-body);
+}
+
+h1, h2, h3, h4, .gsop-display {
+  font-family: var(--gsop-font-display);
+  font-weight: 600;
+  line-height: var(--gsop-leading-tight);
+  letter-spacing: var(--gsop-tracking-display);
+}
+
+.gsop-mono, code, kbd, samp { font-family: var(--gsop-font-mono); }
+
+/* Technical labels: uppercase, tracked, mono */
+.gsop-label {
+  font-family: var(--gsop-font-mono);
+  font-weight: 500;
+  font-size: var(--gsop-text-xs);
+  letter-spacing: var(--gsop-tracking-mono);
+  text-transform: uppercase;
+  color: var(--gsop-text-muted);
+}
+
+:focus-visible { outline: 2px solid var(--gsop-focus-ring); outline-offset: 2px; }
+
+/* Theme-aware logo swap: render both <img class="gsop-logo gsop-logo--dark|light"> */
+.gsop-logo--light { display: none; }
+[data-theme="light"] .gsop-logo--dark { display: none; }
+[data-theme="light"] .gsop-logo--light { display: inline-block; }
+
+/* Icons inherit text colour, fixed 1.5px stroke */
+.gsop-icon {
+  width: var(--gsop-icon-md);
+  height: var(--gsop-icon-md);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 2;
+  stroke-linecap: butt;
+  vertical-align: middle;
+}
+
+/* Machined panel with chamfered corners */
+.gsop-panel {
+  background: var(--gsop-surface);
+  border: var(--gsop-border-width-strong) solid var(--gsop-border);
+  clip-path: polygon(var(--gsop-chamfer) 0, calc(100% - var(--gsop-chamfer)) 0, 100% var(--gsop-chamfer), 100% calc(100% - var(--gsop-chamfer)), calc(100% - var(--gsop-chamfer)) 100%, var(--gsop-chamfer) 100%, 0 calc(100% - var(--gsop-chamfer)), 0 var(--gsop-chamfer));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

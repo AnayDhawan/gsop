@@ -1,0 +1,5 @@
+/* GSOP confidence ring — CSS-friendly. Inline the SVG, then set the value:  <svg class="gsop-confidence-ring" style="--gsop-confidence: 87"> */
+.gsop-confidence-ring { --gsop-confidence: 87; width: var(--gsop-ring-size, 120px); height: var(--gsop-ring-size, 120px); color: var(--gsop-earth-blue, #287DB5); }
+.gsop-confidence-ring__track { stroke: var(--gsop-border, #30383D); }
+.gsop-confidence-ring__arc { stroke: currentColor; stroke-dasharray: var(--gsop-confidence) 100; stroke-linecap: butt; transition: stroke-dasharray .6s cubic-bezier(.2,.7,.2,1); }
+@media (prefers-reduced-motion: reduce) { .gsop-confidence-ring__arc { transition: none; } }
