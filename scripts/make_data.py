@@ -84,6 +84,15 @@ def check_sizes(ctx):
     ctx.log(f"sizes ok, public/data total {total} bytes")
 
 
+def write_claims(ctx):
+    """B11 builder: claims.csv from the data files already written under ROOT."""
+    from gsop_data import claims
+
+    rows = claims.build_claims(ctx.root)
+    fmt.write_text(ctx.path("public/data/claims.csv"), claims.claims_text(rows))
+    ctx.log(f"claims: {len(rows)} rows")
+
+
 def steps():
     from gsop_data import ledger, lookup, overlays, regions, sites, tiles
 
@@ -107,6 +116,7 @@ def main(argv=None):
         ctx.log(f"v1 hash check: {n} files ok")
     for name, fn in steps():
         fn(ctx)
+    write_claims(ctx)
     check_sizes(ctx)
     write_manifest(ctx)
     return 0
