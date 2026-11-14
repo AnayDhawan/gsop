@@ -117,6 +117,20 @@ Source: `docs/PROVENANCE.md`, `config/*.yaml`, `docs/DECISIONS.md`, `site_data/R
 - B8 percentile: v1 stored rank percentile among gated tiles, not among all land tiles. See the gate report.
 - The word "robust" is a v1 field name (`robust` flag). It is also on the CLAUDE.md list of words to avoid in prose. Use it only as a code identifier; prose says "flagged tiles".
 
+## Map overlays (B6)
+
+Built by `scripts/gsop_data/overlays.py`. One PNG per target, base profile, from `base_scores.parquet`.
+
+- Targets: `connecting_ridge_c1`, `shackleton_rim` (Moon), `jezero` (Mars, low confidence).
+- Projection: equirectangular, EPSG:4326, west -180 to east 180, south -55.4 to north 82.9 (union of the three targets), 0.1 degree pixels, 3600 by 1383.
+- Resampling: nearest neighbour. Each output pixel centre is converted to EPSG:6933 and takes the score of the tile it falls in. Nothing is interpolated or averaged, so no value is created that v1 did not store. Pixels are finer than a tile at high latitude and coarser near the equator.
+- Colour scale: 5 stops, linear, viridis-like (#440154, #3b528b, #21908c, #5dc863, #fde725) mapped onto the fixed range 0 to 100 (the documented score range). Palette index 1 to 255; index 0 is transparent.
+- No data: transparent. This covers water, tiles that failed a gate, and tiles with missing data. It does not mean a low score.
+- Scale is shared across targets, so colours compare directly, but observed scores sit well below the top of the range (Moon base maximum about 70).
+- Sidecar JSON per overlay holds bounds, size, observed min, median and maximum from `summary.json`, and the limits list.
+- Artifacts that come from v1 data, not from this build: a thin line at 60 N (terrain source changes from SRTM to GLO30) and a block edge over Siberia (same cause, see E32 item 10). Large transparent areas (Amazon, Congo, much of Europe and India) are tiles the vegetation gate removed.
+- PNG writing uses fixed compression and no metadata chunks, so output is byte-identical between runs.
+
 ## Appendix: file inventory
 
 Every file in the zip (path, bytes, sha256). Matches `gsop_v1/FILES.sha256`.

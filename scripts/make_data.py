@@ -51,9 +51,9 @@ def write_manifest(ctx):
 
 
 def steps():
-    from gsop_data import sites
+    from gsop_data import overlays, sites
 
-    return [("sites", sites.build)]
+    return [("sites", sites.build), ("overlays", overlays.build)]
 
 
 def main(argv=None):
