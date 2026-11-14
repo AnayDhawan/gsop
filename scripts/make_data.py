@@ -85,9 +85,9 @@ def check_sizes(ctx):
 
 
 def steps():
-    from gsop_data import ledger, lookup, overlays, sites, tiles
+    from gsop_data import ledger, lookup, overlays, regions, sites, tiles
 
-    return [("sites", sites.build), ("overlays", overlays.build), ("tiles", tiles.build), ("lookup", lookup.build), ("ledger", ledger.build)]
+    return [("sites", sites.build), ("overlays", overlays.build), ("tiles", tiles.build), ("lookup", lookup.build), ("ledger", ledger.build), ("regions", regions.build)]
 
 
 def main(argv=None):
