@@ -9,7 +9,7 @@ const GROUPS: { title: string; items: string[] }[] = [
       "Elevation: SRTM (CGIAR-CSI version) and the Copernicus DEM GLO30 beyond its coverage (attribution to DLR and Airbus).",
       "Land cover and vegetation gates: MODIS MCD12Q1 and MOD13A2 (NASA LP DAAC), read through Google Earth Engine.",
       "Air density: the NASA Glenn atmosphere model.",
-      "India outline for labels: Natural Earth, public domain. It is not an official map.",
+      "India outline for labels, and region names (deserts, plateaus, ranges and populated places): Natural Earth, public domain. The outline is not an official map.",
     ],
   },
   {

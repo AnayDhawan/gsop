@@ -48,7 +48,7 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - `v1_used` is `true`, `false` or `null` (unknown). `true`: within v1's match radius of a v1 site run for that body. `null`: near a v1 site but not matching, or v1 ran that site for the other body only. `false`: beyond v1's exclusion distance of every v1 site.
 - Known rows are our reference list. Candidate rows are LLM suggestions: not in our reference list, not used for distances or the region drop rule.
 - The CSV has no source URLs, so `sources_ok` is `false` and `source_note` reads "no sources in CSV". The two-source rule from the task was relaxed by instruction.
-- All text is LLM-written and unreviewed. Numbers inside names and text get claims rows that cite the CSV.
+- All descriptive text is labelled "teammate-written, unreviewed" (`meta.text_label`). Numbers inside names and text get claims rows that cite the CSV.
 - The CSV's similarity numbers, Monte Carlo bands, gate labels, rankings and nearest-site columns are not published.
 
 ### `site_lookup.json`
@@ -62,10 +62,11 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - Today (120 sites): 426 scored, the rest gated out, missing data or no land tile.
 
 ### `tiles_top.json`
-- Serves (a). Read by candidates table and map. 301 KB, limit 400 KB.
-- Top 100 tiles for each of the 10 views. Order: flagged first, then Monte Carlo median, then tile id.
+- Serves (a). Read by candidates table and map. 3 views, 1,500 tiles, about 450 KB, limit 600 KB.
+- Decided for B12: top 500 tiles per target. The base profile of each target is listed; the other profiles stay in `site_lookup.json` and `metrics.json`. Order: flagged first, then Monte Carlo median, then tile id.
 - View fields: `target`, `profile`, `body`, `confidence`, `illum_match_family`, `n_gated_tiles`, `n_top5_in_90pct_runs`, `source_file`, `sha256`, `tiles`.
 - Tile fields: `tile_id`, `lat`, `lon`, `score`, `mc_median`, `mc_p05`, `mc_p95`, `freq_top5`, `top5_in_90pct_runs`, `illum_match`, `in_india`, `nearest_reference_site`, `km_to_nearest_reference_site`.
+- Claims rows exist for the fields pages display: `lat`, `lon`, `score`, `mc_p05`, `mc_median`, `mc_p95`, `km_to_nearest_reference_site`.
 - Family scores: v1 stores only the lighting family per tile (`illum_match`). Slope, roughness and relief family scores per tile are not in v1 outputs and are omitted.
 - `in_india` comes from v1's own flag (Natural Earth outline, not an official map).
 
@@ -75,12 +76,12 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - Colour scale, resampling and known artifacts are in `docs/DATA_NOTES.md`.
 
 ### `regions.json`
-- Serves (a). Read by regions page and map. 82 regions, limit 150 KB.
+- Serves (a). Read by regions page and map. 20 regions, limit 150 KB.
 - Cluster rule: tiles flagged top 5% in at least 90% of runs (v1's flag), base profile of each target, joined by 8-neighbour adjacency, wrapping at the date line.
-- Parameters set in this build: minimum 100 tiles (a build choice, listed as a fact whose source is `scripts/gsop_data/regions.py`); drop clusters within 100 km of any reference site (v1's own `min_distance_km`).
-- Result by view: Shackleton rim 36, Jezero 46, Connecting Ridge C1 0. Raw clusters per view: 4,711, 9,937, 6,421. See `meta.by_view`.
-- Fields: `id` ("Region NN"), `target`, `profile`, `body`, `confidence`, `n_tiles`, `area_km2`, `centroid_lat`, `centroid_lon`, `bbox`, `median_score`, `median_mc_median`, `km_to_nearest_reference_site`, `nearest_reference_site`, `n_tiles_in_india`, `nearest_place`, `status` ("Unreviewed"), `caveat`.
-- `nearest_place` is `"not in v1 outputs"`. No gazetteer has been chosen. Blocker.
+- Parameters set in this build, each listed as a fact with its source script: minimum 100 tiles; drop clusters within 100 km of any known reference site (v1's own `min_distance_km`); keep the top 10 regions per target, ranked by median Monte Carlo score (decided for B12).
+- Result: Shackleton rim 10, Jezero 10, Connecting Ridge C1 0 (its largest flagged cluster is below the minimum). Counts before the top-10 cut are in `meta.by_view`.
+- Fields: `id` ("Region NN", stays the ID), `target`, `profile`, `body`, `confidence`, `n_tiles`, `area_km2`, `centroid_lat`, `centroid_lon`, `bbox`, `median_score`, `median_mc_median`, `km_to_nearest_reference_site`, `nearest_reference_site`, `n_tiles_in_india`, `place`, `status` ("Unreviewed"), `caveat`.
+- `place` (decided for B12): `{name, feature_class, relation, distance_km, source}`. The name is the Natural Earth desert, plateau or range the centroid lies in (`relation: inside`, distance 0), else the nearest such region within a near distance (`near`, 200 km, a build choice), else the nearest populated place (`nearest populated place`). Distance is approximate. Source layers and hashes are in `data/reference/naturalearth/README.md`.
 - `n_tiles_in_india` uses a point-in-polygon test against v1's outline; the test agrees with v1's own flags on its top-500 file.
 
 ### `metrics.json`
@@ -95,14 +96,14 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - Header carries the E32 sentence verbatim in `meta.uncertainty_sentence` (compared with `docs/E32.txt` at build and in CI) and both pre-registration hashes in `meta.preregistration_hashes`.
 
 ### `claims.csv`
-- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 11,804 rows, 2.2 MB, limit 3 MB.
+- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 12,939 rows, 2.4 MB, limit 3 MB.
 - Rows come from: every `meta.facts` entry; numeric metrics; per-tile values in `tiles_top.json`; scored entries and summaries in `site_lookup.json`; region fields; overlay summaries; site coordinates and numbers inside site names and text; numbers inside quoted v1 ledger text.
 - Pages read their numbers from the data files and print the `number` string from this file.
 - Citation years (1900 to 2099) in source strings are not treated as numbers.
 
 ### `MANIFEST.csv`
 - Lives at `data/MANIFEST.csv`, not in `public/data/`. Columns `path`, `bytes`, `sha256`, sorted by path.
-- Covers every file under `public/data/` and `data/reference/sites.csv`. Does not list itself. Written last by `make_data`.
+- Covers every file under `public/data/`, `data/reference/sites.csv` and `data/reference/naturalearth/`. Does not list itself. Written last by `make_data`.
 
 ## Claims check (CI)
 
@@ -131,9 +132,9 @@ Not excluded from the scan: everything site-facing. Excluded: `data/banned_words
 |---|---:|---:|
 | `sites.json` | 250 KB | 162 KB |
 | `site_lookup.json` | 300 KB | 193 KB |
-| `tiles_top.json` | 400 KB | 301 KB |
+| `tiles_top.json` | 600 KB | 440 KB |
 | `overlays/<target>.png` | 2 MB each | under 0.45 MB |
-| `regions.json` | 150 KB | 72 KB |
+| `regions.json` | 150 KB | 25 KB |
 | `metrics.json` | 100 KB | 74 KB |
 | `ledger.json` | 60 KB | 23 KB |
 | `claims.csv` | 3 MB | 2.1 MB |
@@ -144,7 +145,6 @@ The build fails if a limit is exceeded. No file approaches 50 MB.
 ## Not in v1 outputs
 
 - Per-tile family scores for slope, roughness and relief.
-- A gazetteer (place names for regions). Blocker.
 - Source URLs for the site CSV rows.
 - A percentile among all land tiles (gated-out tiles have no score); v1's gated-tile percentile is used.
 - Any Moon temperature, composition or thermal inertia score; any Mars water, silica, dust or temperature score.

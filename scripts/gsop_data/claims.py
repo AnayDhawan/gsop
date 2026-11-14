@@ -100,7 +100,7 @@ def build_claims(root):
     for view, v in docs.get("tiles_top.json", {}).get("views", {}).items():
         add(f"tiles.{view}.n_gated_tiles", d(v["n_gated_tiles"], 0), v["source_file"], v["sha256"])
         add(f"tiles.{view}.n_top5_in_90pct_runs", d(v["n_top5_in_90pct_runs"], 0), v["source_file"], v["sha256"])
-        spec = [("lat", 2), ("lon", 2), ("score", 1), ("mc_median", 1), ("mc_p05", 1), ("mc_p95", 1), ("freq_top5", 2), ("illum_match", 3), ("km_to_nearest_reference_site", 0)]
+        spec = [("lat", 2), ("lon", 2), ("score", 1), ("mc_median", 1), ("mc_p05", 1), ("mc_p95", 1), ("km_to_nearest_reference_site", 0)]
         for t in v["tiles"]:
             for k, dp in spec:
                 if k in t:
@@ -132,6 +132,9 @@ def build_claims(root):
         for r in rg["regions"]:
             for k, dp in (("n_tiles", 0), ("area_km2", 0), ("centroid_lat", 2), ("centroid_lon", 2), ("median_score", 1), ("median_mc_median", 1), ("km_to_nearest_reference_site", 0), ("n_tiles_in_india", 0)):
                 add(f"regions.{r['id'].replace(' ', '_')}.{k}", d(r[k], dp), r["source_file"], r["sha256"])
+            pl = r["place"]
+            nesrc = next(x for x in rg["meta"]["sources"] if x["source_file"].endswith("populated_places.csv" if pl["feature_class"] == "Populated place" else "regions_desert_plateau_range.geojson"))
+            add(f"regions.{r['id'].replace(' ', '_')}.place_distance_km", d(pl["distance_km"], 0), nesrc["source_file"], nesrc["sha256"])
     # overlays
     for f, doc in docs.items():
         if f.startswith("overlays/") and "observed_max" in doc:
@@ -149,6 +152,8 @@ def build_claims(root):
         for s in st["sites"]:
             add(f"sites.{s['id']}.lat", d(s["lat"], 2), csv_rel, ssha)
             add(f"sites.{s['id']}.lon", d(s["lon"], 2), csv_rel, ssha)
+            v1src = next(x for x in st["meta"]["sources"] if x["source_file"].endswith("known_sites.yaml"))
+            add(f"sites.{s['id']}.v1_match_km", d(s["v1_match"]["km"], 1), v1src["source_file"], v1src["sha256"])
             if s["elevation_m"] is not None:
                 add(f"sites.{s['id']}.elevation_m", d(s["elevation_m"], 0), csv_rel, ssha)
             if s["year_first_used_as_analog"] is not None:
@@ -249,10 +254,13 @@ def check(root):
         if os.path.isfile(local) and sha256_file(local) != sha:
             v.append(f"claims.csv: sha256 for {c} does not match {src}")
     nums = {r[1] for r in committed}
+    # The E32 sentence is allowed to contain words from other lists: it must stay verbatim (decision E32).
+    with open(os.path.join(root, "docs/E32.txt"), encoding="utf-8") as fh:
+        e32_text = fh.read().rstrip("\n")
     # (a) banned words and (b) numbers, in the data files' text
     for f, doc in docs.items():
         for p, s in iter_strings(doc):
-            for m in rx.finditer(s):
+            for m in rx.finditer(s.replace(e32_text, "")):
                 v.append(f"banned word '{m.group(0)}' in {DATA}/{f} at {p}")
             for n in text_numbers(s):
                 if n not in nums:
@@ -261,7 +269,7 @@ def check(root):
     for rel in text_scan_files(root):
         with open(os.path.join(root, rel), encoding="utf-8") as fh:
             src = fh.read()
-        for m in rx.finditer(src):
+        for m in rx.finditer(src.replace(e32_text, "")):
             v.append(f"banned word '{m.group(0)}' in {rel}")
         for s in jsx_text(src):
             for n in text_numbers(s):

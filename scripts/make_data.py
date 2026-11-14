@@ -35,7 +35,7 @@ class Ctx:
 
 
 def write_manifest(ctx):
-    """data/MANIFEST.csv: path, bytes, sha256 for public/data/** and data/reference/sites.csv. Lists nothing else."""
+    """data/MANIFEST.csv: path, bytes, sha256 for public/data/**, data/reference/sites.csv and data/reference/naturalearth/*."""
     rels = []
     base = ctx.path("public/data")
     for dp, _, fs in os.walk(base):
@@ -43,6 +43,9 @@ def write_manifest(ctx):
             rels.append(os.path.relpath(os.path.join(dp, f), ctx.root).replace(os.sep, "/"))
     if os.path.exists(ctx.path("data/reference/sites.csv")):
         rels.append("data/reference/sites.csv")
+    ne = ctx.path("data/reference/naturalearth")
+    if os.path.isdir(ne):
+        rels += [f"data/reference/naturalearth/{f}" for f in sorted(os.listdir(ne))]
     rows = ["path,bytes,sha256"]
     for rel in sorted(rels):
         p = ctx.path(rel)
@@ -55,7 +58,7 @@ KB, MB = 1024, 1024 * 1024
 SIZE_LIMITS = {
     "public/data/sites.json": 250 * KB,
     "public/data/site_lookup.json": 300 * KB,
-    "public/data/tiles_top.json": 400 * KB,
+    "public/data/tiles_top.json": 600 * KB,
     "public/data/regions.json": 150 * KB,
     "public/data/metrics.json": 100 * KB,
     "public/data/ledger.json": 60 * KB,

@@ -7,12 +7,14 @@ import numpy as np
 from .fmt import NOT_IN_V1, make_meta, num, write_json
 from .grid import haversine_km
 
-TOP_N = 100
+TOP_N = 500  # decided for B12: top 500 tiles per target
 VIEWS = (
     [("moon", t, p) for t in ("connecting_ridge_c1", "shackleton_rim") for p in ("base", "landing_mobility", "power_night")]
     + [("mars", "jezero", p) for p in ("base", "ice_resources", "landing_mobility", "power_night")]
 )
 FAMILY = {"moon": "illumination", "mars": "sunlight"}
+# The tile list shows the base profile of each target. Other profiles stay in site_lookup.json and metrics.json.
+BASE_VIEWS = [v for v in VIEWS if v[2] == "base"]
 
 TILES_LIMITS = [
     "Each score compares one Earth tile with one lunar or Martian target. It is not a measure of how well that place would work as a base or landing site.",
@@ -23,6 +25,7 @@ TILES_LIMITS = [
     "Tiles listed here are candidates not in our reference list. They are unreviewed.",
     "v1 failed its negative controls, and the ranking is not checked against independent data.",
     "Slope, roughness and relief family scores per tile are not in v1 outputs, so only the lighting family is shown.",
+    "Only the base profile of each target is listed. The other profiles are not ranked here.",
 ]
 
 
@@ -40,7 +43,7 @@ def build(ctx):
     s_id = [s["id"] for s in sites]
     views = {}
     sources = []
-    for body, target, profile in sorted(VIEWS, key=lambda v: f"{v[1]}__{v[2]}"):
+    for body, target, profile in sorted(BASE_VIEWS, key=lambda v: f"{v[1]}__{v[2]}"):
         d = f"results/{body}/{target}__{profile}"
         mc = v1.table(d + "/mc_summary.parquet").to_pandas()
         bs = v1.table(d + "/base_scores.parquet").to_pandas().set_index("tile_id")
@@ -90,7 +93,7 @@ def build(ctx):
             uniq.append(s)
     meta = make_meta(
         "public/data/tiles_top.json",
-        "Top tiles per view from v1's stored Monte Carlo summary. Candidates not in our reference list, unreviewed.",
+        "Top tiles per target (base profile) from v1's stored Monte Carlo summary. Candidates not in our reference list, unreviewed.",
         TILES_LIMITS,
         uniq,
         order="tiles with the stability flag first, then by Monte Carlo median score, then by tile id",

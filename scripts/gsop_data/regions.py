@@ -11,9 +11,11 @@ import numpy as np
 
 from .fmt import NOT_IN_V1, make_meta, num, sha256_file, write_json
 from .grid import Grid, haversine_km
+from .naming import NEAR_KM, Namer
 
 # Decision parameter set by this build, not read from v1. Registered as a fact whose source is this file.
 MIN_TILES = 100
+TOP_REGIONS = 10  # decided for B12: top 10 regions per target, ranked by median Monte Carlo score
 REGION_TARGETS = [("moon", "connecting_ridge_c1"), ("moon", "shackleton_rim"), ("mars", "jezero")]
 
 CAVEAT = (
@@ -27,7 +29,8 @@ REGIONS_LIMITS = [
     "The Moon score is effectively terrain only. Gravity, air, dust and radiation are not scored.",
     "Regions within the drop distance of any reference site are left out, so the list is not a full map of high scores.",
     "Small groups are left out. The minimum size is a choice made in this build, not a v1 setting.",
-    "No place names are shown: no gazetteer has been chosen yet.",
+    "Place names are labels from Natural Earth, which is generalised. The name is the desert, plateau or range the centre lies in or is near, otherwise the nearest populated place. It is not a claim about the ground.",
+    "Only the highest-scoring regions are listed. Many more groups of flagged tiles exist.",
     "Regions appear only where v1 had terrain data and the tile passed the gates.",
     "India counts use the Natural Earth outline from v1, which is not an official map.",
 ]
@@ -99,6 +102,7 @@ def build(ctx):
     s_lat = np.array([s["lat"] for s in ctx.ref_sites])
     s_lon = np.array([s["lon"] for s in ctx.ref_sites])
     s_id = [s["id"] for s in ctx.ref_sites]
+    namer = Namer(ctx.repo)
     sources = [v1.src("config/run.yaml"), v1.src("data/processed/grid.json"), v1.src("site_data/india_boundary_naturalearth_ind_10m.geojson")]
     found = []
     stats = {}
@@ -147,7 +151,6 @@ def build(ctx):
                     "km_to_nearest_reference_site": num(km, 1),
                     "nearest_reference_site": s_id[j],
                     "n_tiles_in_india": int(in_polys(sub.lon.values, sub.lat.values, polys).sum()),
-                    "nearest_place": NOT_IN_V1,
                     "status": "Unreviewed",
                     "caveat": CAVEAT + (CAVEAT_MARS if body == "mars" else ""),
                     "source_file": src_mc["source_file"],
@@ -155,21 +158,39 @@ def build(ctx):
                     "_key": (-len(c), c[0]),
                 }
             )
-        kept.sort(key=lambda r: r["_key"])
-        stats[view] = {"n_flagged_tiles": len(fl), "n_clusters": len(cl), "n_clusters_min_size": len(big), "n_dropped_near_site": len(big) - len(kept), "n_regions": len(kept)}
-        found += kept
+        kept.sort(key=lambda r: (-r["median_mc_median"], r["_key"]))
+        top = kept[:TOP_REGIONS]
+        for r in top:
+            r["place"] = namer.name(r["centroid_lat"], r["centroid_lon"])
+        stats[view] = {
+            "n_flagged_tiles": len(fl),
+            "n_clusters": len(cl),
+            "n_clusters_min_size": len(big),
+            "n_dropped_near_site": len(big) - len(kept),
+            "n_regions_before_top": len(kept),
+            "n_regions": len(top),
+        }
+        found += top
     width = max(2, len(str(len(found))))
     for i, r in enumerate(found, start=1):
         r["id"] = f"Region {i:0{width}d}"
         del r["_key"]
     me = "scripts/gsop_data/regions.py"
     me_sha = sha256_file(ctx.repo + "/" + me)
+    nm = "scripts/gsop_data/naming.py"
+    ne_regions = {"source_file": "data/reference/naturalearth/regions_desert_plateau_range.geojson", "sha256": sha256_file(namer.regions_path)}
+    ne_places = {"source_file": "data/reference/naturalearth/populated_places.csv", "sha256": sha256_file(namer.places_path)}
+    sources += [ne_regions, ne_places]
     facts = [
         {"claim": "regions.min_tiles", "number": str(MIN_TILES), "source_file": me, "sha256": me_sha},
+        {"claim": "regions.top_n", "number": str(TOP_REGIONS), "source_file": me, "sha256": me_sha},
+        {"claim": "regions.near_km", "number": str(NEAR_KM), "source_file": nm, "sha256": sha256_file(ctx.repo + "/" + nm)},
         {"claim": "regions.drop_distance_km", "number": str(int(drop_km)), "source_file": sources[0]["source_file"], "sha256": sources[0]["sha256"]},
     ]
     limits = REGIONS_LIMITS + [
         f"Regions with fewer than {MIN_TILES} tiles are left out.",
+        f"Each target lists its top {TOP_REGIONS} regions by median score.",
+        f"A physical region counts as near when its outline is within {NEAR_KM} km of the centre.",
         f"Regions within {int(drop_km)} km of any reference site are left out.",
     ]
     uniq, seen = [], set()
@@ -183,9 +204,12 @@ def build(ctx):
         limits,
         uniq,
         facts=facts,
-        cluster_rule="tiles flagged top 5% in at least 90% of runs, joined by 8-neighbour adjacency on the v1 grid, wrapping at the date line",
+        cluster_rule="tiles carrying v1's stability flag, joined by neighbour adjacency on the v1 grid, wrapping at the date line",
         flag_source="robust column of mc_summary.parquet, base profile of each target",
         min_tiles=MIN_TILES,
+        top_regions_per_target=TOP_REGIONS,
+        rank_rule="median Monte Carlo score of the region's tiles, highest first",
+        place_rule="desert, plateau or range containing the centre; else the nearest such region within the near distance; else the nearest populated place",
         drop_distance_km=int(drop_km),
         by_view=stats,
         tile_area_km2=num(cell_km2, 0),
