@@ -41,7 +41,7 @@ Root inside the zip is `gsop_v1/`.
 ### Runs, targets and profiles
 
 - Moon: targets `connecting_ridge_c1` and `shackleton_rim`; profiles `base`, `landing_mobility`, `power_night` (6 views). `ice_resources` was not run (columns missing).
-- Moon latitude 20 to 40 run: same 6 views, a robustness check only.
+- Moon latitude 20 to 40 run: same 6 views, a band check only.
 - Mars: target `jezero`; profiles `base`, `ice_resources`, `landing_mobility`, `power_night` (4 views). `geology_life` was not run. `arcadia` is unscored (no target data). Confidence is `low` per the wording rules.
 - Grid: EPSG:6933, 6,000 m cells, 5,790 columns by 2,448 rows. `tile_id = iy * 5790 + ix`. Tile centre: `x = x0 + (ix + 0.5) * 6000`, `y = y_top - (iy + 0.5) * 6000`, with `x0 = -17367530.445161372` and `y_top = 7342230.136498678` (`data/processed/grid.json`).
 
