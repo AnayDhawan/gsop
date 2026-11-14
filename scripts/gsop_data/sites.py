@@ -1,30 +1,36 @@
-"""B2: validate the teammate's site CSV and write data/reference/sites.csv and sites_check.md.
+"""B2 and B5: clean the teammate's site CSV and build sites.csv, sites_check.md and sites.json.
 
 Lookup and transformation only. Nothing here scores anything.
+The two-source rule from the brief was relaxed by instruction: the CSV has no source URLs, so rows are kept without them.
 """
 import csv
 import io
 import math
 import re
-import zipfile
 
-import yaml
+from .fmt import NOT_IN_V1, make_meta, num, sha256_file, write_json, write_text
 
-ZIP_ROOT = "gsop_v1/"
 SCHEMA = ["name", "body", "lat", "lon", "kind", "analog_of", "source_url_1", "source_url_2"]
 OUT_COLUMNS = SCHEMA + ["v1_used"]
+CSV_REF = "GSOP_analog_sites_moon_mars.csv"
+NO_SOURCE = "not provided in site CSV"
 
-# Brief column -> column found in the teammate CSV. None means no such column exists.
-# kind and analog_of have no unambiguous source column, so they are not guessed.
+# Brief field -> column in the teammate CSV. None means no such column exists.
 COLUMN_MAP = {
     "name": "Site_name",
     "body": "Body",
     "lat": "Latitude",
     "lon": "Longitude",
-    "kind": None,
-    "analog_of": None,
+    "kind": "Process_type",
+    "analog_of": "Body",
     "source_url_1": None,
     "source_url_2": None,
+}
+MAP_NOTE = {
+    "kind": "closest column; free text about the geology, not a controlled list",
+    "analog_of": "set to the body of the row; the CSV has no finer field",
+    "source_url_1": "no column in the CSV; rule relaxed by instruction",
+    "source_url_2": "no column in the CSV; rule relaxed by instruction",
 }
 
 BANNED = re.compile(r"\b(validated|discovered|undiscovered|new sites?)\b", re.I)
@@ -34,17 +40,17 @@ URL = re.compile(r"^https?://\S+$")
 def haversine_km(lat1, lon1, lat2, lon2):
     r = 6371.0088
     p1, p2 = math.radians(lat1), math.radians(lat2)
-    dphi = p2 - p1
-    dlmb = math.radians(lon2 - lon1)
-    a = math.sin(dphi / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dlmb / 2) ** 2
+    a = math.sin((p2 - p1) / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(math.radians(lon2 - lon1) / 2) ** 2
     return 2 * r * math.asin(math.sqrt(a))
 
 
-def load_v1_sites(zip_path):
-    """Return (sites, match_radius_km, exclusion_km) read from the zip's config files."""
-    with zipfile.ZipFile(zip_path) as z:
-        known = yaml.safe_load(z.read(ZIP_ROOT + "config/known_sites.yaml"))
-        run = yaml.safe_load(z.read(ZIP_ROOT + "config/run.yaml"))
+def slug(s):
+    return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
+
+
+def load_v1_sites(v1):
+    known = v1.yaml("config/known_sites.yaml")
+    run = v1.yaml("config/run.yaml")
     match_km = float(run["site_match_radius_km"])
     excl_km = float(run["discovery"]["min_distance_km"])
     sites = []
@@ -67,8 +73,8 @@ def v1_flag(lat, lon, body, v1_sites, excl_km):
     """Return (flag, matched_site_id, km). flag is 'true', 'false' or 'unknown'.
 
     true: within v1's own match radius of a v1 site that v1 ran for this body.
-    unknown: within the 100 km exclusion distance, or matched a v1 site that v1 did not run for this body.
-    false: farther than the exclusion distance from every entry in known_sites.yaml, so the file shows v1 did not use it.
+    unknown: within the exclusion distance, or matched a v1 site that v1 did not run for this body.
+    false: farther than the exclusion distance from every entry in known_sites.yaml.
     """
     best = None
     for s in v1_sites:
@@ -78,9 +84,7 @@ def v1_flag(lat, lon, body, v1_sites, excl_km):
     d, s = best
     km = round(d, 1)
     if d <= s["radius_km"]:
-        if body.lower() in s["bodies"]:
-            return "true", s["id"], km
-        return "unknown", s["id"], km
+        return ("true" if body.lower() in s["bodies"] else "unknown"), s["id"], km
     if d <= excl_km:
         return "unknown", s["id"], km
     return "false", s["id"], km
@@ -89,22 +93,18 @@ def v1_flag(lat, lon, body, v1_sites, excl_km):
 def read_rows(csv_path):
     with open(csv_path, encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
-        header = reader.fieldnames
-        rows = list(reader)
-    return header, rows
+        return reader.fieldnames, list(reader)
 
 
-def check(csv_path, zip_path):
+def check(csv_path, v1):
     header, raw = read_rows(csv_path)
-    v1_sites, match_km, excl_km = load_v1_sites(zip_path)
-    missing_cols = [b for b, c in COLUMN_MAP.items() if c is None or c not in header]
+    v1_sites, match_km, excl_km = load_v1_sites(v1)
     results = []
-    seen_key = {}
+    seen = {}
     for i, r in enumerate(raw, start=2):  # line 1 is the header
         name = (r.get("Site_name") or "").strip()
         body = (r.get("Body") or "").strip()
-        fails = []
-        info = []
+        fails, info = [], []
         lat = lon = None
         try:
             lat = float(r.get("Latitude", ""))
@@ -113,8 +113,6 @@ def check(csv_path, zip_path):
                 fails.append("lat out of range")
             if not (-180 <= lon <= 180):
                 fails.append("lon out of range")
-            if lat == 0 and lon == 0:
-                fails.append("coordinates 0,0")
         except ValueError:
             fails.append("bad coordinates")
         if not name:
@@ -122,21 +120,22 @@ def check(csv_path, zip_path):
         if body not in ("Moon", "Mars"):
             fails.append("bad body")
         key = (name.lower(), body.lower())
-        if key in seen_key:
-            fails.append(f"duplicate of line {seen_key[key]}")
+        if key in seen:
+            fails.append(f"duplicate of line {seen[key]}")
         else:
-            seen_key[key] = i
-        # Source rule: two source URLs are required. The CSV has no such columns.
-        urls = [r.get(c, "") for c in ("source_url_1", "source_url_2") if c in r]
-        n_src = sum(1 for u in urls if URL.match((u or "").strip()))
+            seen[key] = i
+        in_list = (r.get("Category") or "").startswith("Known")
+        if not in_list:
+            fails.append("not a reference site (candidate row in the CSV)")
+        n_src = sum(1 for c in ("source_url_1", "source_url_2") if URL.match((r.get(c) or "").strip()))
         if n_src < 2:
-            fails.append(f"fewer than 2 source URLs ({n_src} found)")
-        if "approx" in (r.get("Coordinate_note") or "").lower():
-            info.append("coordinates marked approximate in the CSV")
-        if any(BANNED.search(v or "") for v in r.values()):
-            info.append("row text contains a banned term (not carried into any output)")
+            info.append(f"source URLs: {n_src} (rule relaxed)")
+        approx = "approx" in (r.get("Coordinate_note") or "").lower()
+        for col in ("Site_name", "Process_type", "Where_analogy_breaks"):
+            if BANNED.search(r.get(col) or ""):
+                fails.append(f"banned term in {col}")
         flag = ("unknown", "", None)
-        if lat is not None and lon is not None and "bad body" not in fails:
+        if not any(f.startswith(("lat", "lon", "bad")) for f in fails):
             flag = v1_flag(lat, lon, body, v1_sites, excl_km)
         results.append(
             {
@@ -147,21 +146,22 @@ def check(csv_path, zip_path):
                 "lon": lon,
                 "fails": fails,
                 "info": info,
+                "approx": approx,
+                "kind": (r.get("Process_type") or "").strip(),
+                "limits": (r.get("Where_analogy_breaks") or "").strip(),
                 "v1_used": flag[0],
                 "v1_site": flag[1],
                 "v1_km": flag[2],
             }
         )
-    # Same coordinates under different rows (informational: the same place listed for both bodies)
     by_coord = {}
     for r in results:
-        if r["lat"] is not None:
+        if r["lat"] is not None and not r["fails"]:
             by_coord.setdefault((round(r["lat"], 2), round(r["lon"], 2)), []).append(r)
     same_place = [v for k, v in sorted(by_coord.items()) if len(v) > 1]
     return {
         "header": header,
         "rows": results,
-        "missing_cols": missing_cols,
         "same_place": same_place,
         "match_km": match_km,
         "excl_km": excl_km,
@@ -169,25 +169,9 @@ def check(csv_path, zip_path):
     }
 
 
-def clean_rows(rep, raw_rows):
-    """Rows that pass every check. Output uses the contract schema; unmapped fields stay empty."""
-    out = []
-    for res, r in zip(rep["rows"], raw_rows):
-        if res["fails"]:
-            continue
-        out.append(
-            {
-                "name": res["name"],
-                "body": res["body"],
-                "lat": f"{res['lat']:.4f}",
-                "lon": f"{res['lon']:.4f}",
-                "kind": "",
-                "analog_of": "",
-                "source_url_1": r["source_url_1"].strip(),
-                "source_url_2": r["source_url_2"].strip(),
-                "v1_used": res["v1_used"],
-            }
-        )
+def kept_rows(rep):
+    out = [r for r in rep["rows"] if not r["fails"]]
+    out.sort(key=lambda r: (r["body"], r["name"].lower(), r["line"]))
     return out
 
 
@@ -196,61 +180,61 @@ def write_sites_csv(path, rows):
     w = csv.DictWriter(buf, fieldnames=OUT_COLUMNS, lineterminator="\n")
     w.writeheader()
     for r in rows:
-        w.writerow(r)
-    with open(path, "w", encoding="utf-8", newline="") as f:
-        f.write(buf.getvalue())
+        w.writerow(
+            {
+                "name": r["name"],
+                "body": r["body"],
+                "lat": f"{r['lat']:.4f}",
+                "lon": f"{r['lon']:.4f}",
+                "kind": r["kind"],
+                "analog_of": r["body"],
+                "source_url_1": "",
+                "source_url_2": "",
+                "v1_used": r["v1_used"],
+            }
+        )
+    write_text(path, buf.getvalue())
 
 
-def write_report(path, rep, csv_sha, zip_sha, n_kept):
+def write_report(path, rep, csv_sha, n_kept):
     rows = rep["rows"]
     failing = [r for r in rows if r["fails"]]
     counts = {}
     for r in rows:
-        counts[r["v1_used"]] = counts.get(r["v1_used"], 0) + 1
-    L = []
-    L.append("# Site check report (B2)")
-    L.append("")
-    L.append("Generated by `scripts/gsop_data/sites.py`. Internal report, not site text.")
+        if not r["fails"]:
+            counts[r["v1_used"]] = counts.get(r["v1_used"], 0) + 1
+    L = ["# Site check report (B2)", ""]
+    L.append("Generated by `scripts/make_data.py` (`scripts/gsop_data/sites.py`). Internal report, not site text.")
     L.append("")
     L.append("## Summary")
     L.append("")
-    L.append(f"- Input: `GSOP_analog_sites_moon_mars.csv`, sha256 `{csv_sha}`.")
+    L.append(f"- Input: `{CSV_REF}`, sha256 `{csv_sha}`.")
     L.append(f"- Rows read: {len(rows)}. Rows kept in `data/reference/sites.csv`: {n_kept}. Rows listed below as failing: {len(failing)}.")
-    L.append("- Every row fails the two-source rule: the CSV has no source URL column at all.")
-    L.append("- Rows with fewer than two sources are excluded from the site list and stay in this report.")
+    L.append("- The two-source rule was relaxed by instruction. The CSV has no source URL column, so no kept row has a source link.")
     n_coord = sum(1 for r in rows if any(("coordinates" in f or "out of range" in f) for f in r["fails"]))
     n_dup = sum(1 for r in rows if any(f.startswith("duplicate") for f in r["fails"]))
-    L.append(f"- Rows with bad or out-of-range coordinates: {n_coord}. Rows that repeat an earlier name and body: {n_dup}.")
+    n_cand = sum(1 for r in rows if any(f.startswith("not a reference") for f in r["fails"]))
+    n_ban = sum(1 for r in rows if any(f.startswith("banned") for f in r["fails"]))
+    L.append(f"- Rows with bad or out-of-range coordinates: {n_coord}. Rows that repeat an earlier name and body: {n_dup}. Rows with a banned term in a carried field: {n_ban}.")
+    L.append(f"- Rows left out because they are candidate rows, not reference sites: {n_cand}.")
     L.append("")
     L.append("## Schema mapping")
     L.append("")
-    L.append("| Brief field | CSV column | Status |")
+    L.append("| Brief field | CSV column | Note |")
     L.append("|---|---|---|")
-    notes = {
-        "name": "mapped",
-        "body": "mapped",
-        "lat": "mapped",
-        "lon": "mapped",
-        "kind": "no matching column. `Category` holds a list label, `Process_type` holds geology. Not guessed.",
-        "analog_of": "no matching column. `Scored_against` names a v2 weighting, not an analog target. Not guessed.",
-        "source_url_1": "no column",
-        "source_url_2": "no column",
-    }
     for b in SCHEMA:
         c = COLUMN_MAP[b]
-        L.append(f"| {b} | {('`' + c + '`') if c else 'none'} | {notes[b]} |")
+        L.append(f"| {b} | {('`' + c + '`') if c else 'none'} | {MAP_NOTE.get(b, 'mapped')} |")
     L.append("")
     L.append("## Concerns about the input file")
     L.append("")
-    L.append(f"- The file has {len(rep['header'])} columns and {len(rows)} rows. The brief expects 8 columns and about 50 sites.")
-    L.append("- Row groups in the file: 50 Moon rows and 50 Mars rows labelled as known sites, plus 10 Moon and 10 Mars rows labelled as low-profile candidates. The 50-site table in the plan does not match 100 known rows.")
-    L.append("- Numeric columns (`Similarity_pct`, `MonteCarlo_5th_pct`, `MonteCarlo_95th_pct`, `MC_rank_range_of_60`, the `P_*` columns) are not in the v1 outputs. The `Scored_against` column says they were produced with \"GSOP v2 weights\". They are not carried into any data file (hard rule 2).")
-    L.append("- `GSOP_gate_check`, `Nearest_known_km` and `Passes_100km_novelty_rule` are also not v1 outputs. They are not carried over.")
-    L.append("- The 20 low-profile candidate rows are hand-picked with their own scores. v1 candidates come only from `regions.json` (B10), not from this list.")
-    ban = sum(1 for r in rows if any("banned term" in x for x in r["info"]))
-    L.append(f"- {ban} rows contain a term from the banned-word list in CLAUDE.md. One column header does too (the column about when each site was first recognised). None of that text is copied into outputs.")
-    approx = sum(1 for r in rows if any("approximate" in x for x in r["info"]))
-    L.append(f"- {approx} rows mark their coordinates as approximate. The site match for v1 uses a {rep['match_km']:.0f} km radius, so this affects the flag only for sites near that distance.")
+    L.append(f"- The file has {len(rep['header'])} columns and {len(rows)} rows. The reference list kept here has {n_kept} rows (known sites for both bodies), not 50.")
+    L.append("- Numeric columns (similarity, Monte Carlo band, per-parameter scores) are not v1 outputs; the `Scored_against` column says they used v2 weights. They are not carried into any data file.")
+    L.append("- The gate-check labels and the novelty-rule columns are also not v1 outputs and are not carried over.")
+    L.append("- The candidate rows are hand-picked with their own scores. v1 candidates come only from `regions.json` (B10).")
+    L.append("- Carried free-text columns (`Process_type`, `Where_analogy_breaks`) are teammate-written and unreviewed. A few contain hand-typed numbers; those get claims rows pointing at `data/reference/sites.csv`.")
+    approx = sum(1 for r in rows if not r["fails"] and r["approx"])
+    L.append(f"- {approx} kept rows mark their coordinates as approximate.")
     L.append("")
     L.append("## v1 used flag")
     L.append("")
@@ -258,60 +242,87 @@ def write_report(path, rep, csv_sha, zip_sha, n_kept):
     L.append(f"- `true`: within v1's own site match radius ({rep['match_km']:.0f} km, or the site's own radius) of a v1 site that v1 ran for the row's body.")
     L.append(f"- `unknown`: within {rep['excl_km']:.0f} km of a v1 site but outside its match radius, or near a v1 site that v1 did not run for this body. The files cannot say whether v1 meant the same place.")
     L.append(f"- `false`: farther than {rep['excl_km']:.0f} km from every entry in `known_sites.yaml`. The file shows v1 did not use it.")
-    L.append(f"- Counts over all {len(rows)} rows: true {counts.get('true', 0)}, unknown {counts.get('unknown', 0)}, false {counts.get('false', 0)}.")
+    L.append(f"- Counts over the {n_kept} kept rows: true {counts.get('true', 0)}, unknown {counts.get('unknown', 0)}, false {counts.get('false', 0)}.")
     L.append("- This is a coordinate match, not a name match. Descriptive only.")
     L.append("")
     L.append("## Same place listed more than once (informational)")
     L.append("")
-    L.append("Same coordinates to 2 decimals. These are listed for both bodies, which the (name, body) key allows.")
+    L.append("Same coordinates to 2 decimals. Listed for both bodies, which the (name, body) key allows.")
     L.append("")
     L.append("| Lines | Names | Bodies |")
     L.append("|---|---|---|")
     for grp in rep["same_place"]:
         L.append("| " + ", ".join(str(g["line"]) for g in grp) + " | " + "; ".join(g["name"] for g in grp) + " | " + ", ".join(g["body"] for g in grp) + " |")
     L.append("")
-    L.append("## Failing rows")
+    L.append("## Rows not kept")
     L.append("")
     L.append("Line numbers refer to the CSV file (line 1 is the header).")
     L.append("")
-    L.append("| Line | Name | Body | Lat | Lon | Failed checks | v1 used | Nearest v1 site (km) |")
-    L.append("|---:|---|---|---:|---:|---|---|---|")
-    for r in rows:
-        if not r["fails"]:
-            continue
+    L.append("| Line | Name | Body | Lat | Lon | Reason |")
+    L.append("|---:|---|---|---:|---:|---|")
+    for r in failing:
         lat = "" if r["lat"] is None else f"{r['lat']:.4f}"
         lon = "" if r["lon"] is None else f"{r['lon']:.4f}"
-        near = f"{r['v1_site']} ({r['v1_km']})" if r["v1_site"] else ""
-        L.append(f"| {r['line']} | {r['name']} | {r['body']} | {lat} | {lon} | {'; '.join(r['fails'])} | {r['v1_used']} | {near} |")
+        L.append(f"| {r['line']} | {r['name']} | {r['body']} | {lat} | {lon} | {'; '.join(r['fails'])} |")
     L.append("")
-    with open(path, "w", encoding="utf-8", newline="") as f:
-        f.write("\n".join(L))
+    write_text(path, "\n".join(L))
 
 
-def sha256_file(path):
-    import hashlib
-
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
-
-
-def run(zip_path, csv_path, out_dir):
-    import os
-
-    os.makedirs(out_dir, exist_ok=True)
-    _, raw = read_rows(csv_path)
-    rep = check(csv_path, zip_path)
-    kept = clean_rows(rep, raw)
-    write_sites_csv(os.path.join(out_dir, "sites.csv"), kept)
-    write_report(os.path.join(out_dir, "sites_check.md"), rep, sha256_file(csv_path), sha256_file(zip_path), len(kept))
-    return rep, kept
+SITES_LIMITS = [
+    "Sites are places named in the literature or by a teammate as analogs. They are not scored results.",
+    "Coordinates come from a teammate CSV; many are approximate.",
+    "The CSV gave no source links, so none are shown.",
+    "Text about where the analogy breaks is teammate-written and has not been reviewed.",
+    "The v1 used flag is a coordinate match against the v1 site list, not a name match.",
+    "Earth sites differ from the Moon and Mars in gravity, air, radiation and dust; see the ledger.",
+]
 
 
-if __name__ == "__main__":
-    import sys
-
-    rep, kept = run(sys.argv[1], sys.argv[2], sys.argv[3])
-    print(f"rows {len(rep['rows'])}, kept {len(kept)}")
+def build(ctx):
+    """Write data/reference/sites.csv, sites_check.md and public/data/sites.json."""
+    csv_path = ctx.csv_path
+    rep = check(csv_path, ctx.v1)
+    kept = kept_rows(rep)
+    csv_sha = sha256_file(csv_path)
+    write_sites_csv(ctx.path("data/reference/sites.csv"), kept)
+    write_report(ctx.path("data/reference/sites_check.md"), rep, csv_sha, len(kept))
+    sites = []
+    ids = set()
+    for r in kept:
+        sid = f"{slug(r['name'])}-{r['body'].lower()}"
+        if sid in ids:
+            raise ValueError(f"duplicate site id {sid}")
+        ids.add(sid)
+        sites.append(
+            {
+                "id": sid,
+                "name": r["name"],
+                "body": r["body"],
+                "lat": num(r["lat"], 4),
+                "lon": num(r["lon"], 4),
+                "kind": r["kind"],
+                "analog_of": r["body"],
+                "source_url_1": NO_SOURCE,
+                "source_url_2": NO_SOURCE,
+                "coordinates_approximate": r["approx"],
+                "v1_used": r["v1_used"],
+                "v1_match": {"site_id": r["v1_site"], "km": num(r["v1_km"], 1)},
+                "limits": r["limits"] if r["limits"] else NOT_IN_V1,
+                "limits_source": "teammate CSV column Where_analogy_breaks, unreviewed",
+            }
+        )
+    sites.sort(key=lambda s: s["id"])
+    meta = make_meta(
+        "public/data/sites.json",
+        "Reference sites from a teammate CSV. Descriptive list, not scored results.",
+        SITES_LIMITS,
+        [{"source_file": CSV_REF, "sha256": csv_sha}, ctx.v1.src("config/known_sites.yaml")],
+        v1_used_rule=(
+            "true: within the v1 site match radius of a v1 site run for the same body. "
+            "unknown: near a v1 site but not matching, or v1 ran that site for the other body only. "
+            "false: farther than the v1 exclusion distance from every v1 site."
+        ),
+    )
+    write_json(ctx.path("public/data/sites.json"), {"meta": meta, "sites": sites})
+    ctx.sites = sites
+    ctx.log(f"sites: {len(sites)} kept of {len(rep['rows'])}")
