@@ -5,7 +5,9 @@ The two-source rule from the brief was relaxed by instruction: the CSV has no so
 """
 import csv
 import io
+import json
 import math
+import os
 import re
 
 from .fmt import NOT_IN_V1, make_meta, num, sha256_file, write_json, write_text
@@ -13,6 +15,7 @@ from .fmt import NOT_IN_V1, make_meta, num, sha256_file, write_json, write_text
 SCHEMA = ["name", "body", "lat", "lon", "kind", "analog_of", "source_url_1", "source_url_2"]
 OUT_COLUMNS = SCHEMA + ["v1_used", "list"]
 CSV_REF = "data/reference/raw/GSOP_analog_sites_moon_mars.csv"
+SNAPSHOT = "data/reference/sites_export.json"  # public.sites as exported by scripts/export_sites.py (B13)
 NO_SOURCE = "not provided in site CSV"
 
 # Brief field -> column in the site CSV. None means no such column exists.
@@ -284,6 +287,66 @@ PAGE_FIELDS = [
 ]
 
 
+def from_snapshot(ctx, csv_sites):
+    """Sites from the committed Supabase snapshot, or None when it does not exist.
+
+    Every column except id, notes and created_at is copied unchanged. v1_used comes from the table when it is set; when it
+    is null, the coordinate rule fills it in. A banned word in a public text column, a duplicate (slug, body) or a missing
+    coordinate stops the build.
+    """
+    import push_sites_csv as push
+
+    path = os.path.join(ctx.repo, SNAPSHOT)
+    if not os.path.isfile(path):
+        return None
+    with open(path, "rb") as f:
+        raw = f.read()
+    import hashlib
+
+    sha = hashlib.sha256(raw).hexdigest()
+    doc = json.loads(raw.decode("utf-8"))
+    rows = doc["rows"]
+    errs = []
+    seen = set()
+    for r in rows:
+        k = (r["slug"], r["body"])
+        if k in seen:
+            errs.append(f"duplicate (slug, body): {k}")
+        seen.add(k)
+        if r["lat"] is None or r["lon"] is None:
+            errs.append(f"missing coordinates: {r['slug']} ({r['body']})")
+        for c in push.PUBLIC_TEXT:
+            m = r.get(c) and push.BANNED.search(str(r[c]))
+            if m:
+                errs.append(f"banned word {m.group(0)!r} in {c}: {r['slug']} ({r['body']})")
+    if errs:
+        raise SystemExit("sites snapshot failed its checks:\n" + "\n".join(errs))
+    v1_sites, _, excl_km = load_v1_sites(ctx.v1)
+    keep = {"name", "body", "lat", "lon", "v1_used"}
+    sites = []
+    for r in sorted(rows, key=lambda x: (x["slug"], x["body"])):
+        flag, site_id, km = v1_flag(r["lat"], r["lon"], r["body"], v1_sites, excl_km)
+        s = {
+            "id": f"{r['slug']}-{r['body'].lower()}",
+            "name": r["name"],
+            "body": r["body"],
+            "lat": num(r["lat"], 4),
+            "lon": num(r["lon"], 4),
+            "v1_used": r["v1_used"] if r.get("v1_used") is not None else (None if flag == "unknown" else flag == "true"),
+            "v1_match": {"site_id": site_id, "km": num(km, 1)},
+        }
+        for c in doc["columns"]:
+            if c not in keep:
+                s[c] = r[c]
+        if s.get("elevation_m") is not None:
+            s["elevation_m"] = num(s["elevation_m"], 0)
+        sites.append(s)
+    sites.sort(key=lambda s: s["id"])
+    by_id = {s["id"]: s for s in csv_sites}
+    differ = sum(1 for s in sites if s["id"] in by_id and any(s.get(k) != by_id[s["id"]].get(k) for k in ("name", "lat", "lon", "why_analog", "key_differences", "status", "sources_ok", "source_url_1")))
+    return sites, {"source_file": SNAPSHOT, "sha256": sha}, differ
+
+
 def build(ctx):
     """Write data/reference/sites.csv, sites_check.md and public/data/sites.json.
 
@@ -328,11 +391,18 @@ def build(ctx):
             s["elevation_m"] = num(s["elevation_m"], 0)
         sites.append(s)
     sites.sort(key=lambda s: s["id"])
+    snap = from_snapshot(ctx, sites)
+    primary = {"source_file": CSV_REF, "sha256": csv_sha}
+    label = "Sites from a teammate-supplied CSV: known sites and candidates. Descriptive list, not scored results."
+    if snap is not None:
+        sites, primary, differ = snap
+        label = "Sites from the Supabase edit store (loaded from a teammate-supplied CSV): known sites and candidates. Descriptive list, not scored results."
+        ctx.log(f"sites: {len(sites)} rows from the Supabase snapshot; {differ} differ from the CSV mapping")
     meta = make_meta(
         "public/data/sites.json",
-        "Sites from a teammate-supplied CSV: known sites and candidates. Descriptive list, not scored results.",
+        label,
         SITES_LIMITS,
-        [{"source_file": CSV_REF, "sha256": csv_sha}, ctx.v1.src("config/known_sites.yaml")],
+        [primary, ctx.v1.src("config/known_sites.yaml")] + ([{"source_file": CSV_REF, "sha256": csv_sha}] if snap is not None else []),
         text_label="teammate-written, unreviewed",
         columns_note="all columns of public.sites except id, notes and created_at; id here is a build key (slug plus body), not the database id",
         v1_used_rule=(

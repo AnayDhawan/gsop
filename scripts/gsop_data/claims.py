@@ -180,8 +180,11 @@ def build_claims(root):
     # sites: coordinates, elevation, year, and numbers inside names and CSV text
     st = docs.get("sites.json")
     if st:
-        csv_rel = st["meta"]["sources"][0]["source_file"]
-        ssha = st["meta"]["sources"][0]["sha256"]  # hash of the CSV as read by make_data
+        # The numbers come from the Supabase snapshot when sites were built from it, otherwise from the CSV.
+        srcs = st["meta"]["sources"]
+        primary = next((x for x in srcs if x["source_file"].endswith("sites_export.json")), None) or next(x for x in srcs if x["source_file"].endswith(".csv"))
+        csv_rel = primary["source_file"]
+        ssha = primary["sha256"]  # hash of that file as read by make_data
         for s in st["sites"]:
             add(f"sites.{s['id']}.lat", d(s["lat"], 2), csv_rel, ssha)
             add(f"sites.{s['id']}.lon", d(s["lon"], 2), csv_rel, ssha)

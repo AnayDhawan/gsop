@@ -41,8 +41,9 @@ def write_manifest(ctx):
     for dp, _, fs in os.walk(base):
         for f in fs:
             rels.append(os.path.relpath(os.path.join(dp, f), ctx.root).replace(os.sep, "/"))
-    if os.path.exists(ctx.path("data/reference/sites.csv")):
-        rels.append("data/reference/sites.csv")
+    for f in ("data/reference/sites.csv", "data/reference/sites_export.json"):
+        if os.path.exists(ctx.path(f)):
+            rels.append(f)
     for extra in ("data/v2", "public/img/sites"):
         d = ctx.path(extra)
         for dp, _, fs in os.walk(d):
@@ -116,7 +117,18 @@ def main(argv=None):
     ap.add_argument("--csv", default=os.path.join(REPO, "data", "reference", "raw", "GSOP_analog_sites_moon_mars.csv"))
     ap.add_argument("--root", default=REPO)
     ap.add_argument("--skip-verify", action="store_true")
+    ap.add_argument("--no-export", action="store_true", help="do not refresh the Supabase snapshot even when keys are set")
     a = ap.parse_args(argv)
+    if not a.no_export:
+        import export_sites
+
+        if export_sites.have_keys():
+            try:
+                print(f"supabase export: {export_sites.export()} rows refreshed")
+            except RuntimeError as e:
+                print(f"supabase export failed ({e}); using the committed snapshot", file=sys.stderr)
+        else:
+            print("supabase export: no keys set, using the committed snapshot (or the CSV if there is none)")
     v1 = V1(a.zip)
     ctx = Ctx(v1, a.csv, a.root)
     if not a.skip_verify:
