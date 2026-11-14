@@ -35,7 +35,7 @@ class Ctx:
 
 
 def write_manifest(ctx):
-    """data/MANIFEST.csv: path, bytes, sha256 for public/data/**, data/reference/sites.csv and data/reference/naturalearth/*."""
+    """data/MANIFEST.csv: path, bytes, sha256 for public/data/**, data/reference/sites.csv and data/reference/raw/* (the site CSV and the Natural Earth files)."""
     rels = []
     base = ctx.path("public/data")
     for dp, _, fs in os.walk(base):
@@ -43,9 +43,9 @@ def write_manifest(ctx):
             rels.append(os.path.relpath(os.path.join(dp, f), ctx.root).replace(os.sep, "/"))
     if os.path.exists(ctx.path("data/reference/sites.csv")):
         rels.append("data/reference/sites.csv")
-    ne = ctx.path("data/reference/naturalearth")
-    if os.path.isdir(ne):
-        rels += [f"data/reference/naturalearth/{f}" for f in sorted(os.listdir(ne))]
+    raw = ctx.path("data/reference/raw")
+    if os.path.isdir(raw):
+        rels += [f"data/reference/raw/{f}" for f in sorted(os.listdir(raw))]
     rows = ["path,bytes,sha256"]
     for rel in sorted(rels):
         p = ctx.path(rel)

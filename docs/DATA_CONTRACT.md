@@ -81,7 +81,7 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - Parameters set in this build, each listed as a fact with its source script: minimum 100 tiles; drop clusters within 100 km of any known reference site (v1's own `min_distance_km`); keep the top 10 regions per target, ranked by median Monte Carlo score (decided for B12).
 - Result: Shackleton rim 10, Jezero 10, Connecting Ridge C1 0 (its largest flagged cluster is below the minimum). Counts before the top-10 cut are in `meta.by_view`.
 - Fields: `id` ("Region NN", stays the ID), `target`, `profile`, `body`, `confidence`, `n_tiles`, `area_km2`, `centroid_lat`, `centroid_lon`, `bbox`, `median_score`, `median_mc_median`, `km_to_nearest_reference_site`, `nearest_reference_site`, `n_tiles_in_india`, `place`, `status` ("Unreviewed"), `caveat`.
-- `place` (decided for B12): `{name, feature_class, relation, distance_km, source}`. The name is the Natural Earth desert, plateau or range the centroid lies in (`relation: inside`, distance 0), else the nearest such region within a near distance (`near`, 200 km, a build choice), else the nearest populated place (`nearest populated place`). Distance is approximate. Source layers and hashes are in `data/reference/naturalearth/README.md`.
+- `place` (decided for B12): `{name, feature_class, relation, distance_km, source}`. The name is the Natural Earth desert, plateau or range the centroid lies in (`relation: inside`, distance 0), else the nearest such region within a near distance (`near`, 200 km, a build choice), else the nearest populated place (`nearest populated place`). Distance is approximate. Source layers and hashes are in `data/reference/raw/NATURAL_EARTH.md`.
 - `n_tiles_in_india` uses a point-in-polygon test against v1's outline; the test agrees with v1's own flags on its top-500 file.
 
 ### `controls.json`
@@ -109,7 +109,7 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 
 ### `MANIFEST.csv`
 - Lives at `data/MANIFEST.csv`, not in `public/data/`. Columns `path`, `bytes`, `sha256`, sorted by path.
-- Covers every file under `public/data/`, `data/reference/sites.csv` and `data/reference/naturalearth/`. Does not list itself. Written last by `make_data`.
+- Covers every file under `public/data/`, `data/reference/sites.csv` and `data/reference/raw/` (the site CSV and the Natural Earth files). Does not list itself. Written last by `make_data`.
 
 ## Claims check (CI)
 

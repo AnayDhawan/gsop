@@ -133,7 +133,7 @@ def build_claims(root):
             for k, dp in (("n_tiles", 0), ("area_km2", 0), ("centroid_lat", 2), ("centroid_lon", 2), ("median_score", 1), ("median_mc_median", 1), ("km_to_nearest_reference_site", 0), ("n_tiles_in_india", 0)):
                 add(f"regions.{r['id'].replace(' ', '_')}.{k}", d(r[k], dp), r["source_file"], r["sha256"])
             pl = r["place"]
-            nesrc = next(x for x in rg["meta"]["sources"] if x["source_file"].endswith("populated_places.csv" if pl["feature_class"] == "Populated place" else "regions_desert_plateau_range.geojson"))
+            nesrc = next(x for x in rg["meta"]["sources"] if x["source_file"].endswith("ne_10m_populated_places_simple.geojson" if pl["feature_class"] == "Populated place" else "ne_10m_geography_regions_polys.geojson"))
             add(f"regions.{r['id'].replace(' ', '_')}.place_distance_km", d(pl["distance_km"], 0), nesrc["source_file"], nesrc["sha256"])
     # controls
     ct = docs.get("controls.json")
