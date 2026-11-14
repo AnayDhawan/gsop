@@ -281,6 +281,36 @@ def jsx_text(src):
             yield m.group(2)
 
 
+def submission_problems(root, rx, e32_text):
+    """Checks on the submission text (E7): hand-written template, generated text, same rules as the site."""
+    v = []
+    if not os.path.exists(os.path.join(root, "submission/template.md")):
+        return v
+    from . import submission
+
+    with open(os.path.join(root, "submission/template.md"), encoding="utf-8") as fh:
+        tmpl = fh.read()
+    for n in submission.typed_numbers(tmpl):
+        v.append(f"number {n} typed in submission/template.md; use a {{{{claim:ID}}}} placeholder instead")
+    try:
+        want = submission.render(root)
+    except submission.SubmissionError as e:
+        v.append(f"submission text cannot be built: {e}")
+        want = None
+    out_path = os.path.join(root, "submission/SUBMISSION.md")
+    have = None
+    if os.path.exists(out_path):
+        with open(out_path, encoding="utf-8") as fh:
+            have = fh.read()
+    if want is not None and have != want:
+        v.append("submission/SUBMISSION.md is stale or missing: run python3 scripts/build_submission.py")
+    for m in rx.finditer((have or "").replace(e32_text, "")):
+        v.append(f"banned word '{m.group(0)}' in submission/SUBMISSION.md")
+    if KEY_PREFIX in (have or "") and e32_text not in (have or ""):
+        v.append("E32 sentence altered in submission/SUBMISSION.md")
+    return v
+
+
 def check(root):
     """Return a list of violation strings. Empty means pass."""
     v = []
@@ -347,6 +377,7 @@ def check(root):
             src = fh.read()
         if KEY_PREFIX in src and e32 not in src:
             v.append(f"E32 sentence altered in {rel}")
+    v += submission_problems(root, rx, e32_text)
     # (d) manifest
     mp = os.path.join(root, "data/MANIFEST.csv")
     if os.path.exists(mp):
