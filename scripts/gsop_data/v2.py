@@ -226,6 +226,57 @@ def copy_chips(base, root):
     return names
 
 
+LIMITS_DOCS = [("refs_limits", "docs/refs_limits.md"), ("evidence_limits", "docs/evidence_limits.md"), ("data_resources", "docs/data_resources.md")]
+
+
+def md_blocks(text):
+    """The small markdown subset these documents use: headings, bullets nested by two spaces, paragraphs, inline code.
+
+    Returns (title, blocks). Each block is {type: h2 | h3 | h4 | li | p, level, text}. The first level-one heading is the title.
+    """
+    title, blocks, para = None, [], []
+
+    def flush():
+        if para:
+            blocks.append({"type": "p", "level": 0, "text": " ".join(s.strip() for s in para)})
+            para.clear()
+
+    for line in text.splitlines():
+        if not line.strip():
+            flush()
+            continue
+        m = re.match(r"^(#{1,4})\s+(.*)$", line)
+        if m:
+            flush()
+            if len(m.group(1)) == 1 and title is None:
+                title = m.group(2).strip()
+            else:
+                blocks.append({"type": f"h{max(len(m.group(1)), 2)}", "level": 0, "text": m.group(2).strip()})
+            continue
+        m = re.match(r"^(\s*)[-*]\s+(.*)$", line)
+        if m:
+            flush()
+            blocks.append({"type": "li", "level": len(m.group(1)) // 2, "text": m.group(2).strip()})
+            continue
+        if blocks and blocks[-1]["type"] == "li" and line.startswith("  "):
+            blocks[-1]["text"] += " " + line.strip()  # a wrapped bullet
+            continue
+        para.append(line)
+    flush()
+    return title, blocks
+
+
+def limits_docs(base):
+    out = []
+    for key, rel in LIMITS_DOCS:
+        b = read(base, rel)
+        if b is None:
+            continue
+        title, blocks = md_blocks(b.decode("utf-8"))
+        out.append({"id": key, "path": f"{V2_DIR}/{rel}", "sha256": sha256_bytes(b), "title": title or key, "blocks": blocks})
+    return out
+
+
 def build(ctx):
     base = os.path.join(ctx.repo, V2_DIR)
     inputs = []
@@ -234,11 +285,13 @@ def build(ctx):
         inputs.append({"path": rel, "present": b is not None, **({"bytes": len(b), "sha256": sha256_bytes(b)} if b is not None else {})})
     pre = preregistrations(base)
     th = thermal(base)
+    docs = limits_docs(base)
     meas = measurements(base, ctx.sites)
     chips = copy_chips(base, ctx.root)
     done = all(i["present"] for i in inputs if i["path"] in ("runs/v2/metrics.json", "runs/v2/ledger.json"))
     sources = [{"source_file": f"{V2_DIR}/{i['path']}", "sha256": i["sha256"]} for i in inputs if i["present"]]
     sources += [{"source_file": f"{V2_DIR}/{p['file']}", "sha256": p["actual_sha256"]} for p in pre]
+    sources = list({s["source_file"]: s for s in sources}.values())
     meta = make_meta(
         "public/data/v2.json",
         "Optional v2 sim outputs: status, input hashes, pre-registrations and thermal reference layers.",
@@ -252,6 +305,7 @@ def build(ctx):
         "inputs": inputs,
         "preregistrations": pre,
         "thermal_refs": th,
+        "limits_docs": docs,
         "has_site_measurements": meas is not None,
         "n_chip_files": len([c for c in chips if c.endswith(".jpg")]),
     }

@@ -64,6 +64,32 @@ def full_fixture(repo):
     write(b, "public/img/sites/credits.json", '{"credit":"Contains modified Copernicus Sentinel data"}')
 
 
+class MarkdownTests(unittest.TestCase):
+    def test_blocks(self):
+        title, blocks = v2.md_blocks("# Title\n\nIntro line.\n\n## Section\n\n- one\n  - one.a\n    wrapped on\n- two\n\n### Sub\nplain para\n")
+        self.assertEqual(title, "Title")
+        kinds = [(b["type"], b["level"]) for b in blocks]
+        self.assertEqual(kinds, [("p", 0), ("h2", 0), ("li", 0), ("li", 1), ("li", 0), ("h3", 0), ("p", 0)])
+        self.assertEqual(blocks[3]["text"], "one.a wrapped on")
+
+    def test_limits_docs_only_when_present_and_numbers_get_claims(self):
+        tmp = tempfile.mkdtemp()
+        try:
+            write(os.path.join(tmp, "repo/data/v2"), "docs/refs_limits.md", "# Limits\n\n## A\n\n- the value is 76.75 K at `x`\n")
+            os.makedirs(os.path.join(tmp, "out/public/data"))
+            ctx = Ctx(os.path.join(tmp, "repo"), os.path.join(tmp, "out"), SITES)
+            v2.build(ctx)
+            with open(os.path.join(tmp, "out/public/data/v2.json")) as f:
+                d = json.load(f)
+            self.assertEqual([x["id"] for x in d["limits_docs"]], ["refs_limits"])
+            self.assertEqual(d["limits_docs"][0]["title"], "Limits")
+            c = {r[0]: r for r in claims.build_claims(os.path.join(tmp, "out"))}
+            self.assertEqual(c["v2.doc.refs_limits.b1.n0"][1], "76.75")
+            self.assertEqual(c["v2.doc.refs_limits.b1.n0"][2], "data/v2/docs/refs_limits.md")
+        finally:
+            shutil.rmtree(tmp)
+
+
 class V2Tests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
