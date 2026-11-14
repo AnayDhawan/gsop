@@ -144,6 +144,11 @@ def build_claims(root):
         for r in th["rows"]:
             if r["display"] is not None:
                 add(f"v2.thermal.{r['site']}.{r['layer']}.{r['stat']}", r["display"], th["path"], th["sha256"])
+    if v2:
+        for d_ in v2.get("limits_docs", []):
+            for i, blk in enumerate(d_["blocks"]):
+                for j, n in enumerate(text_numbers(blk["text"])):
+                    add(f"v2.doc.{d_['id']}.b{i}.n{j}", n, d_["path"], d_["sha256"])
     sm = docs.get("site_measurements.json")
     if sm:
         src = sm["meta"]["sources"][0]

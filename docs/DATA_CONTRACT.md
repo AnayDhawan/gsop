@@ -96,13 +96,13 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - Serves (b), (c), (d). Read by the Ledger page (v2 section) and the per-site pages (measured evidence). Every input is optional: the build and the site work with all of them absent, with some present and with all present (tests: `python3 -m unittest discover -s scripts/tests`, run in CI).
 - Inputs come from `AnayDhawan/sim`: `python3 scripts/sync_v2.py` copies whatever exists on `main`, `data/thermal-refs` and `data/site-evidence` into `data/v2/` with the same paths, and records branch, commit and sha256 in `data/v2/SOURCES.csv`. Nothing is edited or invented. Every file under `data/v2/` is in `data/MANIFEST.csv`.
 - Expected inputs: `runs/v2/metrics.json`, `ledger.json`, `claims_v2.csv`, `claims_c.csv`; `PREREG_*.md` with `prereg_*.sha256`; `data/reference/thermal_refs.csv` and `thermal_refs_files.csv`; `data/evidence/site_measurements.csv`, `ledger_c.json`; `public/img/sites/` (JPEG chips and `credits.json`); `docs/refs_limits.md`, `evidence_limits.md`, `data_resources.md`.
-- `v2.json`: `run_completed` (true only when both `runs/v2/metrics.json` and `ledger.json` exist), `status_text` ("v2 run not completed" otherwise), `inputs` (every expected file with present flag, bytes and sha256), `preregistrations` (per `PREREG_X.md`: title, sha256 of the LF-normalised document, the hash recorded in `prereg_x.sha256`, whether they match, and a deviations file when present), `thermal_refs` (rows from `thermal_refs.csv`, or `null`), `has_site_measurements`, `n_chip_files`.
+- `v2.json`: `run_completed` (true only when both `runs/v2/metrics.json` and `ledger.json` exist), `status_text` ("v2 run not completed" otherwise), `inputs` (every expected file with present flag, bytes and sha256), `preregistrations` (per `PREREG_X.md`: title, sha256 of the LF-normalised document, the hash recorded in `prereg_x.sha256`, whether they match, and a deviations file when present), `thermal_refs` (rows from `thermal_refs.csv`, or `null`), `limits_docs`, `has_site_measurements`, `n_chip_files`.
 - Thermal rows carry `status`: `value` (with `display`), `not_covered`, `empty` or `label`. Display rule: four significant digits, counts as integers. A `not_covered` row has no number. Claims ids are `v2.thermal.<site>.<layer>.<stat>`.
 - The `claims_v2.csv` and `claims_c.csv` files are copied but not merged: this build writes its own claims rows from the data it shows, so each shown number still has one row in `claims.csv`.
 - Gate results and v2 metrics are not shown yet. When the v2 ledger arrives its literal statuses (PASS, FAIL, NOT TESTED) will be shown; until then the page says "v2 run not completed". Nothing is estimated.
 - `site_measurements.json` exists only when `site_measurements.csv` is present, in the layout fixed by `runs/v2/PREREG_C.md` section 4 (a missing required column stops the build). Rows are grouped by site id, matched on site name and body. A null stays as a null with its note and reads "not measured" on the page. Rows with `page_ok` false are never shown (approximate coordinates keep only the larger radius, with a caveat). Display rule: three significant digits. Claims ids are `v2.evidence.<site id>.r<radius>.<dataset>.<variable>.<stat>`, plus `v2.evidence.radius.<radius>`.
 - Chips are copied to `public/img/sites/<slug>.jpg`; the page shows the chip with the credit string from `credits.json`. A stale output is removed when its input is removed.
-- `docs/refs_limits.md` and the other limits documents are copied but not shown, because their numbers have no claims rows until their claims files exist.
+- The limits documents (`docs/refs_limits.md`, `evidence_limits.md`, `data_resources.md`) are stored in `v2.json` under `limits_docs` as blocks (headings, nested bullets, paragraphs, inline code), when they exist. The Methods page shows them. Every number in them gets a claims row, `v2.doc.<id>.b<block>.n<index>`, that cites the document and its hash. A missing document is reported as "not available yet".
 
 ### `metrics.json`
 - Serves (c), (d). Read by results, failures and home pages. 146 entries, 74 KB, limit 100 KB.
@@ -116,7 +116,7 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - Header carries the E32 sentence verbatim in `meta.uncertainty_sentence` (compared with `docs/E32.txt` at build and in CI) and both pre-registration hashes in `meta.preregistration_hashes`.
 
 ### `claims.csv`
-- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 13,197 rows, 2.5 MB, limit 3 MB.
+- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 13,294 rows, 2.5 MB, limit 3 MB.
 - Rows come from: every `meta.facts` entry; numeric metrics; per-tile values in `tiles_top.json`; scored entries and summaries in `site_lookup.json`; region fields; overlay summaries; site coordinates and numbers inside site names and text; numbers inside quoted v1 ledger text.
 - Pages read their numbers from the data files and print the `number` string from this file.
 - Citation years (1900 to 2099) in source strings are not treated as numbers.
@@ -158,7 +158,7 @@ Not excluded from the scan: everything site-facing. Excluded: `data/banned_words
 | `regions.json` | 150 KB | 25 KB |
 | `metrics.json` | 100 KB | 74 KB |
 | `ledger.json` | 60 KB | 23 KB |
-| `v2.json` | 250 KB | 127 KB |
+| `v2.json` | 250 KB | 134 KB |
 | `site_measurements.json` | 2 MB | absent |
 | `claims.csv` | 3 MB | 2.1 MB |
 | all of `public/data/` | 8 MB | 3.9 MB |

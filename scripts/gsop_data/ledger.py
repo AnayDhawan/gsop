@@ -155,7 +155,7 @@ def build(ctx):
     M.metric("earth.land_tiles", ec["land_tiles"], "count", cov, "All land tiles on the grid. Most receive no score, so the ranking covers only part of the land.", "coverage", "Earth land tiles")
     M.metric(
         "earth.share_land_tiles_with_terrain", ec["share_of_land_tiles_with_terrain"], "ratio", cov,
-        "Terrain data are missing for a large share of land tiles, mostly at high latitude. Those places cannot appear in the ranking.",
+        "Terrain data are missing for a large share of land tiles. Those places cannot appear in the ranking.",
         "coverage", "Share of land tiles with terrain data",
     )
     for body, target, profile in sorted(VIEWS, key=lambda v: f"{v[1]}__{v[2]}"):
@@ -433,7 +433,7 @@ def build_ledger(ctx, metrics):
             "statement": f"Only {L.fact('ledger.earth.terrain_share', cov['value'], 'ratio', {'source_file': cov['source_file'], 'sha256': cov['sha256']})} of land tiles have terrain data. Tiles without terrain are never scored.",
             "source_file": cov["source_file"],
             "sha256": cov["sha256"],
-            "what_this_means_for_the_analogy": "Large parts of the Earth, mainly at high latitude, cannot appear in the search.",
+            "what_this_means_for_the_analogy": "Large parts of the Earth cannot appear in the search because they have no terrain data.",
         }
     )
     sentence = v1.text("docs/DECISIONS.md")

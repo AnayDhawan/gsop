@@ -5,7 +5,7 @@ export const NAV: NavItem[] = [
   { href: "/map", label: "Honest Map", description: "Where v1 scores high, with the controls that failed in red" },
   { href: "/sites", label: "Sites", description: "Reference sites and candidates, with the v1 score at each" },
   { href: "/ledger", label: "Failure-First Ledger", description: "What failed and where the analogy breaks down" },
-  { href: "/method", label: "Method", description: "What the screening does and does not do" },
+  { href: "/method", label: "Methods and limits", description: "How the screening works, and what it cannot tell you" },
   { href: "/credits", label: "Data credits", description: "Open data behind the scores" },
 ];
 

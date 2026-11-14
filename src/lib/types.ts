@@ -178,6 +178,7 @@ export type V2File = {
   inputs: { path: string; present: boolean; bytes?: number; sha256?: string }[];
   preregistrations: V2Prereg[];
   thermal_refs: { rows: V2ThermalRow[]; path: string; sha256: string } | null;
+  limits_docs: { id: string; path: string; sha256: string; title: string; blocks: { type: "h2" | "h3" | "h4" | "li" | "p"; level: number; text: string }[] }[];
   has_site_measurements: boolean;
   n_chip_files: number;
 };
