@@ -50,10 +50,43 @@ def write_manifest(ctx):
     ctx.log(f"manifest: {len(rels)} files")
 
 
-def steps():
-    from gsop_data import overlays, sites
+KB, MB = 1024, 1024 * 1024
+SIZE_LIMITS = {
+    "public/data/sites.json": 100 * KB,
+    "public/data/site_lookup.json": 300 * KB,
+    "public/data/tiles_top.json": 400 * KB,
+    "public/data/regions.json": 150 * KB,
+    "public/data/metrics.json": 60 * KB,
+    "public/data/ledger.json": 60 * KB,
+    "public/data/claims.csv": 3 * MB,
+}
+PNG_LIMIT = 2 * MB
+TOTAL_LIMIT = 8 * MB
 
-    return [("sites", sites.build), ("overlays", overlays.build)]
+
+def check_sizes(ctx):
+    """Fail the build when a file exceeds the limit in docs/DATA_CONTRACT.md."""
+    bad, total = [], 0
+    base = ctx.path("public/data")
+    for dp, _, fs in os.walk(base):
+        for f in fs:
+            rel = os.path.relpath(os.path.join(dp, f), ctx.root).replace(os.sep, "/")
+            size = os.path.getsize(os.path.join(dp, f))
+            total += size
+            limit = PNG_LIMIT if rel.endswith(".png") else SIZE_LIMITS.get(rel)
+            if limit is not None and size > limit:
+                bad.append(f"{rel}: {size} bytes over limit {limit}")
+    if total > TOTAL_LIMIT:
+        bad.append(f"public/data total {total} bytes over limit {TOTAL_LIMIT}")
+    if bad:
+        raise SystemExit("size limit exceeded:\n" + "\n".join(bad))
+    ctx.log(f"sizes ok, public/data total {total} bytes")
+
+
+def steps():
+    from gsop_data import overlays, sites, tiles
+
+    return [("sites", sites.build), ("overlays", overlays.build), ("tiles", tiles.build)]
 
 
 def main(argv=None):
@@ -73,6 +106,7 @@ def main(argv=None):
         ctx.log(f"v1 hash check: {n} files ok")
     for name, fn in steps():
         fn(ctx)
+    check_sizes(ctx)
     write_manifest(ctx)
     return 0
 
