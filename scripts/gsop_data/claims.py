@@ -135,6 +135,16 @@ def build_claims(root):
             pl = r["place"]
             nesrc = next(x for x in rg["meta"]["sources"] if x["source_file"].endswith("populated_places.csv" if pl["feature_class"] == "Populated place" else "regions_desert_plateau_range.geojson"))
             add(f"regions.{r['id'].replace(' ', '_')}.place_distance_km", d(pl["distance_km"], 0), nesrc["source_file"], nesrc["sha256"])
+    # controls
+    ct = docs.get("controls.json")
+    if ct:
+        for c in ct["controls"]:
+            first = next(iter(c["runs"].values()))
+            add(f"controls.{c['id']}.lat", d(c["lat"], 2), first["source_file"], first["sha256"])
+            add(f"controls.{c['id']}.lon", d(c["lon"], 2), first["source_file"], first["sha256"])
+            for run, r in c["runs"].items():
+                if "rank_pct" in r:
+                    add(f"controls.{c['id']}.{run}.rank_pct", d(r["rank_pct"], 1), r["source_file"], r["sha256"])
     # overlays
     for f, doc in docs.items():
         if f.startswith("overlays/") and "observed_max" in doc:
@@ -217,12 +227,27 @@ def text_scan_files(root):
                 yield os.path.relpath(os.path.join(dp, f), root).replace(os.sep, "/")
 
 
+PROSE_START = re.compile(r"^[A-Z][^{}<>=]*\s")
+
+
+def looks_like_prose(s):
+    """True for text a visitor reads. Tailwind class lists and code fragments are not prose."""
+    if re.search(r"[{}<>=&|?;]", s):
+        return False
+    if PROSE_START.match(s):
+        return True
+    # lowercase sentences: several plain words and no class-style tokens such as "px-2", "hover:x", "w-[10px]", "a/b"
+    return len(re.findall(r"\b[A-Za-z]{3,}\b", s)) >= 4 and not re.search(r"[A-Za-z0-9][-:/\[]\S", s)
+
+
 def jsx_text(src):
-    """Rough pass over page source: JSX text between tags and string literals that read like sentences."""
+    """Rough pass over page source: JSX text between tags and string literals that read like prose."""
     for m in re.finditer(r">([^<>{}]*[A-Za-z][^<>{}]*)<", src):
-        yield m.group(1)
+        if looks_like_prose(m.group(1).strip()) or re.search(r"[A-Za-z]{3,}", m.group(1)) and not re.search(r"[=&|?;]", m.group(1)):
+            yield m.group(1)
     for m in re.finditer(r"""(["'`])((?:(?!\1)[^\\\n]|\\.)*?\s(?:(?!\1)[^\\\n]|\\.)*?)\1""", src):
-        yield m.group(2)
+        if looks_like_prose(m.group(2)):
+            yield m.group(2)
 
 
 def check(root):
@@ -272,9 +297,9 @@ def check(root):
         for m in rx.finditer(src.replace(e32_text, "")):
             v.append(f"banned word '{m.group(0)}' in {rel}")
         for s in jsx_text(src):
+            # Page source may not hold a number in prose at all: it must come from a variable filled from claims.csv.
             for n in text_numbers(s):
-                if n not in nums:
-                    v.append(f"number {n} in {rel} has no row in claims.csv: {s.strip()[:60]!r}")
+                v.append(f"number {n} typed in page source {rel}; read it from claims.csv instead: {s.strip()[:60]!r}")
     # (c) the E32 sentence
     e32_path = os.path.join(root, "docs/E32.txt")
     with open(e32_path, encoding="utf-8") as fh:

@@ -62,6 +62,7 @@ SIZE_LIMITS = {
     "public/data/regions.json": 150 * KB,
     "public/data/metrics.json": 100 * KB,
     "public/data/ledger.json": 60 * KB,
+    "public/data/controls.json": 20 * KB,
     "public/data/claims.csv": 3 * MB,
 }
 PNG_LIMIT = 2 * MB
@@ -97,9 +98,9 @@ def write_claims(ctx):
 
 
 def steps():
-    from gsop_data import ledger, lookup, overlays, regions, sites, tiles
+    from gsop_data import controls, ledger, lookup, overlays, regions, sites, tiles
 
-    return [("sites", sites.build), ("overlays", overlays.build), ("tiles", tiles.build), ("lookup", lookup.build), ("ledger", ledger.build), ("regions", regions.build)]
+    return [("sites", sites.build), ("overlays", overlays.build), ("tiles", tiles.build), ("lookup", lookup.build), ("ledger", ledger.build), ("regions", regions.build), ("controls", controls.build)]
 
 
 def main(argv=None):

@@ -97,7 +97,7 @@ export type Region = {
   km_to_nearest_reference_site: number;
   nearest_reference_site: string;
   n_tiles_in_india: number;
-  nearest_place: string;
+  place: { name: string; feature_class: string; relation: "inside" | "near" | "nearest populated place"; distance_km: number; source: string };
   status: string;
   caveat: string;
 };
