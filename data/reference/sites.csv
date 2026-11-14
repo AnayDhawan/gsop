@@ -1,0 +1,121 @@
+name,body,lat,lon,kind,analog_of,source_url_1,source_url_2,v1_used,list
+Arkaroola (Mars-Oz),Mars,-30.3100,139.3400,,,,,false,known
+Atacama - Maria Elena South,Mars,-22.3000,-69.6000,,,,,false,known
+Atacama Desert - Yungay core,Mars,-24.0900,-70.0000,,,,,false,known
+Axel Heiberg - Gypsum Hill and Lost Hammer springs,Mars,79.4000,-90.7300,,,,,false,known
+Barranco del Jaroso (Sierra Almagrera),Mars,37.3000,-1.8100,,,,,false,known
+Beacon Valley and University Valley (Dry Valleys),Mars,-77.8200,160.6500,,,,,,known
+Bockfjord Volcanic Complex (AMASE),Mars,79.4300,13.3200,,,,,false,known
+Bodele Depression (diatomite deflation basin),Mars,17.0000,17.8000,,,,,false,candidate
+Channeled Scablands (Dry Falls),Mars,47.6100,-119.3600,,,,,false,known
+Chott el Djerid,Mars,33.7000,8.4000,,,,,false,candidate
+Craters of the Moon (BASALT),Mars,43.4200,-113.5200,,,,,false,known
+Cuatro Cienegas,Mars,26.8500,-102.0800,,,,,false,known
+Dallol,Mars,14.2400,40.3000,,,,,false,known
+Dasht-e Lut - Kalut yardang field,Mars,30.4000,58.1000,,,,,false,candidate
+Death Valley - Ubehebe Crater and basin floor,Mars,37.0100,-117.4500,,,,,false,known
+Dhofar desert (AMADEE-18),Mars,18.9000,55.5000,,,,,false,known
+Don Juan Pond,Mars,-77.5625,161.1900,,,,,,known
+Dumont Dunes,Mars,35.6800,-116.2200,,,,,false,known
+Dunhuang Yardang National Geopark,Mars,40.5000,93.1000,,,,,false,known
+El Tatio geyser field,Mars,-22.3300,-68.0100,,,,,false,known
+Emi Koussi volcano (Tibesti),Mars,19.7940,18.5520,,,,,false,candidate
+Erfoud / Merzouga (MARS2013),Mars,31.4300,-4.2200,,,,,false,known
+Gilf Kebir plateau and wadis,Mars,23.3000,25.9000,,,,,false,candidate
+Haughton crater - HMP and FMARS,Mars,75.3800,-89.6800,,,,,true,known
+HI-SEAS habitat (Mauna Loa),Mars,19.6020,-155.4880,,,,,,known
+Holuhraun lava field,Mars,64.8700,-16.8300,,,,,true,known
+Kaunertal Glacier (AMADEE-15),Mars,46.8700,10.7100,,,,,false,known
+Kilauea Ka'u Desert (BASALT),Mars,19.3500,-155.3300,,,,,,known
+Kolyma Lowland permafrost,Mars,69.0000,158.0000,,,,,false,known
+Kutch - Matanomadh jarosite,Mars,23.5300,68.9700,,,,,false,known
+Ladakh - Tso Kar and Puga,Mars,33.3000,77.9800,,,,,,known
+Lake Abbe hydrothermal carbonate chimneys,Mars,11.1300,41.8300,,,,,false,candidate
+Lake Gilmore acid saline lakes,Mars,-32.6000,121.7500,,,,,false,known
+Lanzarote - Timanfaya,Mars,29.0100,-13.7500,,,,,false,known
+Licancabur volcano summit lake,Mars,-22.8300,-67.8800,,,,,,known
+Lonar crater (Mars context),Mars,19.9760,76.5080,,,,,true,known
+Lop Nur 'Great Ear' salt crust,Mars,40.3000,90.4000,,,,,false,candidate
+"Makhtesh Ramon (D-MARS, AMADEE-20)",Mars,30.6100,34.8000,,,,,false,known
+Mars Base 1 (Jinchang),Mars,38.3000,102.2000,,,,,false,known
+Mars Desert Research Station (Hanksville),Mars,38.4060,-110.7920,,,,,true,known
+Myvatn - Namafjall (hydrothermal + rootless cones),Mars,65.6400,-16.8100,,,,,,known
+Namib Desert (Gobabeb),Mars,-23.5600,15.0400,,,,,false,known
+Navajo Sandstone hematite concretions (Grand Staircase-Escalante),Mars,37.4500,-111.5500,,,,,false,known
+Ojos del Salado high-altitude permafrost,Mars,-27.1100,-68.5400,,,,,false,candidate
+Painted Desert / Petrified Forest,Mars,35.0700,-109.7800,,,,,false,known
+Pampas de La Joya,Mars,-16.8000,-71.8500,,,,,false,known
+Pilbara - Dresser Formation stromatolites,Mars,-21.1500,119.4300,,,,,false,known
+Pisgah volcanic field / Lavic Lake,Mars,34.7500,-116.3800,,,,,false,known
+Pu'u Nene cinder cone (JSC Mars-1 source),Mars,19.6700,-155.4700,,,,,,known
+Qaidam Basin - Dalangtan playa,Mars,38.4700,91.4000,,,,,false,known
+Rio Tinto (MARTE),Mars,37.7200,-6.5600,,,,,false,known
+Salar de Pajonales,Mars,-25.1500,-68.8200,,,,,false,known
+Salar Grande,Mars,-20.9000,-70.0000,,,,,false,known
+Samail Ophiolite - Wadi Tayin massif,Mars,22.9000,58.5500,,,,,false,candidate
+Shark Bay - Hamelin Pool stromatolites,Mars,-26.4000,114.1600,,,,,false,known
+Teide - Las Canadas caldera,Mars,28.2700,-16.6400,,,,,false,known
+Tirez Lake,Mars,39.5500,-3.3500,,,,,false,known
+Umm al Samim sabkha,Mars,21.6330,55.9000,,,,,false,candidate
+White Sands gypsum dunes,Mars,32.8000,-106.2700,,,,,false,known
+Yellowstone - Norris Geyser Basin,Mars,44.7300,-110.7000,,,,,false,known
+Askja caldera,Moon,65.0500,-16.7800,,,,,true,known
+Atacama Desert (CMU Nomad rover traverse),Moon,-23.0000,-69.9000,,,,,false,known
+Black Point Lava Flow,Moon,35.6900,-111.3800,,,,,,known
+Bunge Land (Zemlya Bunge),Moon,75.4190,141.0140,,,,,false,candidate
+Cinder Lake Crater Field,Moon,35.3100,-111.5000,,,,,true,known
+Concordia Station (Dome C),Moon,-75.1000,123.3300,,,,,false,known
+Craters of the Moon National Monument,Moon,43.4200,-113.5200,,,,,false,known
+"ESA CAVES site (Sa Grutta, Sardinia)",Moon,40.2500,9.5700,,,,,false,known
+Fiskenaesset anorthosite complex (Qeqertarsuatsiaq),Moon,63.0800,-50.6800,,,,,false,candidate
+Fukushima Robot Test Field lunar analog ('Moon/Mars Garden'),Moon,37.6300,141.0000,,,,,false,known
+Gosses Bluff crater,Moon,-23.8200,132.3100,,,,,true,known
+Grand Canyon (South Rim and inner canyon),Moon,36.1000,-112.1100,,,,,,known
+Harrat Khaybar and Umm Jirsan lava tube,Moon,25.6000,39.9300,,,,,false,candidate
+Haughton crater (Devon Island),Moon,75.3800,-89.6800,,,,,true,known
+Henbury craters,Moon,-24.5700,133.1500,,,,,false,known
+HI-SEAS habitat (Mauna Loa),Moon,19.6020,-155.4880,,,,,,known
+Hopi Buttes volcanic field,Moon,35.4500,-110.1500,,,,,false,known
+Huailai lunar landing test site,Moon,40.4000,115.5200,,,,,false,known
+ISRO Challakere lunar terrain test facility,Moon,14.2000,76.6000,,,,,false,known
+"Kamchatka (Lunokhod chassis trials, Tolbachik area)",Moon,55.7800,160.3200,,,,,false,known
+Kamil crater,Moon,22.0183,26.0878,,,,,false,candidate
+Karakul impact structure (Pamir),Moon,39.0170,73.4500,,,,,false,candidate
+Kilauea caldera and Ka'u Desert,Moon,19.4100,-155.2800,,,,,,known
+Kilbourne Hole and Potrillo Volcanic Field,Moon,31.9700,-106.9700,,,,,false,known
+"Kumtag Desert (Yutu rover tests, Dunhuang)",Moon,40.3000,92.5000,,,,,false,known
+Lanzarote - Timanfaya and La Corona lava tube,Moon,29.0100,-13.7500,,,,,false,known
+Lava Beds National Monument,Moon,41.7100,-121.5100,,,,,false,known
+Lonar crater,Moon,19.9760,76.5080,,,,,true,known
+Lunar Crater Volcanic Field,Moon,38.3800,-116.0700,,,,,false,known
+"Lunodrom (Simferopol-28, Crimea)",Moon,45.0540,33.8940,,,,,false,known
+Mars Desert Research Station (lunar crews),Moon,38.4060,-110.7920,,,,,,known
+Mauna Kea (PISCES / ISRU test sites),Moon,19.8200,-155.4700,,,,,true,known
+McMurdo Dry Valleys (Taylor/Wright valleys),Moon,-77.6200,162.9000,,,,,,known
+Merriam Crater cinder deposits,Moon,35.3350,-111.2850,,,,,true,known
+Meteor Crater (Barringer),Moon,35.0275,-111.0225,,,,,,known
+Mistastin (Kamestastin) Lake crater,Moon,55.8800,-63.3100,,,,,false,known
+Moses Lake Sand Dunes,Moon,47.0600,-119.3300,,,,,false,known
+Mount Erebus (Dante I robot),Moon,-77.5300,167.1500,,,,,false,known
+Mount Etna summit area (ROBEX / ARCHES),Moon,37.7500,14.9900,,,,,false,known
+Mount Howe and the Scott Glacier moraines (southernmost rock),Moon,-87.3670,-149.5000,,,,,false,candidate
+Myvatn and Krafla lava fields,Moon,65.6500,-16.8000,,,,,,known
+NEEMO (Aquarius Reef Base),Moon,24.9500,-80.4500,,,,,false,known
+Newberry Volcano - Big Obsidian Flow & Lava River Cave,Moon,43.7200,-121.2300,,,,,false,known
+Nordlinger Ries crater,Moon,48.8800,10.5650,,,,,false,known
+Orocopia Mountains,Moon,33.5500,-115.7800,,,,,false,known
+Payun Matru volcanic field and Pampas Onduladas flow,Moon,-36.4200,-69.2400,,,,,false,candidate
+Peary Land polar desert (central plateau),Moon,82.6330,-32.5000,,,,,false,candidate
+Pinacate and Gran Desierto (El Pinacate),Moon,31.7700,-113.5000,,,,,false,known
+Rio Grande Gorge (Taos),Moon,36.4800,-105.7300,,,,,false,known
+Schirmacher Oasis (near Maitri station),Moon,-70.7580,11.6440,,,,,false,candidate
+Sedan Crater (Nevada National Security Site),Moon,37.1770,-116.0460,,,,,false,known
+Sittampundi anorthosite complex,Moon,11.2500,77.8800,,,,,false,known
+SP Crater and SP lava flow,Moon,35.5820,-111.6320,,,,,true,known
+Stillwater Complex,Moon,45.4000,-109.8800,,,,,false,known
+Sudbury Basin,Moon,46.6000,-81.1800,,,,,false,known
+Tenoumer crater,Moon,22.9170,-10.4080,,,,,false,candidate
+Tottori Sand Dunes Lunar Demonstration Field ('Luna Terrace'),Moon,35.5400,134.2300,,,,,false,known
+Valley of Ten Thousand Smokes (Katmai),Moon,58.3500,-155.3500,,,,,false,known
+Vostok Station,Moon,-78.4600,106.8400,,,,,false,known
+Wolfe Creek crater,Moon,-19.1700,127.8000,,,,,false,known

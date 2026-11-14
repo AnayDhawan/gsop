@@ -1,0 +1,6 @@
+# Banned in any site-facing text (decision E32). One term per line, matched as whole words, ignoring case.
+# Lines starting with # are comments. This file is excluded from the claims check scan.
+validated
+discovered
+undiscovered
+new sites

@@ -15,8 +15,7 @@ next-env.d.ts
 .env.*
 !.env.example
 
-# raw v1 results and archives stay out of the repo
-*.zip
+# raw v1 parquet files stay out of the repo
 *.parquet
 data/raw/
 
