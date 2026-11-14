@@ -2,7 +2,7 @@
 // Every number a page prints comes from claim(): a missing claim stops the build instead of printing a typed value.
 import fs from "node:fs";
 import path from "node:path";
-import type { Control, LedgerEntry, LookupEntry, Meta, Metric, Overlay, Region, Site, SummaryGroup, View } from "./types";
+import type { Control, LedgerEntry, LookupEntry, Measurement, Meta, Metric, Overlay, Region, Site, SummaryGroup, V2File, View } from "./types";
 
 const ROOT = process.cwd();
 const cache = new Map<string, unknown>();
@@ -27,6 +27,28 @@ export const regionsFile = () => readJson<{ meta: Meta; regions: Region[] }>("pu
 export const metricsFile = () => readJson<{ meta: Meta; metrics: Metric[] }>("public/data/metrics.json");
 export const ledgerFile = () => readJson<{ meta: Meta; entries: LedgerEntry[] }>("public/data/ledger.json");
 export const controlsFile = () => readJson<{ meta: Meta; controls: Control[] }>("public/data/controls.json");
+export const v2File = () => readJson<V2File>("public/data/v2.json");
+
+function exists(rel: string): boolean {
+  return fs.existsSync(path.join(/* turbopackIgnore: true */ ROOT, rel));
+}
+
+/** Site measurements from the optional v2 evidence run. Null when the file is absent, and the page then shows nothing. */
+export function measurementsFile(): { meta: Meta; by_site: Record<string, Measurement[]> } | null {
+  return exists("public/data/site_measurements.json") ? readJson("public/data/site_measurements.json") : null;
+}
+
+/** The imagery chip for a site, when the evidence run produced one. */
+export function chipFor(slug: string): { src: string; credit: string | null } | null {
+  if (!exists(`public/img/sites/${slug}.jpg`)) return null;
+  let credit: string | null = null;
+  if (exists("public/img/sites/credits.json")) {
+    const c = readJson<{ credit?: string }>("public/img/sites/credits.json");
+    credit = c.credit ?? null;
+  }
+  return { src: `/img/sites/${slug}.jpg`, credit };
+}
+
 export const overlay = (target: string) => readJson<Overlay>(`public/data/overlays/${target}.json`);
 export const OVERLAY_TARGETS = ["connecting_ridge_c1", "shackleton_rim", "jezero"] as const;
 

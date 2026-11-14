@@ -146,3 +146,55 @@ export type Control = {
   coordinates_confirmed: boolean;
   runs: Record<string, { status: string; rank_pct?: number; reason?: string }>;
 };
+
+// Optional v2 inputs (issue B16). Every part may be missing.
+export type V2Prereg = {
+  id: string;
+  file: string;
+  title: string;
+  actual_sha256: string;
+  recorded_sha256: string;
+  matches: boolean | null;
+  deviations_file: string | null;
+};
+
+export type V2ThermalRow = {
+  site: string;
+  body: string;
+  layer: string;
+  stat: string;
+  units: string;
+  product: string;
+  version: string;
+  status: "value" | "not_covered" | "empty" | "label";
+  display: string | null;
+  text?: string;
+};
+
+export type V2File = {
+  meta: Meta;
+  run_completed: boolean;
+  status_text: string;
+  inputs: { path: string; present: boolean; bytes?: number; sha256?: string }[];
+  preregistrations: V2Prereg[];
+  thermal_refs: { rows: V2ThermalRow[]; path: string; sha256: string } | null;
+  has_site_measurements: boolean;
+  n_chip_files: number;
+};
+
+export type Measurement = {
+  dataset: string;
+  variable: string;
+  stat: string;
+  radius_km: string;
+  units: string;
+  product_id: string;
+  version: string;
+  doi_or_url: string;
+  date_range: string;
+  coord_flag: string;
+  page_ok: boolean;
+  note: string;
+  value: number | null;
+  display: string | null;
+};
