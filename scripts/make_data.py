@@ -53,7 +53,7 @@ def write_manifest(ctx):
 
 KB, MB = 1024, 1024 * 1024
 SIZE_LIMITS = {
-    "public/data/sites.json": 100 * KB,
+    "public/data/sites.json": 250 * KB,
     "public/data/site_lookup.json": 300 * KB,
     "public/data/tiles_top.json": 400 * KB,
     "public/data/regions.json": 150 * KB,

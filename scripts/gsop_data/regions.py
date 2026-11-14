@@ -96,9 +96,9 @@ def build(ctx):
     got = in_polys(lon_c, lat_c, polys)
     mism = int((want != got).sum())
     assert mism <= 2, f"India point-in-polygon disagrees with v1 on {mism} tiles"
-    s_lat = np.array([s["lat"] for s in ctx.sites])
-    s_lon = np.array([s["lon"] for s in ctx.sites])
-    s_id = [s["id"] for s in ctx.sites]
+    s_lat = np.array([s["lat"] for s in ctx.ref_sites])
+    s_lon = np.array([s["lon"] for s in ctx.ref_sites])
+    s_id = [s["id"] for s in ctx.ref_sites]
     sources = [v1.src("config/run.yaml"), v1.src("data/processed/grid.json"), v1.src("site_data/india_boundary_naturalearth_ind_10m.geojson")]
     found = []
     stats = {}

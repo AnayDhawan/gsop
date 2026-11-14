@@ -34,7 +34,7 @@ def india_flags(v1, body, target, profile):
 
 def build(ctx):
     v1 = ctx.v1
-    sites = ctx.sites
+    sites = ctx.ref_sites
     s_lat = np.array([s["lat"] for s in sites])
     s_lon = np.array([s["lon"] for s in sites])
     s_id = [s["id"] for s in sites]

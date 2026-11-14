@@ -41,23 +41,25 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 ## Files
 
 ### `sites.json`
-- Serves (a), (b), (c). Read by site list and detail pages. 100 sites, 53 KB, limit 100 KB.
-- Source: `data/reference/raw/GSOP_analog_sites_moon_mars.csv`, only the rows labelled as known sites (50 Moon, 50 Mars). The 20 candidate rows are not reference sites and are left out here; see `data/reference/sites_check.md`. Column mapping decisions are in `docs/sites_mapping.md`.
-- Fields: `id`, `name`, `body`, `lat`, `lon`, `kind`, `analog_of`, `source_url_1`, `source_url_2`, `coordinates_approximate`, `v1_used`, `v1_match` (`{site_id, km}`), `limits`, `limits_source`.
-- The two-source rule was relaxed by instruction. The CSV has no URLs, so both source fields read `"not provided in site CSV"`.
-- `kind` and `analog_of` are `null`, as in `docs/sites_mapping.md`: `Process_type` is ambiguous and a person decides; the CSV has no analog target column.
-- `limits` is the CSV `Where_analogy_breaks` text. It is LLM-written and unreviewed. Numbers inside it and inside site names get claims rows that cite the CSV.
-- `v1_used`: `true` within v1's match radius of a v1 site run for that body; `unknown` near a v1 site but not matching; `false` beyond v1's exclusion distance of every v1 site.
-- The CSV's similarity numbers, Monte Carlo bands and gate labels are not v1 outputs and are not published.
+- Serves (a), (b), (c). Read by site list and `/sites/<slug>` pages. 120 sites (100 known, 20 candidate), about 160 KB, limit 250 KB.
+- Source: `data/reference/raw/GSOP_analog_sites_moon_mars.csv`, mapped by `scripts/push_sites_csv.py` (the same code that loads the Supabase table), so slugs, banned-word rewrites and field values match `public.sites`. Mapping decisions are in `docs/sites_mapping.md`.
+- Fields: every column of `public.sites` except `id`, `notes` and `created_at`: `slug`, `list` (`known` or `candidate`), `name`, `body`, `country`, `lat`, `lon`, `elevation_m`, `why_analog`, `key_differences`, `experiments_done`, `experiments_possible`, `how_to_modify`, `year_first_used_as_analog`, `status`, `sources_ok`, `source_note`, `origin`, `coord_flag`, `coord_source`, `source_url_1` to `source_url_3`, `v1_used`, and the empty columns `kind`, `analog_of`, `region`, `summary`, `terrain_geology`, `climate`, `parameters_matched`, `access_and_facilities`, `hazards` (all `null`).
+- Added by this build: `id` (build key, slug plus body; the same slug can appear once per body), `v1_match` (`{site_id, km}`).
+- `v1_used` is `true`, `false` or `null` (unknown). `true`: within v1's match radius of a v1 site run for that body. `null`: near a v1 site but not matching, or v1 ran that site for the other body only. `false`: beyond v1's exclusion distance of every v1 site.
+- Known rows are our reference list. Candidate rows are LLM suggestions: not in our reference list, not used for distances or the region drop rule.
+- The CSV has no source URLs, so `sources_ok` is `false` and `source_note` reads "no sources in CSV". The two-source rule from the task was relaxed by instruction.
+- All text is LLM-written and unreviewed. Numbers inside names and text get claims rows that cite the CSV.
+- The CSV's similarity numbers, Monte Carlo bands, gate labels, rankings and nearest-site columns are not published.
 
 ### `site_lookup.json`
-- Serves (a), (b), (c). Read by site detail and list pages. 500 entries, 162 KB, limit 300 KB.
+- Serves (a), (b), (c). Read by site detail and list pages. 600 entries, about 190 KB, limit 300 KB.
 - `meta.label`: "Descriptive lookup of stored v1 scores at reference sites. This is not a test."
 - Rule for site to tile: v1's own. The best-scoring tile that passed the gates within the match radius (read from v1's `run.yaml`).
 - Percentile: v1's own, `100 * (tiles with a lower score) / (tiles that passed the gates in that view)`. Checked against v1: Haughton and Mars Desert Research Station reproduce v1's stored values to every digit.
 - Entry per site and view: `status` (`scored`, `gated_out`, `missing_data`, `no_land_tile`), and for `scored`: `tile_id`, `km_to_tile`, `score`, `percentile`, `top5_in_90pct_runs`. Other statuses carry `reason` and no score.
 - `summary_by_view`: per view, `v1_used_true` and `v1_used_false` each with `n` (sites with a percentile), `n_group` (sites in the group) and `median_percentile`; `v1_used_unknown` with counts only.
-- Today: 338 scored, 76 gated out, 56 missing data, 30 with no land tile.
+- Entries cover all 120 sites. Summaries cover known sites only.
+- Today (120 sites): 426 scored, the rest gated out, missing data or no land tile.
 
 ### `tiles_top.json`
 - Serves (a). Read by candidates table and map. 301 KB, limit 400 KB.
@@ -93,7 +95,7 @@ Data files keep 4 decimals for scores and coordinates (6 for metric values), whi
 - Header carries the E32 sentence verbatim in `meta.uncertainty_sentence` (compared with `docs/E32.txt` at build and in CI) and both pre-registration hashes in `meta.preregistration_hashes`.
 
 ### `claims.csv`
-- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 11,185 rows, 2.1 MB, limit 3 MB.
+- Columns: `claim`, `number`, `source_file`, `sha256`. Sorted by `claim`. 11,804 rows, 2.2 MB, limit 3 MB.
 - Rows come from: every `meta.facts` entry; numeric metrics; per-tile values in `tiles_top.json`; scored entries and summaries in `site_lookup.json`; region fields; overlay summaries; site coordinates and numbers inside site names and text; numbers inside quoted v1 ledger text.
 - Pages read their numbers from the data files and print the `number` string from this file.
 - Citation years (1900 to 2099) in source strings are not treated as numbers.
@@ -127,8 +129,8 @@ Not excluded from the scan: everything site-facing. Excluded: `data/banned_words
 
 | File | Limit | Today |
 |---|---:|---:|
-| `sites.json` | 100 KB | 53 KB |
-| `site_lookup.json` | 300 KB | 162 KB |
+| `sites.json` | 250 KB | 162 KB |
+| `site_lookup.json` | 300 KB | 193 KB |
 | `tiles_top.json` | 400 KB | 301 KB |
 | `overlays/<target>.png` | 2 MB each | under 0.45 MB |
 | `regions.json` | 150 KB | 72 KB |

@@ -84,7 +84,10 @@ def build(ctx):
         for s, (tiles, km) in zip(sites, near):
             if s["body"].lower() != body:
                 continue
-            groups[s["v1_used"]] += 1
+            grp = {True: "true", False: "false", None: "unknown"}[s["v1_used"]]
+            known = s["list"] == "known"
+            if known:
+                groups[grp] += 1
             codes = gates[tiles] if len(tiles) else np.array([], dtype=np.int8)
             land = codes >= 0
             e = {"source_file": view_sources[view][0]["source_file"], "sha256": view_sources[view][0]["sha256"]}
@@ -107,7 +110,8 @@ def build(ctx):
                         percentile=num(pct, 4),
                         top5_in_90pct_runs=int(t_p[best]) in flagged,
                     )
-                    pcts[s["v1_used"]].append(pct)
+                    if known:
+                        pcts[grp].append(pct)
                 else:
                     c = codes[land]
                     if all(int(x) in LAND_COVER_FAIL for x in c):
@@ -152,7 +156,7 @@ def build(ctx):
         uniq,
         facts=facts,
         gate_codes=CODE,
-        summary_note="n is the number of sites with a percentile; n_group is the number of sites in that group for the view's body. Unknown flags are counted separately.",
+        summary_note="Summaries cover known sites only (our reference list), not candidate rows. n is the number of sites with a percentile; n_group is the number of sites in that group for the view's body. Unknown flags are counted separately.",
     )
     out = {"meta": meta, "sites": entries, "summary_by_view": summaries}
     write_json(ctx.path("public/data/site_lookup.json"), out)

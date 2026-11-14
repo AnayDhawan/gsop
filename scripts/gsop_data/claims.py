@@ -15,7 +15,7 @@ DATA = "public/data"
 SITES_CSV = "data/reference/sites.csv"
 
 # Keys whose string values are identifiers, paths, hashes or citations, not statements with numbers.
-SKIP_KEYS = {"id", "claim", "source_file", "sha256", "file", "image", "legend", "hex", "nearest_reference_site", "unit", "source", "group", "crs", "colour_scale", "limits_source"}
+SKIP_KEYS = {"id", "claim", "source_file", "sha256", "file", "image", "legend", "hex", "nearest_reference_site", "unit", "source", "group", "crs", "colour_scale", "limits_source", "slug", "site_id"}
 SKIP_META = {"sources", "facts"}
 NUM_RE = re.compile(r"(?<![\w.])-?\d[\d,]*(?:\.\d+)?")
 YEAR_RE = re.compile(r"^(19|20)\d\d$")  # citation years are not statistics
@@ -141,16 +141,21 @@ def build_claims(root):
                 add(f"overlay.{doc['target']}.{k}", d(doc[k], 1), base["source_file"], base["sha256"])
             data_src = next(s for s in doc["meta"]["sources"] if s["source_file"].endswith("base_scores.parquet"))
             add(f"overlay.{doc['target']}.n_scored_tiles", d(doc["n_scored_tiles"], 0), data_src["source_file"], data_src["sha256"])
-    # sites: coordinates and numbers inside names and CSV text
+    # sites: coordinates, elevation, year, and numbers inside names and CSV text
     st = docs.get("sites.json")
-    if st and os.path.exists(os.path.join(root, SITES_CSV)):
-        ssha = local_sha(SITES_CSV)
+    if st:
+        csv_rel = st["meta"]["sources"][0]["source_file"]
+        ssha = st["meta"]["sources"][0]["sha256"]  # hash of the CSV as read by make_data
         for s in st["sites"]:
-            add(f"sites.{s['id']}.lat", d(s["lat"], 2), SITES_CSV, ssha)
-            add(f"sites.{s['id']}.lon", d(s["lon"], 2), SITES_CSV, ssha)
-            for field in ("name", "limits"):
-                for i, n in enumerate(text_numbers(s[field])):
-                    add(f"sites.{s['id']}.{field}.text{i}", n, SITES_CSV, ssha)
+            add(f"sites.{s['id']}.lat", d(s["lat"], 2), csv_rel, ssha)
+            add(f"sites.{s['id']}.lon", d(s["lon"], 2), csv_rel, ssha)
+            if s["elevation_m"] is not None:
+                add(f"sites.{s['id']}.elevation_m", d(s["elevation_m"], 0), csv_rel, ssha)
+            if s["year_first_used_as_analog"] is not None:
+                add(f"sites.{s['id']}.year_first_used_as_analog", str(s["year_first_used_as_analog"]), csv_rel, ssha)
+            for field in ("name", "country", "why_analog", "key_differences", "experiments_done", "experiments_possible", "how_to_modify"):
+                for i, n in enumerate(text_numbers(s[field] or "")):
+                    add(f"sites.{s['id']}.{field}.text{i}", n, csv_rel, ssha)
     # ledger: numbers inside quoted v1 text
     lg = docs.get("ledger.json")
     if lg:
