@@ -35,6 +35,18 @@ export type Site = {
   coord_source: string;
   v1_used: boolean | null;
   v1_match: { site_id: string; km: number };
+  kind: string | null;
+  analog_of: string | null;
+  region: string | null;
+  summary: string | null;
+  terrain_geology: string | null;
+  climate: string | null;
+  parameters_matched: string | null;
+  access_and_facilities: string | null;
+  hazards: string | null;
+  source_url_1: string | null;
+  source_url_2: string | null;
+  source_url_3: string | null;
 };
 
 export type LookupEntry =
