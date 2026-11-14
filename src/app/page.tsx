@@ -49,7 +49,7 @@ export default function Home() {
         </h2>
         <ul className="space-y-3">
           <li className="border border-control p-4">
-            On the Moon run, two places that should score low scored high: the Namib sand sea at percentile {claim("metrics.moon.control.namib_sand_sea.rank_pct")} and the Rub&apos; al Khali at percentile{" "}
+            The negative-control test failed on the Moon run. Two places that should score low scored high: the Namib sand sea at percentile {claim("metrics.moon.control.namib_sand_sea.rank_pct")} and the Rub&apos; al Khali at percentile{" "}
             {claim("metrics.moon.control.rub_al_khali.rank_pct")}. The pre-registered maximum was percentile {claim("metrics.moon.criterion.negative_control_rank_pct_max")}.
           </li>
           <li className="border border-control p-4">

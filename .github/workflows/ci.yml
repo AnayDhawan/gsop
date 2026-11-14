@@ -20,3 +20,8 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+      - name: Wording audit of the built site
+        run: |
+          npx next start -p 3100 &
+          for i in $(seq 1 30); do curl -sf http://localhost:3100/ > /dev/null && break; sleep 1; done
+          python3 scripts/audit_site.py --base http://localhost:3100 --sample-sites 20
