@@ -1,0 +1,6 @@
+# Python packages for scripts/make_data (Phase B). Versions are the ones the build was written against.
+numpy==2.4.6
+pyarrow==25.0.0
+pyproj==3.8.0
+PyYAML==6.0.3
+Pillow==11.1.0
