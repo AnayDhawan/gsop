@@ -93,7 +93,7 @@ def build(ctx):
         "Top tiles per view from v1's stored Monte Carlo summary. Candidates not in our reference list, unreviewed.",
         TILES_LIMITS,
         uniq,
-        order="tiles with the top-5%-in-90%-of-runs flag first, then by Monte Carlo median score, then by tile id",
+        order="tiles with the stability flag first, then by Monte Carlo median score, then by tile id",
         in_india_note="inside the Natural Earth India outline used by v1; not an official map",
         tile_size_note="each tile is one cell of the v1 equal-area grid",
     )

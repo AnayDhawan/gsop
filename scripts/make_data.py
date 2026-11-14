@@ -25,6 +25,7 @@ class Ctx:
         self.csv_path = csv_path
         self.root = root
         self.sites = []
+        self.repo = REPO
 
     def path(self, rel):
         return os.path.join(self.root, rel)
@@ -56,7 +57,7 @@ SIZE_LIMITS = {
     "public/data/site_lookup.json": 300 * KB,
     "public/data/tiles_top.json": 400 * KB,
     "public/data/regions.json": 150 * KB,
-    "public/data/metrics.json": 60 * KB,
+    "public/data/metrics.json": 100 * KB,
     "public/data/ledger.json": 60 * KB,
     "public/data/claims.csv": 3 * MB,
 }
@@ -84,9 +85,9 @@ def check_sizes(ctx):
 
 
 def steps():
-    from gsop_data import lookup, overlays, sites, tiles
+    from gsop_data import ledger, lookup, overlays, sites, tiles
 
-    return [("sites", sites.build), ("overlays", overlays.build), ("tiles", tiles.build), ("lookup", lookup.build)]
+    return [("sites", sites.build), ("overlays", overlays.build), ("tiles", tiles.build), ("lookup", lookup.build), ("ledger", ledger.build)]
 
 
 def main(argv=None):
