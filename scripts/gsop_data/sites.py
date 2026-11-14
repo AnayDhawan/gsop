@@ -266,10 +266,10 @@ def write_report(path, rep, csv_sha, n_kept):
 
 
 SITES_LIMITS = [
-    "Sites are places named as analogs in an LLM-written list. They are not scored results.",
-    "Coordinates come from an LLM-written CSV; many are approximate.",
+    "Sites are places named as analogs in a teammate-supplied list. They are not scored results.",
+    "Coordinates come from a teammate-supplied CSV; many are approximate.",
     "The CSV gave no source links, so none are shown and no site has passed a sources check.",
-    "All descriptive text (why it is an analog, where the analogy breaks, experiments) is LLM-written and has not been reviewed.",
+    "All descriptive text (why it is an analog, where the analogy breaks, experiments) is teammate-written and unreviewed.",
     "Candidate rows are suggestions only. They are not in our reference list.",
     "The v1 used flag is a coordinate match against the v1 site list, not a name match.",
     "Earth sites differ from the Moon and Mars in gravity, air, radiation and dust; see the ledger.",
@@ -330,16 +330,17 @@ def build(ctx):
     sites.sort(key=lambda s: s["id"])
     meta = make_meta(
         "public/data/sites.json",
-        "Sites from an LLM-written CSV: known sites and candidates. Descriptive list, not scored results.",
+        "Sites from a teammate-supplied CSV: known sites and candidates. Descriptive list, not scored results.",
         SITES_LIMITS,
         [{"source_file": CSV_REF, "sha256": csv_sha}, ctx.v1.src("config/known_sites.yaml")],
+        text_label="teammate-written, unreviewed",
         columns_note="all columns of public.sites except id, notes and created_at; id here is a build key (slug plus body), not the database id",
         v1_used_rule=(
             "true: within the v1 site match radius of a v1 site run for the same body. "
             "null (unknown): near a v1 site but not matching, or v1 ran that site for the other body only. "
             "false: farther than the v1 exclusion distance from every v1 site."
         ),
-        list_note="known sites are our reference list; candidate rows are LLM suggestions, not in our reference list, and are not used for distances or the region drop rule",
+        list_note="known sites are our reference list; candidate rows are teammate suggestions, not in our reference list, and are not used for distances or the region drop rule",
     )
     write_json(ctx.path("public/data/sites.json"), {"meta": meta, "sites": sites})
     ctx.sites = sites

@@ -5,7 +5,7 @@
 
 Checks:
   (a) banned words in every site-facing text block (data/banned_words.txt itself and internal docs are not scanned)
-  (b) every number in site-facing text has a row in public/data/claims.csv, and claims.csv matches the data files
+  (b) every number in data text has a row in public/data/claims.csv, claims.csv matches the data files, and page source holds no typed number
   (c) the E32 sentence equals docs/E32.txt wherever it appears
   (d) data/MANIFEST.csv matches the files it lists and lists every file under public/data
 """
