@@ -77,7 +77,7 @@ No mismatches found. Further details the site must carry:
 ## Concerns about the inputs
 
 - `docs/DECISIONS_SITE.md` and `docs/SUBMISSION_RULES.md` do not exist in this repo or its history, so they were not read.
-- The 50-site CSV does not match the schema in the brief. See `data/reference/sites_check.md` (B2).
+- The site CSV does not match the schema in the brief and has no source URLs; the two-source rule was relaxed by instruction. See `data/reference/sites_check.md` (B2).
 - v1 tile scores exist only for tiles that passed the gates (about 31% of land tiles for Moon). Gated-out tiles have no score.
 - The latitude 20 to 40 Moon run covers only part of the globe, so its tile grid differs from the full run.
 
@@ -114,7 +114,7 @@ Source: `docs/PROVENANCE.md`, `config/*.yaml`, `docs/DECISIONS.md`, `site_data/R
 ## Concerns for later tasks
 
 - B10 gazetteer: none in the zip. Blocker until Anay or Yash names one. Natural Earth populated places would be consistent with the boundary credit already in the zip, but that is a choice for them.
-- B8 percentile: v1 stored rank percentile among gated tiles, not among all land tiles. See the gate report.
+- B8 percentile: v1 stored rank percentile among gated tiles, not among all land tiles. The build uses v1's definition (checked against v1's stored values).
 - The word "robust" is a v1 field name (`robust` flag). It is also on the CLAUDE.md list of words to avoid in prose. Use it only as a code identifier; prose says "flagged tiles".
 
 ## Map overlays (B6)
