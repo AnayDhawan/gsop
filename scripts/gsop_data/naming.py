@@ -1,11 +1,17 @@
 """Region names from Natural Earth (decision B12): the desert, plateau or range a centroid lies in or is near,
 else the nearest populated place. Labels only; nothing here touches a score.
+
+Reads the raw Natural Earth GeoJSON files in data/reference/raw/ (hashes in data/MANIFEST.csv).
 """
-import csv
 import json
 import os
 
 import numpy as np
+
+REGIONS_FILE = "data/reference/raw/ne_10m_geography_regions_polys.geojson"
+PLACES_FILE = "data/reference/raw/ne_10m_populated_places_simple.geojson"
+REGION_CLASSES = {"Desert", "Plateau", "Range/mtn"}
+PLACE_CLASSES = {"Populated place", "Populated Place", "Admin-1 capital", "Admin-0 capital", "Admin-1 region capital", "Admin-0 region capital", "Admin-0 capital alt"}
 
 # Build choice (not set by v1 or the decision text): a physical region counts as "near" within this distance.
 NEAR_KM = 200
@@ -77,29 +83,38 @@ def _hav(lat1, lon1, lat2, lon2):
 
 class Namer:
     def __init__(self, root):
-        d = os.path.join(root, "data/reference/naturalearth")
-        self.regions_path = os.path.join(d, "regions_desert_plateau_range.geojson")
-        self.places_path = os.path.join(d, "populated_places.csv")
-        feats = json.load(open(self.regions_path, encoding="utf-8"))["features"]
+        self.regions_path = os.path.join(root, REGIONS_FILE)
+        self.places_path = os.path.join(root, PLACES_FILE)
         self.feats = []
-        for f in feats:
+        for f in json.load(open(self.regions_path, encoding="utf-8"))["features"]:
+            p = f["properties"]
+            if p["FEATURECLA"] not in REGION_CLASSES:
+                continue
             rings = _rings(f["geometry"])
-            allx = np.concatenate([r[:, 0] for p in rings for r in p])
-            ally = np.concatenate([r[:, 1] for p in rings for r in p])
+            allx = np.concatenate([r[:, 0] for poly in rings for r in poly])
+            ally = np.concatenate([r[:, 1] for poly in rings for r in poly])
             self.feats.append(
                 {
-                    "name": tidy(f["properties"]["name"]),
-                    "cls": f["properties"]["featurecla"],
+                    "name": tidy(p["NAME"]),
+                    "cls": p["FEATURECLA"],
                     "rings": rings,
                     "bbox": (allx.min(), ally.min(), allx.max(), ally.max()),
                     "area": float((allx.max() - allx.min()) * (ally.max() - ally.min())),
                 }
             )
-        rows = list(csv.DictReader(open(self.places_path, encoding="utf-8", newline="")))
-        self.pname = [r["name"] for r in rows]
-        self.pcountry = [r["country"] for r in rows]
-        self.plat = np.array([float(r["lat"]) for r in rows])
-        self.plon = np.array([float(r["lon"]) for r in rows])
+        # Stable order, so ties never depend on the order of the source file.
+        self.feats.sort(key=lambda f: (f["cls"], f["name"], f["bbox"]))
+        places = []
+        for f in json.load(open(self.places_path, encoding="utf-8"))["features"]:
+            p = f["properties"]
+            if p["featurecla"] in PLACE_CLASSES:
+                lon, lat = f["geometry"]["coordinates"][:2]
+                places.append((p["name"], p.get("adm0name") or "", float(lat), float(lon)))
+        places.sort(key=lambda r: (r[0], r[2], r[3]))
+        self.pname = [r[0] for r in places]
+        self.pcountry = [r[1] for r in places]
+        self.plat = np.array([r[2] for r in places])
+        self.plon = np.array([r[3] for r in places])
 
     def name(self, lat, lon):
         inside = [f for f in self.feats if f["bbox"][0] <= lon <= f["bbox"][2] and f["bbox"][1] <= lat <= f["bbox"][3] and _inside(lon, lat, f["rings"])]

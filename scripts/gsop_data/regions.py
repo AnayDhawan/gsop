@@ -11,7 +11,7 @@ import numpy as np
 
 from .fmt import NOT_IN_V1, make_meta, num, sha256_file, write_json
 from .grid import Grid, haversine_km
-from .naming import NEAR_KM, Namer
+from .naming import NEAR_KM, PLACES_FILE, REGIONS_FILE, Namer
 
 # Decision parameter set by this build, not read from v1. Registered as a fact whose source is this file.
 MIN_TILES = 100
@@ -178,8 +178,8 @@ def build(ctx):
     me = "scripts/gsop_data/regions.py"
     me_sha = sha256_file(ctx.repo + "/" + me)
     nm = "scripts/gsop_data/naming.py"
-    ne_regions = {"source_file": "data/reference/naturalearth/regions_desert_plateau_range.geojson", "sha256": sha256_file(namer.regions_path)}
-    ne_places = {"source_file": "data/reference/naturalearth/populated_places.csv", "sha256": sha256_file(namer.places_path)}
+    ne_regions = {"source_file": REGIONS_FILE, "sha256": sha256_file(namer.regions_path)}
+    ne_places = {"source_file": PLACES_FILE, "sha256": sha256_file(namer.places_path)}
     sources += [ne_regions, ne_places]
     facts = [
         {"claim": "regions.min_tiles", "number": str(MIN_TILES), "source_file": me, "sha256": me_sha},

@@ -94,7 +94,7 @@ Source: `docs/PROVENANCE.md`, `config/*.yaml`, `docs/DECISIONS.md`, `site_data/R
 - Earth air density: NASA Glenn atmosphere model.
 - Access route: Google Earth Engine.
 - India outline for labels and the India filter: Natural Earth 1:10m admin-0, India point of view, public domain. The zip says this is not an official Survey of India map.
-- Region names (added for B12, not from the zip): Natural Earth 1:10m geography regions (desert, plateau, range) and populated places, release v5.1.2, public domain. Trimmed copies and raw file hashes are in `data/reference/naturalearth/README.md`.
+- Region names (added for B12, not from the zip): Natural Earth 1:10m geography regions (desert, plateau, range) and populated places, release v5.1.2, public domain. The raw files and their hashes are in `data/reference/raw/NATURAL_EARTH.md`.
 
 ### Moon
 
