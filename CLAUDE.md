@@ -37,3 +37,5 @@ Website for GSOP (Geospatial Similarity Observation Platform), built for NASA Sp
 ## Data
 - Raw v1 results are not committed. They arrive as a zip from Anay; B1 inventories and hashes them.
 - Generated data files are listed in `MANIFEST.csv` with sha256 hashes (issue B5).
+
+- (h) Supabase is the edit store for the 50-site table only. The deployed site reads exported static JSON and never calls Supabase at runtime. The service key lives only in a local .env, never committed.
